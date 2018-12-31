@@ -96,6 +96,8 @@ Plugin 'vim-airline/vim-airline-themes'
 call vundle#end()
 
 filetype plugin indent on
+syntax enable
+
 " 忽视插件改变缩进
 " filetype plugin on
 
