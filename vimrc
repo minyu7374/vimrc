@@ -6,6 +6,7 @@ let g:mapleader = ","
 " 插件配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
+
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 
@@ -16,44 +17,95 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Bundle 'majutsushi/tagbar'
 Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'easymotion/vim-easymotion'
 
+Plugin 'easymotion/vim-easymotion'
+Bundle 'ctrlpvim/ctrlp.vim'
+
+" java (临时，尝试用vim构建一个java IDE是不明智的)
+" Bundle 'vim-scripts/javacomplete'
+" Plugin 'artur-shaik/vim-javacomplete2'
+
+" Plugin 'Shougo/unite.vim'
+" Plugin 'Shougo/denite.nvim'
+" Plugin 'sbdchd/neoformat'
+" Plugin 'neomake/neomake'
+
+" Plugin 'davidhalter/jedi-vim'
 Plugin 'fatih/vim-go'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'tpope/vim-fugitive'
+" Bundle 'Blackrush/vim-gocode'
+Plugin 'nsf/gocode', {'rtp': 'vim/'}
+
+Plugin 'StanAngeloff/php.vim'
+Plugin 'shawncplus/phpcomplete.vim'
+Bundle 'arnaud-lb/vim-php-namespace'
+Plugin 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+
+Plugin 'plasticboy/vim-markdown'
+Plugin 'cespare/vim-toml'
+" Plugin 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
+Plugin 'elzr/vim-json', {'for' : 'json'}
+Plugin 'fatih/vim-nginx' , {'for' : 'nginx'}
 
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'Valloric/ListToggle'
 
+" Bundle 'Yggdroot/indentLine'
+Plugin 'Chiel92/vim-autoformat'
+Plugin 'jiangmiao/auto-pairs'
+" Plugin 'Raimondi/delimitMate'
+Plugin 'scrooloose/nerdcommenter'
+"for text filtering and alignment
+Plugin 'godlygeek/tabular'
+
+" git
+Plugin 'tpope/vim-fugitive'
+
+" 前端
+Plugin 'mattn/emmet-vim'
+" Plugin 'othree/html5.vim'
+
+Plugin 'hail2u/vim-css3-syntax'
+" Plugin 'groenewege/vim-les'
+
+Plugin 'pangloss/vim-javascript'
+" Plugin 'kchmck/vim-coffee-scipt'
+" Plugin 'leafgarland/typescript-vim'
+
+" JavaScript 补全
+Plugin 'ternjs/tern_for_vim'
+
+" 色彩高亮，例子: #77DCFF
+Plugin 'gorodinskiy/vim-coloresque'
+
+" 语法检查
 "Bundle 'scrooloose/syntastic'
+"Bundle 'vim-syntasticu/syntastic'
 " 异步并发检查
 Plugin 'w0rp/ale'
 
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'scrooloose/nerdcommenter'
-
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-
-Bundle 'tomasr/molokai'
+" Bundle 'tomasr/molokai'
 Bundle 'altercation/vim-colors-solarized'
+" Bundle 'tyrannicaltoucan/vim-quantum'
+" Plugin 'flazz/vim-colorschemes'
 
+" Plugin 'Lokaltog/vim-powerline'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+" Plugin 'junegunn/vim-emoji'
 
 call vundle#end()
 
 filetype plugin indent on
 " 忽视插件改变缩进
-filetype plugin on
+" filetype plugin on
 
 " 自动补全相关
 " 让Vim的补全菜单行为与一般IDE一致
-set completeopt=longest,menu
-" 离开插入模式后自动关闭预览窗口 
+set completeopt=longest,menu,preview
+" 离开插入模式后自动关闭预览窗口
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 " 回车即选中当前项
-inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
+" inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
@@ -71,8 +123,20 @@ nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
 nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nmap <F4> :YcmDiags<CR>
 
+" vim-autoformat
+noremap <leader>af :Autoformat<CR>
+" au BufWrite * :Autoformat
+let g:autoformat_verbosemode=0
+" let g:autoformat_autoindent = 0
+" let g:autoformat_retab = 0
+" let g:autoformat_remove_trailing_spaces = 0
+
+" youcompleteme 扩展php
+" autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+" autocmd FileType php set completefunc=phpcomplete#CompletePHP
+
 " jedi python 版本
-let g:jedi#force_py_version = 2
+" let g:jedi#force_py_version = 3
 autocmd FileType python nnoremap <leader>j2 :let g:jedi#force_py_version = 2<CR>
 autocmd FileType python nnoremap <leader>j3 :let g:jedi#force_py_version = 3<CR>
 
@@ -80,7 +144,7 @@ autocmd FileType python nnoremap <leader>j3 :let g:jedi#force_py_version = 3<CR>
 let g:syntastic_python_checkers=['flake8', ]
 " pep8 的检查过于烦人, 而且和yapf有冲突(比如行长79和80)，忽略掉. 单独写了yapf格式化的键盘映射
 "let g:syntastic_python_flake8_args='--ignore=E501,E225'
-let g:syntastic_python_flake8_args='--ignore=E501,E225,E124,E712,E116,E131'
+let g:syntastic_python_flake8_args='--ignore=E501,E225,E124,E712,E116,E131,E402,E401'
 
 """ w0rp/ale 相关 """
 let g:ale_lint_on_text_changed = 'never'
@@ -99,76 +163,110 @@ let g:ale_open_list = 1
 "let g:ale_sign_column_always = 1
 " 指定启用的linters
 " c         cppcheck, cpplint, gcc, clang, clangtidy!!, clang-format
-" cpp	    clang, clangcheck!!, clangtidy!!, cppcheck, cpplint!!, gcc, clang-format
-" haskell	ghc, stack-ghc, stack-build !!, ghc-mod, stack-ghc-mod, hlint, hdevtools
-" go	    gofmt, go vet, golint, gometalinter !!, go build!!, gosimple, staticcheck
-" html	    HTMLHint, proselint, tidy
-" Python	autopep8, flake8, isort, mypy, pycodestyle, pylint!!, yapf 
+" cpp       clang, clangcheck!!, clangtidy!!, cppcheck, cpplint!!, gcc, clang-format
+" haskell   ghc, stack-ghc, stack-build !!, ghc-mod, stack-ghc-mod, hlint, hdevtools
+" go        gofmt, go vet, golint, gometalinter !!, go build!!, gosimple, staticcheck
+" html      HTMLHint, proselint, tidy
+" Python    autopep8, flake8, isort, mypy, pycodestyle, pylint!!, yapf
+" gometalinter(golint) 对命名规范限制的太死, 变量名、函数名、常数都要用驼峰命名法
+"\  'go': 'all',
+" 据说比golint快两倍，且可以更灵活地自定义规范
+" 已写入~/.vim/bundle/ale/ale_linters/go/revive.vim
+" call ale#linter#Define('go', {
+" \   'name': 'revive',
+" \   'output_stream': 'both',
+" \   'executable': 'revive',
+" \   'read_buffer': 0,
+" \   'command': 'revive %t',
+" \   'callback': 'ale#handlers#unix#HandleAsWarning',
+" \})
+
 let g:ale_linters = {
-\  'c': ['clang'],
-\  'cpp': ['clang'],
-\  'go': 'all',
-\  'sh': ['shellcheck'],
-\  'bash': ['shellcheck'],
-\  'awk': ['gawk'],
-\  'lua': ['luacheck'],
-\  'sql': ['sqlint'],
-\  'python': ['flake8'],
-\  'markdown': ['mdl'],
-\  'html': [],
-\  'txt': [],
-\}
+            \  'c': ['clang'],
+            \  'cpp': ['clang'],
+            \  'go': ['gofmt', 'revive', 'go build'],
+            \  'php': ['php -l'],
+            \  'sh': ['shellcheck'],
+            \  'bash': ['shellcheck'],
+            \  'awk': ['gawk'],
+            \  'lua': ['luacheck'],
+            \  'sql': ['sqlint'],
+            \  'python': ['flake8'],
+            \  'markdown': ['mdl'],
+            \  'vim': ['vint'],
+            \  'html': [],
+            \  'txt': [],
+            \}
 " 针对python的设置
-let g:ale_python_flake8_executable = 'python2'
+let g:ale_python_flake8_executable = 'python3'
 autocmd FileType python nnoremap <leader>p2 :let g:ale_python_flake8_executable = 'python2'<CR>
 autocmd FileType python nnoremap <leader>p3 :let g:ale_python_flake8_executable = 'python3'<CR>
 " 理由同 syntastic_python_flake8_args 的设置
-let g:ale_python_flake8_options = '-m flake8 --ignore=E501,E225,E124,E712,E116,E131'
+let g:ale_python_flake8_options = '-m flake8 --ignore=E501,E225,E124,E712,E116,E131,E401,E402'
 
-let g:ale_set_highlights = 0
+" 使用自己的toml配置文件, 这样好像没作用，对revive做了alias
+" let g:ale_go_revive_options = '-config ~/.revive/config.toml'
+
+" 错误处高亮
+" let g:ale_set_highlights = 0
+let g:ale_set_highlights = 1
 " If emoji not loaded, use default sign
-try
-  let g:ale_sign_error = emoji#for('boom')
-  let g:ale_sign_warning = emoji#for('small_orange_diamond')
-catch
-  " Use same sign and distinguish error and warning via different colors.
-  let g:ale_sign_error = '>>'
-  let g:ale_sign_warning = '--'
-endtry
-let g:ale_echo_msg_format = '[#%linter%#] %s [%severity%]'
+" try
+" "let g:ale_sign_error = emoji#for('boom')
+" let g:ale_sign_error = emoji#for('eight_pointed_black_star')
+" "let g:ale_sign_warning = emoji#for('small_orange_diamond')
+" let g:ale_sign_warning = '•'
+" catch
+" " Use same sign and distinguish error and warning via different colors.
+" let g:ale_sign_error = '✴'
+" let g:ale_sign_warning = '•'
+" "let g:ale_sign_error = '✹'
+" "let g:ale_sign_warning = '⚠'
+" endtry
+let g:ale_sign_error = '✴'
+let g:ale_sign_warning = '•'
+"let g:ale_echo_msg_format = '[#%linter%#] %s [%severity%]'
+"let g:ale_echo_msg_format = '%severity% [%linter%] %s'
+let g:ale_echo_msg_format = '[%linter%] %severity% %s'
 let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']
+
+"highlight clear ALEErrorSign
+"highlight clear ALEWarningSign
 
 " For a more fancy ale statusline
 function! ALEGetError()
-  let l:res = ale#statusline#Status()
-  if l:res ==# 'OK'
-    return ''
-  else
-    let l:e_w = split(l:res)
-    if len(l:e_w) == 2 || match(l:e_w, 'E') > -1
-      return ' •' . matchstr(l:e_w[0], '\d\+') .' '
+    let l:res = ale#statusline#Status()
+    if l:res ==# 'OK'
+        return ''
+    else
+        let l:e_w = split(l:res)
+        if len(l:e_w) == 2 || match(l:e_w, 'E') > -1
+            return ' •' . matchstr(l:e_w[0], '\d\+') .' '
+        endif
     endif
-  endif
 endfunction
 
 function! ALEGetWarning()
-  let l:res = ale#statusline#Status()
-  if l:res ==# 'OK'
-    return ''
-  else
-    let l:e_w = split(l:res)
-    if len(l:e_w) == 2
-      return ' •' . matchstr(l:e_w[1], '\d\+')
-    elseif match(l:e_w, 'W') > -1
-      return ' •' . matchstr(l:e_w[0], '\d\+')
+    let l:res = ale#statusline#Status()
+    if l:res ==# 'OK'
+        return ''
+    else
+        let l:e_w = split(l:res)
+        if len(l:e_w) == 2
+            return ' •' . matchstr(l:e_w[1], '\d\+')
+        elseif match(l:e_w, 'W') > -1
+            return ' •' . matchstr(l:e_w[0], '\d\+')
+        endif
     endif
-  endif
 endfunction
 
 "let g:ale_echo_msg_error_str = 'Error'
 "let g:ale_echo_msg_warning_str = 'Warning'
 let g:ale_echo_msg_error_str = '✹'
 let g:ale_echo_msg_warning_str = '⚠'
+
+" Set this. Airline will handle the rest.
+let g:airline#extensions#ale#enabled = 1
 
 nmap <Leader>en <Plug>(ale_next)
 nmap <Leader>ep <Plug>(ale_previous)
@@ -180,19 +278,23 @@ nnoremap <Leader>as :set g:ale_sign_column_always = 1<CR>
 let g:vim_markdown_toc_autofit = 1
 let g:vim_markdown_math = 1
 " restrict text emphasis to a single line
-"let g:vim_markdown_emphasis_multiline = 0 
-"let g:vim_markdown_frontmatter = 1    
+"let g:vim_markdown_emphasis_multiline = 0
+"let g:vim_markdown_frontmatter = 1
 " need vim-toml
-"let g:vim_markdown_toml_frontmatter = 1 
+"let g:vim_markdown_toml_frontmatter = 1
 " need vim-json
-"let g:vim_markdown_json_frontmatter = 1  
+"let g:vim_markdown_json_frontmatter = 1
 "let g:vim_markdown_new_list_item_indent = 2
+
+" java
+" autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 " NERDTree相关
 map <F2> :NERDTreeToggle<CR>
 map! <F2> <ESC>:NERDTreeToggle<CR>
 "autocmd vimenter * NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
+let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
 
 " Tagbar配置
 "nmap <F8> :TagbarToggle<CR>
@@ -200,12 +302,19 @@ map <F8> :TagbarToggle<CR>
 map! <F8> <ESC>:TagbarToggle<CR>i
 let g:tagbar_autofocus = 1
 
+" split新窗口在当前窗口下面，这样像YouCompleteMe的preview window等窗口打开位置看着更舒服
+set splitbelow
+
 " 配色方案
 set background=dark
+" set background=light
 set t_Co=256
 colorscheme solarized
-"colorscheme molokai
-"colorscheme corporation
+" colorscheme gruvbox
+" colorscheme nightflight
+" colorscheme inkpot
+" colorscheme tender
+" colorscheme molokai
 
 " 以下是vim自带配色方案(/usr/share/vim/vim80/colors)
 " blue darkblue default delek desert elflord evening industry koehler morning
@@ -216,12 +325,15 @@ colorscheme solarized
 syntax enable
 let g:solarized_termcolors=256
 let g:solarized_termtrans = 1
-let g:solarized_degrade = 1
+let g:solarized_degrade = 0
+" let g:solarized_contrast = "high"
 let g:solarized_contrast = "normal"
 let g:solarized_visibility = "normal"
 
+" let g:gruvbox_contrast_dark = "soft"
+
 " molokai
-let g:molokai_original = 1
+" let g:molokai_original = 1
 
 " 状态栏
 let g:airline_theme = 'simple'
@@ -229,7 +341,7 @@ let g:airline_theme = 'simple'
 let g:airline_powerline_fonts = 1
 
 if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
+    let g:airline_symbols = {}
 endif
 
 let g:airline_left_sep = ''
@@ -247,6 +359,10 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 
 " 注释时自动加一个空格
 let g:NERDSpaceDelims=1
+" 取消注释后空行中的空格删除
+" let g:NERDTrimTrailingWhitespace=1
+" python 设置成0时就会有空格，设成1反而多了一个空格
+autocmd FileType python :let g:NERDSpaceDelims=0
 
 " tmux 相关
 " Write all buffers before navigating from Vim to tmux pane
@@ -258,8 +374,8 @@ let g:tmux_navigator_save_on_switch = 1
 " nnoremap <silent> <leader>tk :TmuxNavigateUp<CR>
 " nnoremap <silent> <leader>tl :TmuxNavigateRight<CR>
 " nnoremap <silent> <leader>t\ :TmuxNavigatePrevious<CR>
-autocmd VimEnter * silent !tmux set -g status off
-autocmd VimLeave * silent !tmux set -g status on
+" autocmd VimEnter * silent !tmux set -g status off
+" autocmd VimLeave * silent !tmux set -g status on
 " 设置tmux状态行开关
 nnoremap <silent> <leader>tm :!tmux set -g status<CR><CR>
 
@@ -273,6 +389,8 @@ map <Leader><Leader>k <Plug>(easymotion-k)
 map <Leader><leader>l <Plug>(easymotion-lineforward)
 map <Leader><leader>. <Plug>(easymotion-repeat)
 
+" emoji completion
+" set completefunc=emoji#complete
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 常规配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -314,7 +432,7 @@ set shiftwidth=4
 set shiftround
 
 " 某些语言缩进常用为2
-autocmd FileType ruby,javascript,html,css,xml set tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
+" autocmd FileType ruby,javascript,html,css,xml set tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
 
 " 用空格代替制表符
 set expandtab
@@ -345,12 +463,19 @@ set title
 " 高亮当前行列
 set cursorline "set cul
 "set cursorcolumn "set cuc
-highlight CursorLine   cterm=NONE ctermbg=NONE ctermfg=DarkCyan guibg=NONE guifg=NONE
-highlight CursorColumn cterm=NONE ctermbg=NONE ctermfg=DarkCyan guibg=NONE guifg=NONE
+" highlight CursorLine   cterm=NONE ctermbg=NONE ctermfg=DarkCyan guibg=NONE guifg=NONE
+" highlight CursorColumn cterm=NONE ctermbg=NONE ctermfg=DarkCyan guibg=NONE guifg=NONE
+" DarkMagenta Black DarkBlue DarkGreen DarkCyan DarkRed DarkMagenta Brown,
+"DarkYellow LightGray, LightGrey, Gray, Grey DarkGray, DarkGrey Blue, LightBlue
+" highlight CursorLine   cterm=NONE ctermbg=NONE ctermfg=DarkMagenta guibg=NONE guifg=NONE
+" highlight CursorLine   cterm=NONE ctermbg=NONE ctermfg=LightGreen guibg=NONE guifg=NONE
+highlight CursorLine   cterm=NONE ctermbg=NONE ctermfg=LightBlue guibg=NONE guifg=NONE
+highlight CursorColumn cterm=NONE ctermbg=NONE ctermfg=LightBlue guibg=NONE guifg=NONE
 
 " python为方便标记第80列(pep8规范)
 autocmd FileType python :set colorcolumn=80
 autocmd FileType python :highlight ColorColumn ctermbg=Black
+" autocmd FileType python :highlight ColorColumn ctermbg=DarkGray
 
 "set tw=79   " width of document (used by gd)
 "set nowrap  " don't automatically wrap on load
@@ -379,16 +504,17 @@ set mouse=
 set mousehide
 
 " 自动改变当前目录
-set autochdir
+"set autochdir
 
 " 搜索逐字符高亮
 set hlsearch
 set incsearch
 
 " 搜索忽略大小写
-set ignorecase
+" set ignorecase
 set smartcase
 
+set magic
 " 行内替换 s/// gg:all g:one
 "set gdefault
 
@@ -457,11 +583,27 @@ nnoremap <silent> < :vertical resize -5<CR>
 " 去掉搜索高亮
 noremap <silent><leader>/ :nohls<CR>
 
+" 高亮当前单词，光标不跳转
+nmap <silent><leader>* :set hls<CR> :let @/=expand('<cword>')<CR>
+nmap <silent><leader># :set hls<CR> :let @/=expand('<cword>')<CR>
+
 " 高亮当前行列的开关
 map <F9> :set cuc!<CR>
 map! <F9> <ESC>:set cuc!<CR>i
 map <F10> :set cul!<CR>
 map! <F10> <ESC>:set cul!<CR>i
+
+" vimgrep相关
+nmap <leader>vn :cnext<CR>
+nmap <leader>vp :cprev<CR>
+
+" quickfix 开关
+nmap <leader>cw :cw<CR>
+nmap <leader>qo :copen<CR>
+nmap <leader>qc :cclose<CR>
+
+" nmap <leader>em :set completefunc=emoji#complete<CR>
+nmap <leader>yc :set completefunc=youcompleteme#CompleteFunc<CR>
 
 " tabNext
 map <S-Tab> :tabNext<CR>
@@ -498,7 +640,7 @@ func! CompileRunGcc()
         "exec '!gcc % -o %< ; if [ -f in ]; then ./%< < in > out; cat out; else ./%<; fi'
         exec '!gcc % -o %< ; if [ -f in ]; then time ./%< < in > out; cat out; else ./%<; fi; rm %<'
         "exec "!gcc % -o %< ; if [ -f in ]; then ./%< < in; else ./%<; fi; rm %<"
-   elseif &filetype == 'cpp'
+    elseif &filetype == 'cpp'
         "exec '!g++ % -o %< ; if [ -f in ]; then ./%< < in > out; cat out; else ./%<; fi'
         exec '!g++ % -o %< ; if [ -f in ]; then time ./%< < in > out; cat out; else ./%<; fi; rm %<'
         "exec "!g++ % -o %< ; if [ -f in ]; then ./%< < in; else ./%<; fi; rm %<"
@@ -509,9 +651,9 @@ func! CompileRunGcc()
     elseif &filetype == 'go'
         :!go run %
     elseif &filetype == 'python'
-        :!python %
+        :!python2 %
     endif
-    exec "q"
+    " exec "q"
 endfunc
 
 " C,C++的调试
@@ -519,9 +661,9 @@ map <F7> :call Rungdb()<CR>
 map! <F7> <ESC>:call Rungdb()<CR>
 
 func! Rungdb()
-        exec "w"
-        exec "!g++ % -g -o %<"
-        exec "!gdb ./%<"
+    exec "w"
+    exec "!g++ % -g -o %<"
+    exec "!gdb ./%<"
 endfunc
 
 " 针对C++11
@@ -540,9 +682,33 @@ func! CompileRunGcc11()
     endif
 endfunc
 
+" 临时最大化 pane. :only(<C-W>O)不等还原原来的分屏
+nmap <leader>z :call Zoom()<CR>
+function! Zoom ()
+    " check if is the zoomed state (tabnumber > 1 && window == 1)
+    if tabpagenr('$') > 1 && tabpagewinnr(tabpagenr(), '$') == 1
+        let l:cur_winview = winsaveview()
+        let l:cur_bufname = bufname('')
+        tabclose
+
+        " restore the view
+        if l:cur_bufname == bufname('')
+            call winrestview(cur_winview)
+        endif
+    else
+        tab split
+    endif
+endfunction
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 自动执行类
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+au! BufNewFile,BufRead *.gtpl setf html
+"autocmd FileType markdown autocmd BufRead,BufNewFile map <Leader>mp :!google-chrome-stable %<CR><CR>
+autocmd BufRead,BufNewFile *.{html,htm} map <Leader>gc :!google-chrome-stable %<CR><CR>
+autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mg :!google-chrome-stable % &<CR><CR>
+autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mm :!cd /opt/Moeditor && cnpm start %:p &<CR><CR>
+autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mt :!Typora % &<CR><CR>
 "autocmd FileType python nnoremap <Leader>yf :!yapf --style google -i % <CR><CR>
 autocmd FileType python nnoremap <Leader>yf :0,$!yapf --style google<CR> "这样不太安全,但比较方便,如果报错,按U回退即可.
 "autocmd FileType python vnoremap <leader>yf :!yapf --style google<CR>
@@ -563,15 +729,15 @@ autocmd FileType python nnoremap <Leader>is :!isort % <CR><CR>
 " :inoremap ' ''<ESC>i
 
 " function! ClosePair(char)
-	" if getline('.')[col('.') - 1] == a:char
-		" return "\<Right>"
-	" else
-		" return a:char
-	" endif
+" if getline('.')[col('.') - 1] == a:char
+" return "\<Right>"
+" else
+" return a:char
+" endif
 " endfunction
 
 " 保存代码时删除多余空格
-autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType c,cpp,java,go,php,haskell,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 function! <SID>StripTrailingWhitespaces()
     let l = line(".")
     let c = col(".")
@@ -579,26 +745,26 @@ function! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java,*.py,*.go,*.lua exec ":call SetTitle()" 
-" 定义函数SetTitle，自动插入文件头 
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.hs,*.java,*.py,*.go,*.lua exec ":call SetTitle()"
+" 定义函数SetTitle，自动插入文件头
 "func SetTitle()
 function! SetTitle()
-	"如果文件类型为.sh文件 
-	if &filetype == 'sh'
-		"call setline(1, "\#!/bin/bash")
-		call setline(1, "\#!/usr/bin/env bash")
-		call setline(2, "\#########################################################################") 
-		call setline(3, "\# File Name: ".expand("%")) 
-		call setline(4, "\# Author: minyu") 
-        " call setline(5, "\# mail: wmy0831988@163.com") 
-		call setline(5, "\# mail: minyu7374@gmail.com") 
-		call setline(6, "\# Created Time: ".strftime("%c")) 
-		call setline(7, "\#########################################################################") 
+    "如果文件类型为.sh文件
+    if &filetype == 'sh'
+        "call setline(1, "\#!/bin/bash")
+        call setline(1, "\#!/usr/bin/env bash")
+        call setline(2, "\#########################################################################")
+        call setline(3, "\# File Name: ".expand("%"))
+        call setline(4, "\# Author: minyu")
+        " call setline(5, "\# mail: wmy0831988@163.com")
+        call setline(5, "\# mail: minyu7374@gmail.com")
+        call setline(6, "\# Created Time: ".strftime("%c"))
+        call setline(7, "\#########################################################################")
         call setline(8, "")
     elseif &filetype == 'python'
-		"call setline(1, "\#!/usr/bin/python")
-		call setline(1, "\#!/usr/bin/env python")
-		call setline(2, "\# -*- coding: utf-8 -*-")
+        "call setline(1, "\#!/usr/bin/python")
+        call setline(1, "\#!/usr/bin/env python")
+        call setline(2, "\# -*- coding: utf-8 -*-")
         call setline(3, "\# File Name: ".expand("%"))
         call setline(4, "\# Created Time: ".strftime("%c"))
         call setline(5, "")
@@ -607,66 +773,75 @@ function! SetTitle()
         call setline(7, "__mail__ = 'minyu7374@gmail.com'")
         call setline(8, "")
     elseif &filetype == 'lua'
-		call setline(1, "--[[")
-		call setline(2, "-- File Name: ".expand("%")) 
-		call setline(3, "-- Author: minyu") 
-		call setline(4, "-- mail: minyu7374@gmail.com") 
-		call setline(5, "-- Created Time: ".strftime("%c")) 
+        call setline(1, "--[[")
+        call setline(2, "-- File Name: ".expand("%"))
+        call setline(3, "-- Author: minyu")
+        call setline(4, "-- mail: minyu7374@gmail.com")
+        call setline(5, "-- Created Time: ".strftime("%c"))
         call setline(6, "]]")
         call setline(7, "")
-	else 
-		call setline(1, "/*************************************************************************") 
-		call setline(2, "   > File Name: ".expand("%")) 
-		call setline(3, "   > Author: minyu") 
-		" call setline(4, "   > Mail: wmy0831988@163.com") 
+    elseif &filetype == 'haskell'
+        call setline(1, "\#!/usr/bin/env runghc")
+        call setline(2, "{-")
+        call setline(3, "   File Name: ".expand("%"))
+        call setline(4, "   Author: minyu")
+        call setline(5, "   mail: minyu7374@gmail.com")
+        call setline(6, "   Created Time: ".strftime("%c"))
+        call setline(7, "-}")
+        call setline(8, "")
+    else
+        call setline(1, "/*************************************************************************")
+        call setline(2, "   > File Name: ".expand("%"))
+        call setline(3, "   > Author: minyu")
+        " call setline(4, "   > Mail: wmy0831988@163.com")
         call setline(4, "   > Mail: minyu7374@gmail.com")
-		call setline(5, "   > Created Time: ".strftime("%c")) 
-		call setline(6, " ************************************************************************/") 
-		call setline(7, "")
-	endif
+        call setline(5, "   > Created Time: ".strftime("%c"))
+        call setline(6, " ************************************************************************/")
+        call setline(7, "")
+    endif
 
-"    if &filetype == 'c'
-"        call setline(8,   "#include <stdio.h>")
-"        call setline(9,   "#include <stdlib.h>")
-"        call setline(10,   "#include <string.h>")
-"        call setline(11,   "")
-"        call setline(12,   "int main(){")                                                                    
-"        call setline(13,  "")
-"        call setline(14,  "}")
-"    endif
-"                                                                                        
-"""    if &filetype == 'cpp'
-"        "call setline(8,   "#include <bits/stdc++.h>")
-"        call setline(8,   "#include <cstdio>")
-"        call setline(9,   "#include <iostream>")
-"        call setline(10,  "#include <cstdlib>")
-"        call setline(11,  "#include <cstring>")
-"        call setline(12,  "#include <algorithm>")
-"        call setline(13,  "#include <cmath>")
-"        call setline(14,  "#include <string>")
-"        call setline(15,  "#include <vector>")
-"        call setline(16,  "#include <queue>")
-"        call setline(17,  "#include <set>")
-"        call setline(18,  "#include <map>")
-"        call setline(19,  "")
-"        call setline(20,  "using namespace std;")
-"        call setline(21,  "")
-"        call setline(22,  "int main(){")
-"        call setline(23,  "")
-"        call setline(24,  "    return 0;")
-"        call setline(25,  "}")
-"    endif
+    "    if &filetype == 'c'
+    "        call setline(8,   "#include <stdio.h>")
+    "        call setline(9,   "#include <stdlib.h>")
+    "        call setline(10,   "#include <string.h>")
+    "        call setline(11,   "")
+    "        call setline(12,   "int main(){")
+    "        call setline(13,  "")
+    "        call setline(14,  "}")
+    "    endif
+    "
+    """    if &filetype == 'cpp'
+    "        "call setline(8,   "#include <bits/stdc++.h>")
+    "        call setline(8,   "#include <cstdio>")
+    "        call setline(9,   "#include <iostream>")
+    "        call setline(10,  "#include <cstdlib>")
+    "        call setline(11,  "#include <cstring>")
+    "        call setline(12,  "#include <algorithm>")
+    "        call setline(13,  "#include <cmath>")
+    "        call setline(14,  "#include <string>")
+    "        call setline(15,  "#include <vector>")
+    "        call setline(16,  "#include <queue>")
+    "        call setline(17,  "#include <set>")
+    "        call setline(18,  "#include <map>")
+    "        call setline(19,  "")
+    "        call setline(20,  "using namespace std;")
+    "        call setline(21,  "")
+    "        call setline(22,  "int main(){")
+    "        call setline(23,  "")
+    "        call setline(24,  "    return 0;")
+    "        call setline(25,  "}")
+    "    endif
 
-	if &filetype == 'java'
-	call setline(8,   "public class ".expand('%:t:r')." {")
-		""call setline(9,   "")
-		call setline(9,  "    public static void main(String[] args) {")
-		call setline(10,  "            " )
-		call setline(11,  "    }" )
-		""call setline(13,  "" )
-		call setline(12,  "}" )
-	endif
-	
+    " if &filetype == 'java'
+    " call setline(8,   "public class ".expand('%:t:r')." {")
+    " ""call setline(9,   "")
+    " call setline(9,  "    public static void main(String[] args) {")
+    " call setline(10,  "            " )
+    " call setline(11,  "    }" )
+    " ""call setline(13,  "" )
+    " call setline(12,  "}" )
+    " endif
+
 endfunc
 
 "新建文件后，自动定位到文件末尾
