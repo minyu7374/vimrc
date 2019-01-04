@@ -1,3 +1,6 @@
+" 取消vi兼容
+set nocompatible
+
 " 先设置好 <Leader>
 let mapleader = ","
 let g:mapleader = ","
@@ -5,101 +8,97 @@ let g:mapleader = ","
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 插件配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible
+call plug#begin('~/.vim/plugged')
 
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'majutsushi/tagbar'
+Plug 'christoomey/vim-tmux-navigator'
 
-call vundle#begin()
+Plug 'easymotion/vim-easymotion'
+Plug 'ctrlpvim/ctrlp.vim'
 
-Plugin 'VundleVim/Vundle.vim'
+Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+Plug 'fatih/vim-go', { 'for': 'go' , 'do': ':GoInstallBinaries' }
+Plug 'nsf/gocode', { 'for': 'go', 'rtp': 'vim/', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 
-Plugin 'scrooloose/nerdtree'
-Bundle 'majutsushi/tagbar'
-Plugin 'christoomey/vim-tmux-navigator'
+Plug 'craigemery/vim-autotag'
 
-Plugin 'easymotion/vim-easymotion'
-Bundle 'ctrlpvim/ctrlp.vim'
+Plug 'StanAngeloff/php.vim', { 'for': 'php' }
+Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
+" Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
+Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
-" java (临时，尝试用vim构建一个java IDE是不明智的)
-" Bundle 'vim-scripts/javacomplete'
-" Plugin 'artur-shaik/vim-javacomplete2'
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'cespare/vim-toml', { 'for': 'toml' }
+" Plug 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
+Plug 'elzr/vim-json', { 'for' : 'json' }
+Plug 'fatih/vim-nginx' , { 'for' : 'nginx' }
 
-" Plugin 'Shougo/unite.vim'
-" Plugin 'Shougo/denite.nvim'
-" Plugin 'sbdchd/neoformat'
-" Plugin 'neomake/neomake'
+" Plug 'SirVer/ultisnips', { 'on': [] }
+" Plug 'SirVer/ultisnips'
+" Plug 'Valloric/YouCompleteMe',  { 'do': './install.py --clang-completer --go-completer --ts-completer --ninja', 'on': [] }
+" Plug 'Valloric/YouCompleteMe',  { 'do': './install.py --clang-completer --go-completer --ts-completer', 'on': [] }
+Plug 'Valloric/YouCompleteMe',  { 'do': 'python3 ./install.py --clang-completer --go-completer --ts-completer' }
+Plug 'Valloric/ListToggle'
 
-" Plugin 'davidhalter/jedi-vim'
-Plugin 'fatih/vim-go'
-" Bundle 'Blackrush/vim-gocode'
-Plugin 'nsf/gocode', {'rtp': 'vim/'}
-
-Plugin 'StanAngeloff/php.vim'
-Plugin 'shawncplus/phpcomplete.vim'
-Bundle 'arnaud-lb/vim-php-namespace'
-Plugin 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
-
-Plugin 'plasticboy/vim-markdown'
-Plugin 'cespare/vim-toml'
-" Plugin 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
-Plugin 'elzr/vim-json', {'for' : 'json'}
-Plugin 'fatih/vim-nginx' , {'for' : 'nginx'}
-
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'Valloric/ListToggle'
-
-" Bundle 'Yggdroot/indentLine'
-Plugin 'Chiel92/vim-autoformat'
-Plugin 'jiangmiao/auto-pairs'
-" Plugin 'Raimondi/delimitMate'
-Plugin 'scrooloose/nerdcommenter'
+" Plug 'Yggdroot/indentLine'
+Plug 'Chiel92/vim-autoformat'
+Plug 'jiangmiao/auto-pairs'
+" Plug 'Raimondi/delimitMate'
+Plug 'scrooloose/nerdcommenter'
 "for text filtering and alignment
-Plugin 'godlygeek/tabular'
+Plug 'godlygeek/tabular'
 
 " git
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 " 前端
-Plugin 'mattn/emmet-vim'
-" Plugin 'othree/html5.vim'
+Plug 'mattn/emmet-vim', { 'for': 'html' }
+" Plug 'othree/html5.vim'
 
-Plugin 'hail2u/vim-css3-syntax'
-" Plugin 'groenewege/vim-les'
+Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
+" Plug 'groenewege/vim-les'
 
-Plugin 'pangloss/vim-javascript'
-" Plugin 'kchmck/vim-coffee-scipt'
-" Plugin 'leafgarland/typescript-vim'
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+" Plug 'kchmck/vim-coffee-scipt'
+" Plug 'leafgarland/typescript-vim'
 
 " JavaScript 补全
-Plugin 'ternjs/tern_for_vim'
+Plug 'ternjs/tern_for_vim', { 'for': 'javascript' }
 
 " 色彩高亮，例子: #77DCFF
-Plugin 'gorodinskiy/vim-coloresque'
+Plug 'gorodinskiy/vim-coloresque'
 
 " 语法检查
-"Bundle 'scrooloose/syntastic'
-"Bundle 'vim-syntasticu/syntastic'
+"Plug 'scrooloose/syntastic'
+"Plug 'vim-syntasticu/syntastic'
 " 异步并发检查
-Plugin 'w0rp/ale'
+Plug 'w0rp/ale'
 
-" Bundle 'tomasr/molokai'
-Bundle 'altercation/vim-colors-solarized'
-" Bundle 'tyrannicaltoucan/vim-quantum'
-" Plugin 'flazz/vim-colorschemes'
+" Plug 'tomasr/molokai'
+Plug 'altercation/vim-colors-solarized'
+" Plug 'tyrannicaltoucan/vim-quantum'
+" Plug 'flazz/vim-colorschemes'
 
-" Plugin 'Lokaltog/vim-powerline'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-" Plugin 'junegunn/vim-emoji'
+" Plug 'Lokaltog/vim-powerline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" Plug 'junegunn/vim-emoji'
 
-call vundle#end()
+" augroup load_us_ycm
+" autocmd!
+" autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe')
+" \| autocmd! load_us_ycm
+" augroup END
 
-filetype plugin indent on
-syntax enable
+call plug#end()
 
-" 忽视插件改变缩进
-" filetype plugin on
+" filetype  plugin indent on
+" syntax enable
+
+" tags
+let g:autotagTagsFile="./.tags.append"
+set tags+=./.tags,./.tags.append
 
 " 自动补全相关
 " 让Vim的补全菜单行为与一般IDE一致
@@ -110,7 +109,7 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 " inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 
 let g:ycm_confirm_extra_conf = 0
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
 
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
@@ -125,9 +124,12 @@ nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
 nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nmap <F4> :YcmDiags<CR>
 
+" let g:EclimCompletionMethod = 'omnifunc'
+" let g:EclimFileTypeValidate = 0
 " vim-autoformat
 noremap <leader>af :Autoformat<CR>
 " au BufWrite * :Autoformat
+autocmd FileType c,cpp,java,go,php,haskell,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :Autoformat
 let g:autoformat_verbosemode=0
 " let g:autoformat_autoindent = 0
 " let g:autoformat_retab = 0
@@ -143,19 +145,23 @@ autocmd FileType python nnoremap <leader>j2 :let g:jedi#force_py_version = 2<CR>
 autocmd FileType python nnoremap <leader>j3 :let g:jedi#force_py_version = 3<CR>
 
 " pip install flake8 没用flake8之前，检查不了未定义变量; 而且python版本jedi强制设置成2,还是会提示print错误
-let g:syntastic_python_checkers=['flake8', ]
+" let g:syntastic_python_checkers=['flake8', ]
 " pep8 的检查过于烦人, 而且和yapf有冲突(比如行长79和80)，忽略掉. 单独写了yapf格式化的键盘映射
 "let g:syntastic_python_flake8_args='--ignore=E501,E225'
-let g:syntastic_python_flake8_args='--ignore=E501,E225,E124,E712,E116,E131,E402,E401'
+" let g:syntastic_python_flake8_args='--ignore=E501,E225,E124,E712,E116,E131,E402,E401'
 
 """ w0rp/ale 相关 """
-let g:ale_lint_on_text_changed = 'never'
+" always normal insert never
+" let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_text_changed = 'insert'
 let g:ale_lint_on_save = 1
 " no linters to run on opening a file
 let g:ale_lint_on_enter = 0
-" use the quickfix list instead of the loclist
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
+" use the quickfix list or the loclist
+" let g:ale_set_loclist = 0
+" let g:ale_set_quickfix = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
 " show Vim windows for the loclist or quickfix items when a file contains warnings or errors
 let g:ale_open_list = 1
 " keep the window open even after errors disappear
@@ -173,7 +179,7 @@ let g:ale_open_list = 1
 " gometalinter(golint) 对命名规范限制的太死, 变量名、函数名、常数都要用驼峰命名法
 "\  'go': 'all',
 " 据说比golint快两倍，且可以更灵活地自定义规范
-" 已写入~/.vim/bundle/ale/ale_linters/go/revive.vim
+" 已写入ale/ale_linters/go/revive.vim
 " call ale#linter#Define('go', {
 " \   'name': 'revive',
 " \   'output_stream': 'both',
@@ -276,6 +282,26 @@ nnoremap <Leader>ts :ALEToggle<CR>
 nnoremap <Leader>ah :set g:ale_sign_column_always = 0<CR>
 nnoremap <Leader>as :set g:ale_sign_column_always = 1<CR>
 
+" PHP
+let g:php_namespace_sort_after_insert = 1
+
+function! IPhpInsertUse()
+    call PhpInsertUse()
+    call feedkeys('a',  'n')
+endfunction
+autocmd FileType php inoremap <Leader>pu <Esc>:call IPhpInsertUse()<CR>
+autocmd FileType php noremap <Leader>pu :call PhpInsertUse()<CR>
+
+function! IPhpExpandClass()
+    call PhpExpandClass()
+    call feedkeys('a', 'n')
+endfunction
+autocmd FileType php inoremap <Leader>pe <Esc>:call IPhpExpandClass()<CR>
+autocmd FileType php noremap <Leader>pe :call PhpExpandClass()<CR>
+
+autocmd FileType php inoremap <Leader>ps <Esc>:call PhpSortUse()<CR>
+autocmd FileType php noremap <Leader>ps :call PhpSortUse()<CR>
+
 " markdown相关
 let g:vim_markdown_toc_autofit = 1
 let g:vim_markdown_math = 1
@@ -324,7 +350,6 @@ colorscheme solarized
 "colorscheme desert
 
 " solarized
-syntax enable
 let g:solarized_termcolors=256
 let g:solarized_termtrans = 1
 let g:solarized_degrade = 0
@@ -709,7 +734,7 @@ au! BufNewFile,BufRead *.gtpl setf html
 "autocmd FileType markdown autocmd BufRead,BufNewFile map <Leader>mp :!google-chrome-stable %<CR><CR>
 autocmd BufRead,BufNewFile *.{html,htm} map <Leader>gc :!google-chrome-stable %<CR><CR>
 autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mg :!google-chrome-stable % &<CR><CR>
-autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mm :!cd /opt/Moeditor && cnpm start %:p &<CR><CR>
+" autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mm :!cd /opt/Moeditor && cnpm start %:p &<CR><CR>
 autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mt :!Typora % &<CR><CR>
 "autocmd FileType python nnoremap <Leader>yf :!yapf --style google -i % <CR><CR>
 autocmd FileType python nnoremap <Leader>yf :0,$!yapf --style google<CR> "这样不太安全,但比较方便,如果报错,按U回退即可.
@@ -738,14 +763,14 @@ autocmd FileType python nnoremap <Leader>is :!isort % <CR><CR>
 " endif
 " endfunction
 
-" 保存代码时删除多余空格
-autocmd FileType c,cpp,java,go,php,haskell,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
-function! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfun
+" " 保存代码时删除多余空格
+" autocmd FileType c,cpp,java,go,php,haskell,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+" function! <SID>StripTrailingWhitespaces()
+" let l = line(".")
+" let c = col(".")
+" %s/\s\+$//e
+" call cursor(l, c)
+" endfun
 
 autocmd BufNewFile *.cpp,*.[ch],*.sh,*.hs,*.java,*.py,*.go,*.lua exec ":call SetTitle()"
 " 定义函数SetTitle，自动插入文件头
