@@ -133,7 +133,7 @@ nmap <F4> :YcmDiags<CR>
 " vim-autoformat
 noremap <leader>af :Autoformat<CR>
 " autocmd FileType c,cpp,java,go,php,haskell,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :Autoformat
-autocmd FileType c,cpp,java,go,php,haskell,javascript,puppet,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :Autoformat
+" autocmd FileType c,cpp,java,go,php,haskell,javascript,puppet,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :Autoformat
 " au BufWrite * :Autoformat
 let g:autoformat_verbosemode=0
 " let g:autoformat_autoindent = 0
@@ -597,16 +597,17 @@ vnoremap < <gv
 vnoremap > >gv
 
 " panel 相关
-"nnoremap <C-J> <C-W><C-J>
-"nnoremap <C-K> <C-W><C-K>
-"nnoremap <C-H> <C-W><C-H>
-"nnoremap <C-L> <C-W><C-L>
-nnoremap wj <C-W><C-J>
-nnoremap wk <C-W><C-K>
-nnoremap wh <C-W><C-H>
-nnoremap wl <C-W><C-L>
-nnoremap vs <C-w>v
-nnoremap hs <C-w>s
+" nnoremap <C-J> <C-W><C-J>
+" nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-H> <C-W><C-H>
+" nnoremap <C-L> <C-W><C-L>
+
+nnoremap <leader>wj <C-W><C-J>
+nnoremap <leader>wk <C-W><C-K>
+nnoremap <leader>wh <C-W><C-H>
+nnoremap <leader>wl <C-W><C-L>
+nnoremap <leader>wv <C-w>v
+nnoremap <leader>ws <C-w>s
 
 " +- 本有上下行的功能，但平时都用JK, 这里不要了
 nnoremap <silent> = :resize +3<CR>
