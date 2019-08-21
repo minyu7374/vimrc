@@ -23,10 +23,10 @@ Plug 'nsf/gocode', { 'for': 'go', 'rtp': 'vim/', 'do': '~/.vim/plugged/gocode/vi
 
 Plug 'craigemery/vim-autotag'
 
-Plug 'StanAngeloff/php.vim', { 'for': 'php' }
-Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
+" Plug 'StanAngeloff/php.vim', { 'for': 'php' }
+" Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
 " Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
-Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+" Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'cespare/vim-toml', { 'for': 'toml' }
@@ -87,6 +87,8 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Plug 'junegunn/vim-emoji'
+
+Plug 'jceb/vim-orgmode'
 
 " augroup load_us_ycm
 " autocmd!
@@ -192,11 +194,12 @@ let g:ale_open_list = 1
 " \   'command': 'revive %t',
 " \   'callback': 'ale#handlers#unix#HandleAsWarning',
 " \})
+" \  'go': ['gofmt', 'revive', 'go build'],
 
 let g:ale_linters = {
             \  'c': ['clang'],
             \  'cpp': ['clang'],
-            \  'go': ['gofmt', 'revive', 'go build'],
+            \  'go': ['gopls'],
             \  'php': ['php -l'],
             \  'sh': ['shellcheck'],
             \  'bash': ['shellcheck'],
