@@ -17,9 +17,9 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
 Plug 'ctrlpvim/ctrlp.vim'
 
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+" Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'fatih/vim-go', { 'for': 'go' , 'do': ':GoInstallBinaries' }
-Plug 'nsf/gocode', { 'for': 'go', 'rtp': 'vim/', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
+Plug 'stamblerre/gocode', { 'for': 'go', 'rtp': 'vim/', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 
 Plug 'craigemery/vim-autotag'
 
@@ -43,6 +43,7 @@ Plug 'Yggdroot/indentLine', { 'for': 'python' }
 " Plug 'Valloric/YouCompleteMe',  { 'do': './install.py --clang-completer --go-completer --ts-completer', 'on': [] }
 Plug 'Valloric/YouCompleteMe',  { 'do': 'python3 ./install.py --clang-completer --go-completer --ts-completer' }
 Plug 'Valloric/ListToggle'
+" Plug 'zxqfl/tabnine-vim'
 
 " Plug 'Yggdroot/indentLine'
 Plug 'Chiel92/vim-autoformat'
@@ -90,6 +91,9 @@ Plug 'vim-airline/vim-airline-themes'
 
 Plug 'jceb/vim-orgmode'
 
+" grammar checker
+" Plug 'dpelle/vim-LanguageTool'
+
 " augroup load_us_ycm
 " autocmd!
 " autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe')
@@ -122,13 +126,17 @@ let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 0
 
+let g:ycm_autoclose_preview_window_after_completion=1
+
 let g:ycm_error_symbol = '>>'
 let g:ycm_warning_symbol = '>*'
 nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
 nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
 nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap <F12> :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nmap <F4> :YcmDiags<CR>
+nmap <leader>gd :YcmDiags<CR>
+
+" let g:ycm_filetype_specific_completion_to_disable = { 'python' : 1 }
+" let g:ycm_filetype_blacklist = { 'python' : 1 }
 
 " let g:EclimCompletionMethod = 'omnifunc'
 " let g:EclimFileTypeValidate = 0
@@ -148,8 +156,8 @@ let g:autoformat_verbosemode=0
 
 " jedi python 版本
 " let g:jedi#force_py_version = 3
-autocmd FileType python nnoremap <leader>j2 :let g:jedi#force_py_version = 2<CR>
-autocmd FileType python nnoremap <leader>j3 :let g:jedi#force_py_version = 3<CR>
+" autocmd FileType python nnoremap <leader>j2 :let g:jedi#force_py_version = 2<CR>
+" autocmd FileType python nnoremap <leader>j3 :let g:jedi#force_py_version = 3<CR>
 
 " pip install flake8 没用flake8之前，检查不了未定义变量; 而且python版本jedi强制设置成2,还是会提示print错误
 " let g:syntastic_python_checkers=['flake8', ]
@@ -328,16 +336,15 @@ let g:vim_markdown_math = 1
 " autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 " NERDTree相关
-map <F2> :NERDTreeToggle<CR>
-map! <F2> <ESC>:NERDTreeToggle<CR>
+map <leader>tr :NERDTreeToggle<CR>
+map! <leader>tr <ESC>:NERDTreeToggle<CR>
 "autocmd vimenter * NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
 
 " Tagbar配置
-"nmap <F8> :TagbarToggle<CR>
-map <F8> :TagbarToggle<CR>
-map! <F8> <ESC>:TagbarToggle<CR>i
+map <leader>ti :TagbarToggle<CR>
+map! <leader>ti <ESC>:TagbarToggle<CR>i
 let g:tagbar_autofocus = 1
 
 " split新窗口在当前窗口下面，这样像YouCompleteMe的preview window等窗口打开位置看着更舒服
@@ -436,6 +443,9 @@ map <Leader><leader>. <Plug>(easymotion-repeat)
 
 " emoji completion
 " set completefunc=emoji#complete
+
+" languagetool_jar path for mac
+let g:languagetool_jar="/usr/local/Cellar/languagetool/5.4/libexec/languagetool-commandline.jar"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 常规配置
@@ -634,10 +644,10 @@ nmap <silent><leader>* :set hls<CR> :let @/=expand('<cword>')<CR>
 nmap <silent><leader># :set hls<CR> :let @/=expand('<cword>')<CR>
 
 " 高亮当前行列的开关
-map <F9> :set cuc!<CR>
-map! <F9> <ESC>:set cuc!<CR>i
-map <F10> :set cul!<CR>
-map! <F10> <ESC>:set cul!<CR>i
+map <leader>hc :set cuc!<CR>
+map! <leader>hc <ESC>:set cuc!<CR>i
+map <leader>hl :set cul!<CR>
+map! <leader>hl <ESC>:set cul!<CR>i
 
 " vimgrep相关
 nmap <leader>vn :cnext<CR>
@@ -657,7 +667,8 @@ map <S-T> :tabnew<CR>
 
 " 启动paste模式，粘贴时不用担心自动缩进影响
 " 其实可以直接用　"+p　
-:set pastetoggle=<F3>
+":set pastetoggle=<F3>
+:set pastetoggle=<leader>ps
 
 " 插入当前时间
 map <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<cr><ESC>
@@ -669,21 +680,15 @@ vmap <C-c> "+y
 "vmap <D-c> "+y
 
 " 映射全选+复制 ctrl+A
-"map <C-A> ggVGY
-"map! <C-A> <Esc>ggVG
-
-" 跳转到文件头和尾
-"map <F11> gg
-"map! <F11> <ESC>ggi
-"map <F12> G
-"map! <F12> <ESC>Gi
+map <C-A> ggVGY
+map! <C-A> <Esc>ggVG
 
 "" 编译运行调试相关 """
 " C，C++ 按F5编译运行
-map <F5> :call CompileRunGcc()<CR>
-map! <F5> <ESC>:call CompileRunGcc()<CR>
+map <leader>rr :call CompileRun()<CR>
+map! <leader>rr <ESC>:call CompileRun()<CR>
 
-func! CompileRunGcc()
+func! CompileRun()
     exec "w"
     if &filetype == 'c'
         "exec '!gcc % -o %< ; if [ -f in ]; then ./%< < in > out; cat out; else ./%<; fi'
@@ -706,8 +711,8 @@ func! CompileRunGcc()
 endfunc
 
 " C,C++的调试
-map <F7> :call Rungdb()<CR>
-map! <F7> <ESC>:call Rungdb()<CR>
+map <leader>rg :call Rungdb()<CR>
+map! <leader>rg <ESC>:call Rungdb()<CR>
 
 func! Rungdb()
     exec "w"
@@ -716,8 +721,8 @@ func! Rungdb()
 endfunc
 
 " 针对C++11
-map <F6> :call CompileRunGcc11()<CR>
-map! <F6> <ESC>:call CompileRunGcc11()<CR>
+map <leader>rp :call CompileRunGcc11()<CR>
+map! <leader>rp <ESC>:call CompileRunGcc11()<CR>
 
 func! CompileRunGcc11()
     if &filetype == 'cpp'
