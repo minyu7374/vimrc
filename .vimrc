@@ -1,9 +1,6 @@
-" 取消vi兼容
-set nocompatible
-
 " 先设置好 <Leader>
-let mapleader = ","
-let g:mapleader = ","
+let mapleader = " "
+let g:mapleader = " "
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 插件管理及其相关配置
@@ -300,6 +297,11 @@ nnoremap <Leader>as :let g:ale_sign_column_always=1<CR>
 nnoremap <Leader>aa :let g:ale_lint_on_text_changed='always'<CR>
 nnoremap <Leader>an :let g:ale_lint_on_text_changed='never'<CR>
 
+" vim-go
+" let g:coc_global_extensions = get(g:, 'coc_global_extensions', ['coc-snippets', 'coc-pairs', 'coc-phpls', 'coc-eslint']) 
+let g:go_fmt_command = "goimports" 
+let g:go_def_mode="gopls"
+
 " PHP
 let g:php_namespace_sort_after_insert = 1
 
@@ -445,13 +447,17 @@ map <Leader><leader>. <Plug>(easymotion-repeat)
 " set completefunc=emoji#complete
 
 " languagetool_jar path for mac
-let g:languagetool_jar="/usr/local/Cellar/languagetool/5.4/libexec/languagetool-commandline.jar"
+" let g:languagetool_jar="/usr/local/Cellar/languagetool/5.4/libexec/languagetool-commandline.jar"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 常规配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
+
+" 修复Esc反应慢问题
+" set ttimeoutlen=50
+set noesckeys
 
 " 语法高亮
 syntax on
@@ -470,7 +476,7 @@ set foldmethod=marker
 set clipboard+=unnamed
 
 " 去掉vi兼容性（set nocp）
-"set nocompatible
+set nocompatible
 
 " 自动缩进
 set autoindent
@@ -604,6 +610,11 @@ map <Left> <Nop>
 map <Right> <Nop>
 map <Up> <Nop>
 map <Down> <Nop>
+
+imap <Left> <Nop>
+imap <Right> <Nop>
+imap <Up> <Nop>
+imap <Down> <Nop>
 
 " 调整缩进后自动选中，方便再次操作
 vnoremap < <gv
