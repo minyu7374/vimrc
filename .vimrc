@@ -12,7 +12,8 @@ Plug 'majutsushi/tagbar'
 Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'easymotion/vim-easymotion'
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'ctrlpvim/ctrlp.vim'
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
 " Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'fatih/vim-go', { 'for': 'go' , 'do': ':GoInstallBinaries' }
@@ -676,6 +677,38 @@ nmap <leader>yc :set completefunc=youcompleteme#CompleteFunc<CR>
 map <S-Tab> :tabNext<CR>
 map <S-T> :tabnew<CR>
 
+" Leaderf
+let g:Lf_ShortcutF = "<leader>ff"
+noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+
+noremap lfb :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
+noremap lfr :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+" search visually selected text literally
+xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
+noremap go :<C-U>Leaderf! rg --recall<CR>
+
+" should use `Leaderf gtags --update` first
+let g:Lf_GtagsAutoGenerate = 0
+let g:Lf_Gtagslabel = 'native-pygments'
+noremap <leader>fg :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <leader>fgd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <leader>fgo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+noremap <leader>fgn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
+noremap <leader>fgp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
+
+nmap <unique> <leader>fr <Plug>LeaderfRgPrompt
+nmap <unique> <leader>fra <Plug>LeaderfRgCwordLiteralNoBoundary
+nmap <unique> <leader>frb <Plug>LeaderfRgCwordLiteralBoundary
+nmap <unique> <leader>frc <Plug>LeaderfRgCwordRegexNoBoundary
+nmap <unique> <leader>frd <Plug>LeaderfRgCwordRegexBoundary
+vmap <unique> <leader>fra <Plug>LeaderfRgVisualLiteralNoBoundary
+vmap <unique> <leader>frb <Plug>LeaderfRgVisualLiteralBoundary
+vmap <unique> <leader>frc <Plug>LeaderfRgVisualRegexNoBoundary
+vmap <unique> <leader>frd <Plug>LeaderfRgVisualRegexBoundary
+
 " 启动paste模式，粘贴时不用担心自动缩进影响
 " 其实可以直接用　"+p　
 ":set pastetoggle=<F3>
@@ -777,6 +810,7 @@ autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mt
 "autocmd FileType python nnoremap <Leader>yf :!yapf --style google -i % <CR><CR>
 " autocmd FileType python nnoremap <Leader>yf :0,$!yapf --style google<CR> "这样不太安全,但比较方便,如果报错,按U回退即可.
 autocmd FileType python nnoremap <Leader>yf :0,$!yapf<CR> "这样不太安全,但比较方便,如果报错,按U回退即可.
+autocmd FileType python nnoremap <Leader>bf :!black %<CR><CR>"
 "autocmd FileType python vnoremap <leader>yf :!yapf --style google<CR>
 autocmd FileType python nnoremap <Leader>is :!isort % <CR><CR>
 
