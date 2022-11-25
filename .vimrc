@@ -303,25 +303,25 @@ nnoremap <Leader>an :let g:ale_lint_on_text_changed='never'<CR>
 let g:go_fmt_command = "goimports" 
 let g:go_def_mode="gopls"
 
-" PHP
-let g:php_namespace_sort_after_insert = 1
+" " PHP
+" let g:php_namespace_sort_after_insert = 1
 
-function! IPhpInsertUse()
-    call PhpInsertUse()
-    call feedkeys('a',  'n')
-endfunction
-autocmd FileType php inoremap <Leader>pu <Esc>:call IPhpInsertUse()<CR>
-autocmd FileType php noremap <Leader>pu :call PhpInsertUse()<CR>
+" function! IPhpInsertUse()
+    " call PhpInsertUse()
+    " call feedkeys('a',  'n')
+" endfunction
+" autocmd FileType php inoremap <Leader>pu <Esc>:call IPhpInsertUse()<CR>
+" autocmd FileType php noremap <Leader>pu :call PhpInsertUse()<CR>
 
-function! IPhpExpandClass()
-    call PhpExpandClass()
-    call feedkeys('a', 'n')
-endfunction
-autocmd FileType php inoremap <Leader>pe <Esc>:call IPhpExpandClass()<CR>
-autocmd FileType php noremap <Leader>pe :call PhpExpandClass()<CR>
+" function! IPhpExpandClass()
+    " call PhpExpandClass()
+    " call feedkeys('a', 'n')
+" endfunction
+" autocmd FileType php inoremap <Leader>pe <Esc>:call IPhpExpandClass()<CR>
+" autocmd FileType php noremap <Leader>pe :call PhpExpandClass()<CR>
 
-autocmd FileType php inoremap <Leader>ps <Esc>:call PhpSortUse()<CR>
-autocmd FileType php noremap <Leader>ps :call PhpSortUse()<CR>
+" autocmd FileType php inoremap <Leader>ps <Esc>:call PhpSortUse()<CR>
+" autocmd FileType php noremap <Leader>ps :call PhpSortUse()<CR>
 
 " markdown相关
 let g:vim_markdown_toc_autofit = 1
@@ -726,6 +726,9 @@ vmap <C-c> "+y
 " 映射全选+复制 ctrl+A
 map <C-A> ggVGY
 map! <C-A> <Esc>ggVG
+
+" 在编辑模式下将CTRL+Q映射到Esc，方便emacs里使用时避免vterm和evil的冲突
+map! <C-Q> <Esc>
 
 "" 编译运行调试相关 """
 " C，C++ 按F5编译运行
