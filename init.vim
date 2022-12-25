@@ -133,6 +133,7 @@ call plug#begin()
     Plug 'dkarter/bullets.vim'
 
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+    Plug 'EdenEast/nightfox.nvim'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'luochen1990/rainbow'
@@ -154,6 +155,11 @@ call plug#begin()
     Plug 'sharkdp/fd'
     Plug 'nvim-telescope/telescope.nvim'
 call plug#end()
+
+""" nightfox 主题
+colorscheme nordfox
+set cursorlineopt=screenline
+set cursorline
 
 """ airline
 let g:airline_theme='deus'
@@ -225,6 +231,17 @@ let g:rainbow_active = 1
 nnoremap <leader>u :UndotreeToggle<CR>
 
 """ lightspeed.nvim
+
+""" nvim-treesitter 高亮强化
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+    -- one of "all", "language", or a list of languages
+    ensure_installed = {'bibtex', 'html', 'json', 'python', 'vim', 'go', 'bash'},
+    highlight = {
+        enable = true,              -- false will disable the whole extension
+    },
+}
+EOF
 
 """ gitsigns
 noremap <leader>gd :Gitsigns preview_hunk<CR>
