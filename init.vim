@@ -32,7 +32,7 @@ set number
 set showcmd
 
 " 在上下移动光标时，光标的上方或下方至少会保留显示的行数
-set scrolloff=7
+set scrolloff=10
 
 " 缩进
 set autoindent
@@ -216,8 +216,8 @@ endfunction
 " vim: curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " nvim: sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 call plug#begin()
-    " Plug 'SirVer/ultisnips'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'honza/vim-snippets'
     Plug 'w0rp/ale'
 
     Plug 'fatih/vim-go', { 'for': 'go' , 'do': ':GoInstallBinaries' }
@@ -505,44 +505,27 @@ let g:bullets_enabled_file_types = [
     \]
 
 """ ale 
-" always normal insert never
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_save = 1
-" no linters to run on opening a file
-let g:ale_lint_on_enter = 0
-" use the quickfix list or the loclist
-" let g:ale_set_loclist = 0
+
+" " run linters only when I save files
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_lint_on_insert_leave = 0
+" " don't want linters to run on opening a file
+" let g:ale_lint_on_enter = 0
+
+" " use the quickfix list or the loclist
 " let g:ale_set_quickfix = 1
-let g:ale_set_loclist = 1
-let g:ale_set_quickfix = 0
+" let g:ale_set_loclist = 0
+
 " show Vim windows for the loclist or quickfix items when a file contains warnings or errors
 let g:ale_open_list = 1
 " keep the window open even after errors disappear
 "let g:ale_keep_list_window_open = 1
+
 "let g:ale_enabled = 0
 " 始终开启标志列设置
 " let g:ale_sign_column_always = 1
-" 指定启用的linters
-" c         cppcheck, cpplint, gcc, clang, clangtidy!!, clang-format
-" cpp       clang, clangcheck!!, clangtidy!!, cppcheck, cpplint!!, gcc, clang-format
-" haskell   ghc, stack-ghc, stack-build !!, ghc-mod, stack-ghc-mod, hlint, hdevtools
-" go        gofmt, go vet, golint, gometalinter !!, go build!!, gosimple, staticcheck
-" html      HTMLHint, proselint, tidy
-" Python    autopep8, flake8, isort, mypy, pycodestyle, pylint!!, yapf
-" gometalinter(golint) 对命名规范限制的太死, 变量名、函数名、常数都要用驼峰命名法
-"\  'go': 'all',
-" 据说比golint快两倍，且可以更灵活地自定义规范
-" 已写入ale/ale_linters/go/revive.vim
-" call ale#linter#Define('go', {
-" \   'name': 'revive',
-" \   'output_stream': 'both',
-" \   'executable': 'revive',
-" \   'read_buffer': 0,
-" \   'command': 'revive %t',
-" \   'callback': 'ale#handlers#unix#HandleAsWarning',
-" \})
-" \  'go': ['gofmt', 'revive', 'go build'],
 
+" 指定启用的linters
 let g:ale_linters = {
             \  'c': ['clang'],
             \  'cpp': ['clang'],
@@ -562,18 +545,16 @@ let g:ale_linters = {
 
 " 针对python的设置
 let g:ale_python_flake8_executable = 'python3'
+" 理由同 syntastic_python_flake8_args的设置(https://pep8.readthedocs.io/en/release-1.7.x/intro.html#error-codes)
+" let g:ale_python_flake8_options = '-m flake8 --ignore=E501,E225,E124,E712,E116,E131,E401,E402'
+let g:ale_python_flake8_options = '-m flake8 --ignore=E501,E401,E402,E722'
+
 
 augroup ale_python_group
     au!
     autocmd FileType python nnoremap <leader>p2 :let g:ale_python_flake8_executable = 'python2'<CR>
     autocmd FileType python nnoremap <leader>p3 :let g:ale_python_flake8_executable = 'python3'<CR>
 augroup end
-" 理由同 syntastic_python_flake8_args的设置(https://pep8.readthedocs.io/en/release-1.7.x/intro.html#error-codes)
-" let g:ale_python_flake8_options = '-m flake8 --ignore=E501,E225,E124,E712,E116,E131,E401,E402'
-let g:ale_python_flake8_options = '-m flake8 --ignore=E501,E401,E402,E722'
-
-" 使用自己的toml配置文件, 这样好像没作用，对revive做了alias
-" let g:ale_go_revive_options = '-config ~/.revive/config.toml'
 
 " 错误处高亮
 " let g:ale_set_highlights = 0
@@ -593,8 +574,6 @@ let g:ale_set_highlights = 1
 " endtry
 let g:ale_sign_error = '✴'
 let g:ale_sign_warning = '•'
-"let g:ale_echo_msg_format = '[#%linter%#] %s [%severity%]'
-"let g:ale_echo_msg_format = '%severity% [%linter%] %s'
 let g:ale_echo_msg_format = '[%linter%] %severity% %s'
 let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']
 
@@ -636,13 +615,10 @@ let g:ale_echo_msg_warning_str = '⚠'
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
 
-nmap <Leader>en <Plug>(ale_next)
-nmap <Leader>ep <Plug>(ale_previous)
-nnoremap <Leader>ts :ALEToggle<CR>
-nnoremap <Leader>ah :let g:ale_sign_column_always=0<CR>
-nnoremap <Leader>as :let g:ale_sign_column_always=1<CR>
-nnoremap <Leader>aa :let g:ale_lint_on_text_changed='always'<CR>
-nnoremap <Leader>an :let g:ale_lint_on_text_changed='never'<CR>
+nnoremap en <Plug>(ale_next)
+nnoremap ep <Plug>(ale_previous)
+
+nmap <Leader>et :ALEToggle<CR>
 
 """ vim-go
 let g:go_def_mode='gopls'
