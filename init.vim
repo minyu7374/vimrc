@@ -127,15 +127,24 @@ augroup my_group
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
     autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mt :!Typora % &<CR><CR>       
+    
+    " vimrc文件修改之后自动加载
+    " autocmd bufwritepost $MYVIMRC source $MYVIMRC
 augroup end
-
-" vimrc文件修改之后自动加载
-" autocmd bufwritepost $MYVIMRC source $MYVIMRC
 
 """----- 按键映射 -----"""
 
 " 将;映射成: 不用按shift了(避免手残,变成切换中文,和输入中文的 ；)
 map ; :
+
+" 加载配置
+nnoremap R :source $MYVIMRC<CR>
+
+" 方便使用的短命令
+noremap <leader>o o<Esc>k
+noremap <leader>O O<Esc>j
+noremap <leader>w :w<CR> 
+noremap <leader>q :q<CR> 
 
 " tab
 noremap ta :tabe<CR>
@@ -151,6 +160,13 @@ vnoremap < <gv
 vnoremap > >gv 
  
 " panel 相关 
+noremap s <nop>
+noremap sl :set splitright<CR>:vsplit<CR>
+noremap sh :set nosplitright<CR>:vsplit<CR>
+noremap sj :set splitbelow<CR>:split<CR>
+noremap sk :set nosplitbelow<CR>:split<CR>
+
+" tmux 已配置
 " nnoremap <C-J> <C-W><C-J> 
 " nnoremap <C-K> <C-W><C-K> 
 " nnoremap <C-H> <C-W><C-H> 
@@ -177,14 +193,12 @@ nnoremap <silent> < :vertical resize -5<CR>
 "nnoremap <silent> > :exe "vertical resize " . (winwidth(0) * 6/5)<CR> 
 "nnoremap <silent> < :exe "vertical resize " . (winwidth(0) * 5/6)<CR> 
 
-" 启动paste模式，粘贴时不用担心自动缩进影响                                                                 
-" 其实可以直接用　"+p
-:set pastetoggle=<leader>ps
-
 " 插入当前时间
 map <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<cr><ESC>
 
-" 选中状态下 Ctrl+c 复制
+" 复制粘贴
+noremap Y "+y
+noremap P "+p
 vmap <C-c> "+y
 
 " 映射全选+复制 ctrl+A
@@ -736,4 +750,3 @@ require'nvim-treesitter.configs'.setup {
 EOF
 
 endif
-
