@@ -250,7 +250,6 @@ call plug#begin()
     Plug 'lewis6991/gitsigns.nvim', {'branch': 'main'}
     Plug 'mbbill/undotree'
     Plug 'ggandor/lightspeed.nvim', {'branch': 'main'}
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'godlygeek/tabular'
     Plug 'rcarriga/nvim-notify'
 
@@ -262,6 +261,11 @@ call plug#begin()
     Plug 'BurntSushi/ripgrep'
     Plug 'sharkdp/fd'
     Plug 'nvim-telescope/telescope.nvim'
+
+    if has('nvim')
+        Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    endif
+
 call plug#end()
 
 """ nightfox
@@ -339,19 +343,6 @@ let g:rainbow_active = 1
 
 """ undotree
 nnoremap <leader>u :UndotreeToggle<CR>
-
-""" lightspeed.nvim
-
-""" nvim-treesitter 高亮强化
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-    -- one of "all", "language", or a list of languages
-    ensure_installed = {'bibtex', 'html', 'json', 'python', 'vim', 'go', 'bash'},
-    highlight = {
-        enable = true,              -- false will disable the whole extension
-    },
-}
-EOF
 
 """ gitsigns
 noremap <leader>gd :Gitsigns preview_hunk<CR>
@@ -555,4 +546,19 @@ let g:autoformat_verbosemode=1
 " let g:autoformat_remove_trailing_spaces = 0
 let g:formatters_python = ['black']
 autocmd FileType vim,tex let b:autoformat_autoindent=0
+
+if has('nvim') 
+
+""" nvim-treesitter 高亮强化
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+    -- one of "all", "language", or a list of languages
+    ensure_installed = {'bibtex', 'html', 'json', 'python', 'vim', 'go', 'bash'},
+    highlight = {
+        enable = true,              -- false will disable the whole extension
+    },
+}
+EOF
+
+endif
 
