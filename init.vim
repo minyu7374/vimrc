@@ -275,9 +275,7 @@ call plug#begin()
 
 call plug#end()
 
-""" nightfox
-colorscheme duskfox
-"colorscheme nordfox
+:execute 'colorscheme' has('linux') ? 'nordfox' : 'duskfox'
 set cursorlineopt=screenline
 set cursorline
 
