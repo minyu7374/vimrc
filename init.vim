@@ -278,6 +278,8 @@ call plug#begin()
         Plug 'BurntSushi/ripgrep'
         Plug 'sharkdp/fd'
         Plug 'nvim-telescope/telescope.nvim'
+    else
+        Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
     endif
 
 call plug#end()
@@ -404,12 +406,12 @@ omap ac <Plug>(coc-classobj-a)
 
 " Remap <C-f> and <C-b> for scroll float windows/popups.
 if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+    nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+    inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+    vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+    vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
 " Use CTRL-S for selections ranges.
@@ -511,7 +513,7 @@ xmap ag <Plug>(coc-git-chunk-outer)
 " let g:ale_set_loclist = 0
 
 " show Vim windows for the loclist or quickfix items when a file contains warnings or errors
-let g:ale_open_list = 1
+" let g:ale_open_list = 1
 " keep the window open even after errors disappear
 "let g:ale_keep_list_window_open = 1
 
@@ -754,15 +756,16 @@ let g:tmux_navigator_save_on_switch = 1
 
 if has('nvim') 
 
-""" telescope
-" Find files using Telescope command-line sugar.
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+    """ telescope
+    " Find files using Telescope command-line sugar.
+    nnoremap <leader>fo <cmd>Telescope<cr>
+    nnoremap <leader>ff <cmd>Telescope find_files<cr>
+    nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+    nnoremap <leader>fb <cmd>Telescope buffers<cr>
+    nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
-""" nvim-treesitter 高亮强化
-lua <<EOF
+    """ nvim-treesitter 高亮强化
+    lua <<EOF
 require'nvim-treesitter.configs'.setup {
     -- one of "all", "language", or a list of languages
     ensure_installed = {'bash', 'awk', 'c', 'cpp', 'go', 'haskell', 'lua', 'python', 'sql', 'html', 'json', 'latex', 'markdown', 'rust', 'toml', 'yaml', 'vim'},
@@ -771,5 +774,14 @@ require'nvim-treesitter.configs'.setup {
     },
 }
 EOF
-    
+
+else
+
+    """ clap
+    nnoremap <leader>fo <cmd>Clap<cr>
+    nnoremap <leader>ff <cmd>Clap files<cr>
+    nnoremap <leader>fg <cmd>Clap live_grep<cr>
+    nnoremap <leader>fb <cmd>Clap buffers<cr>
+    nnoremap <leader>fh <cmd>Clap help_tags<cr>
+
 endif
