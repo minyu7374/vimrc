@@ -242,8 +242,9 @@ call plug#begin()
     Plug 'w0rp/ale'
 
     Plug 'fatih/vim-go', { 'for': 'go' , 'do': ':GoInstallBinaries' }
+    Plug 'godlygeek/tabular'
     Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-    Plug 'cespare/vim-toml', { 'for': 'toml' } 
+    Plug 'cespare/vim-toml', {'branch': 'main', 'for': 'toml', }
     Plug 'elzr/vim-json', { 'for' : 'json' }
     Plug 'jceb/vim-orgmode'
 
@@ -252,7 +253,7 @@ call plug#begin()
     Plug 'Yggdroot/indentLine', { 'for': 'python' }
     Plug 'dkarter/bullets.vim'
 
-    Plug 'EdenEast/nightfox.nvim', {'branch': 'main'}
+    Plug 'EdenEast/nightfox.nvim', { 'branch': 'main' }
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
@@ -263,7 +264,6 @@ call plug#begin()
     Plug 'liuchengxu/vista.vim' 
     Plug 'mbbill/undotree'
     Plug 'easymotion/vim-easymotion'
-    Plug 'godlygeek/tabular'
 
     Plug 'h-hg/fcitx.nvim'
     Plug 'christoomey/vim-tmux-navigator'
@@ -271,7 +271,7 @@ call plug#begin()
 
     if has('nvim')
         Plug 'rcarriga/nvim-notify'
-        Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+        Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 
         " telescope and its dependencies
         Plug 'nvim-lua/plenary.nvim'
@@ -457,7 +457,6 @@ let g:coc_global_extensions = [
     \ 'coc-marketplace',
     \ 'coc-floaterm',
     \ 'coc-git',
-    \ 'coc-json',
     \ 'coc-pyright',
     \ 'coc-go',
     \ 'coc-clangd',
@@ -467,8 +466,6 @@ let g:coc_global_extensions = [
     \ 'coc-sh',
     \ 'coc-sql',
     \ 'coc-vimlsp',
-    \ 'coc-yaml',
-    \ 'coc-toml',
     \]
 
 """ coc-snippets
@@ -664,7 +661,7 @@ augroup nerdtree_group
     autocmd StdinReadPre * let s:std_in=1
     autocmd VimEnter * if (argc() == 0 && !exists('s:std_in') && v:this_session == '') | execute 'NERDTree' | endif
     " Close the tab if NERDTree is the only window remaining in it.
-    autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | execute 'quit' | endif
+    autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 augroup end
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
 
