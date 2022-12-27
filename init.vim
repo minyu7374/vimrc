@@ -261,25 +261,23 @@ call plug#begin()
 
     "替代 preservim/tagbar
     Plug 'liuchengxu/vista.vim' 
-    Plug 'lewis6991/gitsigns.nvim', {'branch': 'main'}
     Plug 'mbbill/undotree'
-    "Plug 'ggandor/lightspeed.nvim', {'branch': 'main'}
     Plug 'easymotion/vim-easymotion'
     Plug 'godlygeek/tabular'
-    Plug 'rcarriga/nvim-notify'
 
     Plug 'h-hg/fcitx.nvim'
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'voldikss/vim-floaterm'
 
-    " telescope and its dependencies
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'BurntSushi/ripgrep'
-    Plug 'sharkdp/fd'
-    Plug 'nvim-telescope/telescope.nvim'
-
     if has('nvim')
+        Plug 'rcarriga/nvim-notify'
         Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+        " telescope and its dependencies
+        Plug 'nvim-lua/plenary.nvim'
+        Plug 'BurntSushi/ripgrep'
+        Plug 'sharkdp/fd'
+        Plug 'nvim-telescope/telescope.nvim'
     endif
 
 call plug#end()
@@ -345,8 +343,8 @@ inoremap <silent><expr> <c-@> coc#refresh()
 
 " navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> gk <Plug>(coc-diagnostic-prev)
+nmap <silent> gj <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
@@ -355,7 +353,7 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " show documentation in preview window.
-nnoremap <silent> gk :call <SID>show_documentation()<CR>
+nnoremap <silent> gK :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -436,25 +434,26 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " Mappings for CoCList
 " Show all diagnostics.
 nnoremap <silent><nowait> <space>cl  :<C-u>CocList<cr>
-nnoremap <silent><nowait> <space>la  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <space>ca  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
-nnoremap <silent><nowait> <space>le  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <space>ce  :<C-u>CocList extensions<cr>
 " Show commands.
-nnoremap <silent><nowait> <space>lc  :<C-u>CocList commands<cr>
+nnoremap <silent><nowait> <space>cc  :<C-u>CocList commands<cr>
 " Find symbol of current document.
-nnoremap <silent><nowait> <space>lo  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <space>co  :<C-u>CocList outline<cr>
 " Search workspace symbols.
-nnoremap <silent><nowait> <space>ls  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait> <space>cs  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
 nnoremap <silent><nowait> <space>cj  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent><nowait> <space>ck  :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent><nowait> <space>lr  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <space>cr  :<C-u>CocListResume<CR>
 
 let g:coc_global_extensions = [
     \ 'coc-marketplace',
     \ 'coc-floaterm',
+    \ 'coc-git',
     \ 'coc-json',
     \ 'coc-pyright',
     \ 'coc-go',
@@ -481,6 +480,23 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 " convert visual selected code to snippet
 xmap <leader>cx  <Plug>(coc-convert-snippet)
+
+""" coc-git
+" navigate chunks of current buffer
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+" navigate conflicts of current buffer
+nmap [c <Plug>(coc-git-prevconflict)
+nmap ]c <Plug>(coc-git-nextconflict)
+" show chunk diff at current position
+nmap gs <Plug>(coc-git-chunkinfo)
+" show commit contains current position
+nmap gc <Plug>(coc-git-commit)
+" create text object for git chunks
+omap ig <Plug>(coc-git-chunk-inner)
+xmap ig <Plug>(coc-git-chunk-inner)
+omap ag <Plug>(coc-git-chunk-outer)
+xmap ag <Plug>(coc-git-chunk-outer)
 
 """ ale 
 
@@ -688,13 +704,6 @@ let g:vista_ctags_cmd = {
 " The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
 let g:vista_fzf_preview = ['right:50%']
 
-""" telescope
-" Find files using Telescope command-line sugar.
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
 """ easymotion
 let g:EasyMotion_smartcase = 1
 
@@ -723,13 +732,6 @@ let g:rainbow_active = 1
 """ undotree
 nnoremap <nowait> <leader>u :UndotreeToggle<CR>
 
-""" gitsigns
-noremap <leader>gd :Gitsigns preview_hunk<CR>
-noremap <leader>gj :Gitsigns next_hunk<CR>
-noremap <leader>gk :Gitsigns prev_hunk<CR>
-noremap <leader>ga :Gitsigns stage_hunk<CR>
-noremap <leader>gu :Gitsigns undo_stage_hunk<CR>
-
 """ tabular 指定字符对齐文本
 vnoremap <leader>tl :Tabular /
 
@@ -752,6 +754,13 @@ let g:tmux_navigator_save_on_switch = 1
 
 if has('nvim') 
 
+""" telescope
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
 """ nvim-treesitter 高亮强化
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
@@ -762,5 +771,5 @@ require'nvim-treesitter.configs'.setup {
     },
 }
 EOF
-
+    
 endif
