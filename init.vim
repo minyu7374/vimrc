@@ -1,9 +1,6 @@
-set encoding=utf-8
-scriptencoding utf-8
-
 """----- 基础配置 -----"""
 
-let mapleader = ' '
+""" 全局配置
 let g:mapleader = ' '
 
 if has('linux')
@@ -12,18 +9,25 @@ elseif has('mac')
     let g:python3_host_prog = '/opt/local/bin/python'
 endif
 
-" 去掉vi兼容性（set nocp）
-" set nocompatible
+""" 编码相关
+set encoding=utf-8
+scriptencoding utf-8
 
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
+"set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+set fileformats=unix,mac,dos
 
-" 文件类型
+" 如遇Unicode值大于255的文本，不必等到空格再折行
+set formatoptions+=m
+" 合并两行中文时，不在中间加空格
+set formatoptions+=B
+
+""" 文件类型
 filetype on
 filetype plugin on
 filetype plugin indent on
+set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
 
-" 开始界面
+""" 显示类
 set shortmess=atI
 set number
 " set relativenumber
@@ -34,7 +38,10 @@ set showcmd
 " 在上下移动光标时，光标的上方或下方至少会保留显示的行数
 set scrolloff=10
 
-" 缩进
+" 设置 退出vim后，内容显示在终端屏幕, 可以用于查看和复制
+" set t_ti= t_te=
+
+""" 缩进
 set autoindent
 set smartindent
 set tabstop=4
@@ -42,27 +49,29 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 
-"set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
-set fileformats=unix,mac,dos
-
-" 如遇Unicode值大于255的文本，不必等到空格再折行
-set formatoptions+=m
-" 合并两行中文时，不在中间加空格
-set formatoptions+=B
-
-syntax on               " 语法高亮
-set showmatch           " 当光标置于成对符号（例如括号）时，高亮匹配的符号对
+""" 匹配语法高亮等
+syntax on              
+" 当光标置于成对符号（例如括号）时，高亮匹配的符号对
+set showmatch           
 
 set hlsearch 
 set ignorecase
 set smartcase
 exec 'nohlsearch'
 
+""" 特性
+" 去掉vi兼容性（set nocp）
+" set nocompatible
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
 " For regular expressions turn magic on
 set magic
 
 set mouse-=a
 
+""" 读写
 " 共享外部剪贴板
 "set clipboard+=unnamed
 set clipboard^=unnamed,unnamedplus
@@ -86,12 +95,7 @@ set noswapfile
 " 自动改变当前目录
 "set autochdir
 
-set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
-
-" 设置 退出vim后，内容显示在终端屏幕, 可以用于查看和复制
-" set t_ti= t_te=
-
-" 自动补全相关
+""" 自动补全相关
 " 让Vim的补全菜单行为与一般IDE一致
 set completeopt=longest,menu,preview
 
@@ -124,10 +128,12 @@ augroup end
 augroup my_group
     au!
 
-    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
+    """ 特定文件类型执行
     autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mt :!Typora % &<CR><CR>       
     
+    " 光标恢复上次位置
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
     " vimrc文件修改之后自动加载
     " autocmd bufwritepost $MYVIMRC source $MYVIMRC
 augroup end
@@ -136,8 +142,10 @@ augroup end
 
 " 将;映射成: 不用按shift了(避免手残,变成切换中文,和输入中文的 ；)
 map ; :
+" 在编辑模式下将CTRL+Q映射到Esc，方便emacs里使用时避免vterm和evil的冲突
+map! <C-Q> <Esc>
 
-" 加载配置
+" 重新加载配置
 nnoremap R :source $MYVIMRC<CR>
 
 " 方便使用的短命令
@@ -158,14 +166,29 @@ noremap <silent><leader><CR> :nohls<CR>
 " 调整缩进后自动选中，方便再次操作 
 vnoremap < <gv 
 vnoremap > >gv 
- 
-" panel 相关 
+
+""" 复制粘贴
+noremap Y "+y
+noremap P "+p
+vmap <C-c> "+y
+
+" 映射全选+复制 ctrl+A
+map <C-A> ggVGY
+map! <C-A> <Esc>ggVG
+
+""" 小功能
+" 插入当前时间
+map <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<cr><ESC>
+
+""" panel 相关 
+" 分屏
 noremap s <nop>
 noremap sl :set splitright<CR>:vsplit<CR>
 noremap sh :set nosplitright<CR>:vsplit<CR>
 noremap sj :set splitbelow<CR>:split<CR>
 noremap sk :set nosplitbelow<CR>:split<CR>
 
+" panel切换调整
 " tmux 已配置
 " nnoremap <C-J> <C-W><C-J> 
 " nnoremap <C-K> <C-W><C-K> 
@@ -193,22 +216,7 @@ nnoremap <silent> < :vertical resize -5<CR>
 "nnoremap <silent> > :exe "vertical resize " . (winwidth(0) * 6/5)<CR> 
 "nnoremap <silent> < :exe "vertical resize " . (winwidth(0) * 5/6)<CR> 
 
-" 插入当前时间
-map <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<cr><ESC>
-
-" 复制粘贴
-noremap Y "+y
-noremap P "+p
-vmap <C-c> "+y
-
-" 映射全选+复制 ctrl+A
-map <C-A> ggVGY
-map! <C-A> <Esc>ggVG
-
-" 在编辑模式下将CTRL+Q映射到Esc，方便emacs里使用时避免vterm和evil的冲突
-map! <C-Q> <Esc>
-
-" 临时最大化 pane. :only(<C-W>O)不等还原原来的分屏
+" 临时最大化 panel. :only(<C-W>O)不等还原原来的分屏
 nmap <leader>z :call Zoom()<CR>
 function! Zoom ()
     " check if is the zoomed state (tabnumber > 1 && window == 1)
@@ -287,16 +295,7 @@ if !exists('g:airline_symbols')
 endif
 
 " unicode symbols
-let g:airline_left_sep = '»'
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '«'
-let g:airline_right_sep = '◀'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
+" let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
 
@@ -339,14 +338,10 @@ let g:coc_snippet_next = '<tab>'
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Use <c-space> to trigger completion.
-if has('nvim')
-    inoremap <silent><expr> <c-space> coc#refresh()
-else
-    inoremap <silent><expr> <c-@> coc#refresh()
-endif
+" trigger completion.
+inoremap <silent><expr> <c-@> coc#refresh()
 
-" Use `[g` and `]g` to navigate diagnostics
+" navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
@@ -357,8 +352,8 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+" show documentation in preview window.
+nnoremap <silent> gk :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -372,12 +367,11 @@ endfunction
 
 
 " Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>cn <Plug>(coc-rename)
 
 " Formatting selected code.
-"xmap <leader>f  <Plug>(coc-format-selected)
-"nmap <leader>f  <Plug>(coc-format-selected)
-nmap <C-p> <LEADER>f
+xmap <leader>cf  <Plug>(coc-format-selected)
+nmap <leader>cf  <Plug>(coc-format-selected)
 
 augroup coc_group
   autocmd!
@@ -390,14 +384,13 @@ augroup coc_group
 augroup end
 
 " Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+xmap <leader>as <Plug>(coc-codeaction-selected)
+nmap <leader>as <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <leader>aa  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
+nmap <leader>af  <Plug>(coc-fix-current)
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -441,21 +434,21 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
 " Show all diagnostics.
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <space>la  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
-nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <space>le  :<C-u>CocList extensions<cr>
 " Show commands.
-nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+nnoremap <silent><nowait> <space>lc  :<C-u>CocList commands<cr>
 " Find symbol of current document.
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <space>lo  :<C-u>CocList outline<cr>
 " Search workspace symbols.
-nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait> <space>ls  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
 nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <space>lr  :<C-u>CocListResume<CR>
 
 let g:coc_global_extensions = [
     \ 'coc-marketplace',
@@ -483,14 +476,14 @@ vmap <C-j> <Plug>(coc-snippets-select)
 " Use <C-j> for both expand and jump (make expand higher priority.)
 imap <C-j> <Plug>(coc-snippets-expand-jump)
 
-" Use <leader>x for convert visual selected code to snippet
-xmap <leader>x  <Plug>(coc-convert-snippet)
+" convert visual selected code to snippet
+xmap <leader>cx  <Plug>(coc-convert-snippet)
 
 """ rainbow
 let g:rainbow_active = 1
 
 """ undotree
-nnoremap <leader>u :UndotreeToggle<CR>
+nnoremap <nowait> <leader>u :UndotreeToggle<CR>
 
 """ gitsigns
 noremap <leader>gd :Gitsigns preview_hunk<CR>
@@ -630,7 +623,7 @@ let g:airline#extensions#ale#enabled = 1
 nnoremap en <Plug>(ale_next)
 nnoremap ep <Plug>(ale_previous)
 
-nmap <Leader>et :ALEToggle<CR>
+nmap <Leader>te :ALEToggle<CR>
 
 """ vim-go
 let g:go_def_mode='gopls'
@@ -687,17 +680,13 @@ let g:vista_icon_indent = ['╰─▸ ', '├─▸ ']
 
 " Executive used when opening vista sidebar without specifying it.
 " See all the avaliable executives via `:echo g:vista#executives`.
-let g:vista_default_executive = 'ctags'
+let g:vista_default_executive = 'coc'
 
 " Set the executive for some filetypes explicitly. Use the explicit executive
 " instead of the default one for these filetypes when using `:Vista` without
 " specifying the executive.
 let g:vista_executive_for = {
-  \ 'python': 'coc',
-  \ 'go': 'coc',
-  \ 'yaml': 'coc',
-  \ 'toml': 'coc',
-  \ }
+      \ }
 
 " Declare the command including the executable and options used to generate ctags output
 " for some certain filetypes.The file path will be appened to your custom command.
@@ -720,7 +709,7 @@ let g:NERDSpaceDelims=1
 let g:NERDTrimTrailingWhitespace=1
 
 """ vim-autoformat
-noremap <leader>af :Autoformat<CR>
+noremap <leader>fc :Autoformat<CR>
 let g:autoformat_verbosemode=1
 " let g:autoformat_autoindent = 0
 " let g:autoformat_retab = 0
