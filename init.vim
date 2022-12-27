@@ -659,8 +659,11 @@ augroup end
 map <leader>tr :NERDTreeToggle<CR>
 augroup nerdtree_group
     au!
-    " autocmd vimenter * NERDTree
-    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
+    " Start NERDTree, unless a file or session is specified, eg. vim -S session_file.vim.
+    autocmd StdinReadPre * let s:std_in=1
+    autocmd VimEnter * if (argc() == 0 && !exists('s:std_in') && v:this_session == '') | execute 'NERDTree' | endif
+    " Close the tab if NERDTree is the only window remaining in it.
+    autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | execute 'quit' | endif
 augroup end
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
 
