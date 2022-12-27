@@ -182,11 +182,10 @@ map <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<cr><ESC>
 
 """ panel 相关 
 " 分屏
-noremap s <nop>
-noremap sl :set splitright<CR>:vsplit<CR>
-noremap sh :set nosplitright<CR>:vsplit<CR>
-noremap sj :set splitbelow<CR>:split<CR>
-noremap sk :set nosplitbelow<CR>:split<CR>
+noremap <leader>sl :set splitright<CR>:vsplit<CR>
+noremap <leader>sh :set nosplitright<CR>:vsplit<CR>
+noremap <leader>sj :set splitbelow<CR>:split<CR>
+noremap <leader>sk :set nosplitbelow<CR>:split<CR>
 
 " panel切换调整
 " tmux 已配置
@@ -283,6 +282,7 @@ call plug#begin()
 
 call plug#end()
 
+""" colorscheme
 :execute 'colorscheme' has('linux') ? 'nordfox' : 'duskfox'
 set cursorlineopt=screenline
 set cursorline
@@ -364,7 +364,6 @@ function! s:show_documentation()
     execute '!' . &keywordprg . ' ' . expand('<cword>')
   endif
 endfunction
-
 
 " Symbol renaming.
 nmap <leader>cn <Plug>(coc-rename)
@@ -478,36 +477,6 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 " convert visual selected code to snippet
 xmap <leader>cx  <Plug>(coc-convert-snippet)
-
-""" rainbow
-let g:rainbow_active = 1
-
-""" undotree
-nnoremap <nowait> <leader>u :UndotreeToggle<CR>
-
-""" gitsigns
-noremap <leader>gd :Gitsigns preview_hunk<CR>
-noremap <leader>gj :Gitsigns next_hunk<CR>
-noremap <leader>gk :Gitsigns prev_hunk<CR>
-noremap <leader>ga :Gitsigns stage_hunk<CR>
-noremap <leader>gu :Gitsigns undo_stage_hunk<CR>
-
-""" tabular 指定字符对齐文本
-vnoremap <leader>tl :Tabular /
-
-""" telescope
-" Find files using Telescope command-line sugar.
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
-""" bullets 自动列表
-let g:bullets_enabled_file_types = [
-    \ 'markdown',
-    \ 'text',
-    \ 'gitcommit'
-    \]
 
 """ ale 
 
@@ -641,65 +610,6 @@ let g:vim_markdown_math = 1
 "let g:vim_markdown_json_frontmatter = 1
 "let g:vim_markdown_new_list_item_indent = 2
 
-""" NERDTree
-map <leader>tr :NERDTreeToggle<CR>
-augroup nerdtree_group
-    au!
-    " autocmd vimenter * NERDTree
-    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
-augroup end
-let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
-
-""" tmux 相关
-" Write all buffers before navigating from Vim to tmux pane
-let g:tmux_navigator_save_on_switch = 1
-
-"" vista(tagbar)
-map <leader>ti :Vista!!<CR>
-function! NearestMethodOrFunction() abort
-  return get(b:, 'vista_nearest_method_or_function', '')
-endfunction
-
-set statusline+=%{NearestMethodOrFunction()}
-
-" By default vista.vim never run if you don't call it explicitly.
-"
-" If you want to show the nearest function in your statusline automatically,
-" you can add the following line to your vimrc
-
-augroup vista_group
-    au!
-    autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
-augroup end
-
-" How each level is indented and what to prepend.
-" This could make the display more compact or more spacious.
-" e.g., more compact: ["▸ ", ""]
-" Note: this option only works for the kind renderer, not the tree renderer.
-let g:vista_icon_indent = ['╰─▸ ', '├─▸ ']
-
-" Executive used when opening vista sidebar without specifying it.
-" See all the avaliable executives via `:echo g:vista#executives`.
-let g:vista_default_executive = 'coc'
-
-" Set the executive for some filetypes explicitly. Use the explicit executive
-" instead of the default one for these filetypes when using `:Vista` without
-" specifying the executive.
-let g:vista_executive_for = {
-      \ }
-
-" Declare the command including the executable and options used to generate ctags output
-" for some certain filetypes.The file path will be appened to your custom command.
-" For example:
-let g:vista_ctags_cmd = {
-      \ 'haskell': 'hasktags -x -o - -c',
-      \ }
-
-" To enable fzf's preview window set g:vista_fzf_preview.
-" The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
-" For example:
-let g:vista_fzf_preview = ['right:50%']
-
 """ 注释
 " 注释时自动加一个空格
 let g:NERDSpaceDelims=1
@@ -722,6 +632,91 @@ augroup autoformat_group
     autocmd FileType c,cpp,java,go,php,haskell,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :Autoformat
     autocmd FileType vim,tex let b:autoformat_autoindent=0
 augroup end
+
+""" NERDTree
+map <leader>tr :NERDTreeToggle<CR>
+augroup nerdtree_group
+    au!
+    " autocmd vimenter * NERDTree
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
+augroup end
+let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
+
+""" vista(tagbar)
+map <leader>ti :Vista!!<CR>
+
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+set statusline+=%{NearestMethodOrFunction()}
+
+augroup vista_group
+    au!
+    " By default vista.vim never run if you don't call it explicitly.
+    " show the nearest function in your statusline automatically
+    autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+augroup end
+
+" How each level is indented and what to prepend.
+" This could make the display more compact or more spacious.
+" e.g., more compact: ["▸ ", ""]
+" Note: this option only works for the kind renderer, not the tree renderer.
+let g:vista_icon_indent = ['╰─▸ ', '├─▸ ']
+
+" Executive used when opening vista sidebar without specifying it.
+" See all the avaliable executives via `:echo g:vista#executives`.
+let g:vista_default_executive = 'coc'
+
+" Set the executive for some filetypes explicitly. Use the explicit executive
+" instead of the default one for these filetypes when using `:Vista` without
+" specifying the executive.
+let g:vista_executive_for = {
+      \ }
+
+" Declare the command including the executable and options used to generate ctags output
+" for some certain filetypes.The file path will be appened to your custom command.
+let g:vista_ctags_cmd = {
+      \ 'haskell': 'hasktags -x -o - -c',
+      \ }
+
+" To enable fzf's preview window set g:vista_fzf_preview.
+" The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
+let g:vista_fzf_preview = ['right:50%']
+
+""" telescope
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+""" rainbow
+let g:rainbow_active = 1
+
+""" undotree
+nnoremap <nowait> <leader>u :UndotreeToggle<CR>
+
+""" gitsigns
+noremap <leader>gd :Gitsigns preview_hunk<CR>
+noremap <leader>gj :Gitsigns next_hunk<CR>
+noremap <leader>gk :Gitsigns prev_hunk<CR>
+noremap <leader>ga :Gitsigns stage_hunk<CR>
+noremap <leader>gu :Gitsigns undo_stage_hunk<CR>
+
+""" tabular 指定字符对齐文本
+vnoremap <leader>tl :Tabular /
+
+""" bullets 自动列表
+let g:bullets_enabled_file_types = [
+    \ 'markdown',
+    \ 'text',
+    \ 'gitcommit'
+    \]
+
+""" tmux 相关
+" Write all buffers before navigating from Vim to tmux pane
+let g:tmux_navigator_save_on_switch = 1
 
 if has('nvim') 
 
