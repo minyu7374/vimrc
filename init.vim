@@ -270,6 +270,7 @@ call plug#begin()
 
     Plug 'h-hg/fcitx.nvim'
     Plug 'christoomey/vim-tmux-navigator'
+    Plug 'voldikss/vim-floaterm'
 
     " telescope and its dependencies
     Plug 'nvim-lua/plenary.nvim'
@@ -434,6 +435,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
 " Show all diagnostics.
+nnoremap <silent><nowait> <space>cl  :<C-u>CocList<cr>
 nnoremap <silent><nowait> <space>la  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
 nnoremap <silent><nowait> <space>le  :<C-u>CocList extensions<cr>
@@ -452,6 +454,7 @@ nnoremap <silent><nowait> <space>lr  :<C-u>CocListResume<CR>
 
 let g:coc_global_extensions = [
     \ 'coc-marketplace',
+    \ 'coc-floaterm',
     \ 'coc-json',
     \ 'coc-pyright',
     \ 'coc-go',
@@ -736,6 +739,12 @@ let g:bullets_enabled_file_types = [
     \ 'text',
     \ 'gitcommit'
     \]
+
+""" floatterm
+let g:floaterm_keymap_new = '<leader>ft'
+let g:floaterm_keymap_prev = '<leader>fk'
+let g:floaterm_keymap_next = '<leader>fj'
+let g:floaterm_keymap_toggle = '<leader>tf'
 
 """ tmux 相关
 " Write all buffers before navigating from Vim to tmux pane
