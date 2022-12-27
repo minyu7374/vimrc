@@ -263,7 +263,8 @@ call plug#begin()
     Plug 'liuchengxu/vista.vim' 
     Plug 'lewis6991/gitsigns.nvim', {'branch': 'main'}
     Plug 'mbbill/undotree'
-    Plug 'ggandor/lightspeed.nvim', {'branch': 'main'}
+    "Plug 'ggandor/lightspeed.nvim', {'branch': 'main'}
+    Plug 'easymotion/vim-easymotion'
     Plug 'godlygeek/tabular'
     Plug 'rcarriga/nvim-notify'
 
@@ -443,9 +444,9 @@ nnoremap <silent><nowait> <space>lo  :<C-u>CocList outline<cr>
 " Search workspace symbols.
 nnoremap <silent><nowait> <space>ls  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+nnoremap <silent><nowait> <space>cj  :<C-u>CocNext<CR>
 " Do default action for previous item.
-nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+nnoremap <silent><nowait> <space>ck  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>lr  :<C-u>CocListResume<CR>
 
@@ -589,8 +590,8 @@ let g:ale_echo_msg_warning_str = '⚠'
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
 
-nnoremap en <Plug>(ale_next)
-nnoremap ep <Plug>(ale_previous)
+nnoremap ej <Plug>(ale_next)
+nnoremap ek <Plug>(ale_previous)
 
 nmap <Leader>te :ALEToggle<CR>
 
@@ -690,6 +691,28 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+""" easymotion
+let g:EasyMotion_smartcase = 1
+
+nmap s <Plug>(easymotion-s2)
+nmap t <Plug>(easymotion-t2)
+
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+
+" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+" Without these mappings, `n` & `N` works fine. (These mappings just provide
+" different highlight method and have some other features )
+map  n <Plug>(easymotion-next)
+map  N <Plug>(easymotion-prev)
+
+map <leader><leader>j <Plug>(easymotion-j)
+map <leader><leader>k <Plug>(easymotion-k)
+map <leader><leader>h <Plug>(easymotion-linebackward)
+map <leader><leader>l <Plug>(easymotion-lineforward)
+map <leader><leader>f <Plug>(easymotion-bd-f)
+map <Leader><leader>. <Plug>(easymotion-repeat)
 
 """ rainbow
 let g:rainbow_active = 1
