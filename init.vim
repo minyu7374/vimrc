@@ -368,7 +368,7 @@ function! s:show_documentation()
 endfunction
 
 " Symbol renaming.
-nmap <leader>cn <Plug>(coc-rename)
+nmap <leader>cr <Plug>(coc-rename)
 
 " Formatting selected code.
 xmap <leader>cf  <Plug>(coc-format-selected)
@@ -435,22 +435,23 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
 " Show all diagnostics.
-nnoremap <silent><nowait> <space>cl  :<C-u>CocList<cr>
-nnoremap <silent><nowait> <space>ca  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <leader><leader>c  :<C-u>CocList<cr>
+nnoremap <silent><nowait> <leader><leader>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
-nnoremap <silent><nowait> <space>ce  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <leader><leader>e  :<C-u>CocList extensions<cr>
 " Show commands.
-nnoremap <silent><nowait> <space>cm  :<C-u>CocList commands<cr>
+nnoremap <silent><nowait> <leader><leader>m  :<C-u>CocList commands<cr>
+nnoremap <silent><nowait> <leader>:  :<C-u>CocList commands<cr>
 " Find symbol of current document.
-nnoremap <silent><nowait> <space>co  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <leader><leader>o  :<C-u>CocList outline<cr>
 " Search workspace symbols.
-nnoremap <silent><nowait> <space>cs  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait> <leader><leader>s  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent><nowait> <space>cj  :<C-u>CocNext<CR>
+nnoremap <silent><nowait> <leader>cj  :<C-u>CocNext<CR>
 " Do default action for previous item.
-nnoremap <silent><nowait> <space>ck  :<C-u>CocPrev<CR>
+nnoremap <silent><nowait> <leader>ck  :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent><nowait> <space>cr  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <leader>cp  :<C-u>CocListResume<CR>
 
 let g:coc_global_extensions = [
     \ 'coc-marketplace',
@@ -614,7 +615,7 @@ let g:airline#extensions#ale#enabled = 1
 nnoremap ej <Plug>(ale_next)
 nnoremap ek <Plug>(ale_previous)
 
-nmap <Leader>te :ALEToggle<CR>
+nmap <leader>te :ALEToggle<CR>
 
 """ vim-go
 let g:go_def_mode='gopls'
@@ -729,7 +730,7 @@ map <leader><leader>k <Plug>(easymotion-k)
 map <leader><leader>h <Plug>(easymotion-linebackward)
 map <leader><leader>l <Plug>(easymotion-lineforward)
 map <leader><leader>f <Plug>(easymotion-bd-f)
-map <Leader><leader>. <Plug>(easymotion-repeat)
+map <leader><leader>. <Plug>(easymotion-repeat)
 
 """ rainbow
 let g:rainbow_active = 1
