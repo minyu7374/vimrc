@@ -149,10 +149,10 @@ map! <C-Q> <Esc>
 nnoremap R :source $MYVIMRC<CR>
 
 " 方便使用的短命令
-noremap <leader>o o<Esc>k
-noremap <leader>O O<Esc>j
-noremap <leader>w :w<CR> 
-noremap <leader>q :q<CR> 
+noremap <nowait> <leader>o o<Esc>k
+noremap <nowait> <leader>O O<Esc>j
+noremap <nowait> <leader>w :w<CR> 
+noremap <nowait> <leader>q :q<CR> 
 
 " tab
 noremap ta :tabe<CR>
@@ -216,7 +216,7 @@ nnoremap <silent> < :vertical resize -5<CR>
 "nnoremap <silent> < :exe "vertical resize " . (winwidth(0) * 5/6)<CR> 
 
 " 临时最大化 panel. :only(<C-W>O)不等还原原来的分屏
-nmap <leader>z :call Zoom()<CR>
+nmap <nowait> <leader>z :call Zoom()<CR>
 function! Zoom ()
     " check if is the zoomed state (tabnumber > 1 && window == 1)
     if tabpagenr('$') > 1 && tabpagewinnr(tabpagenr(), '$') == 1
