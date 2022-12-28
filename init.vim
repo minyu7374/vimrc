@@ -13,8 +13,11 @@ endif
 set encoding=utf-8
 scriptencoding utf-8
 
-"set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+" 自动判断编码时，依次尝试以下编码
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 set fileformats=unix,mac,dos
+
+set helplang=cn
 
 " 如遇Unicode值大于255的文本，不必等到空格再折行
 set formatoptions+=m
@@ -71,7 +74,10 @@ set magic
 
 set mouse-=a
 
-""" 读写
+" 开启增强模式(vim默认off，nvim默认on)
+set wildmenu
+
+""" 文件读写
 " 共享外部剪贴板
 "set clipboard+=unnamed
 set clipboard^=unnamed,unnamedplus
@@ -112,7 +118,7 @@ augroup complete_group
     au!
 
     " 离开插入模式后自动关闭预览窗口
-    autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+    autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
 
     " " In the quickfix window, <CR> is used to jump to the error under the cursor, so undefine the mapping there.
     " autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
@@ -155,9 +161,32 @@ noremap <nowait> <leader>w :w<CR>
 noremap <nowait> <leader>q :q<CR> 
 
 " tab
-noremap ta :tabe<CR>
-noremap th :-tabnext<CR>
-noremap tl :+tabnext<CR>
+nnoremap tn  :tabnew<CR>
+nnoremap te  :tabedit<Space>
+nnoremap td  :tabclose<CR>
+nnoremap tm  :tabmove<Space>
+
+nnoremap th  :tabfirst<CR>
+nnoremap tl  :tablast<CR>
+nnoremap tk  :tabnext<CR>
+nnoremap tj  :tabprev<CR>
+
+nnoremap <leader>1 1gt
+nnoremap <leader>2 2gt
+nnoremap <leader>3 3gt
+nnoremap <leader>4 4gt
+nnoremap <leader>5 5gt
+nnoremap <leader>6 6gt
+nnoremap <leader>7 7gt
+nnoremap <leader>8 8gt
+nnoremap <leader>9 9gt
+nnoremap <leader>0 :tablast<CR>
+
+" 新建tab/切换tab  Ctrl+t Ctrl+Tab
+nnoremap <C-t>     :tabnew<CR>
+inoremap <C-t>     <Esc>:tabnew<CR>
+inoremap <C-Tab>     <Esc>:tabnext<CR>
+inoremap <C-Tab>     <Esc>:tabnext<CR>
 
 " 去除高亮
 noremap <silent><leader>/ :nohls<CR>
@@ -167,14 +196,21 @@ noremap <silent><leader><CR> :nohls<CR>
 vnoremap < <gv 
 vnoremap > >gv 
 
-""" 复制粘贴
-noremap Y "+y
+""" 复制粘贴(不破坏原来的Ctrl+A/V)
+vmap Y "+y
 noremap P "+p
+vmap P "+p
 vmap <C-c> "+y
+vmap <C-y> "+y
+vmap <C-p> "+p
 
-" 映射全选+复制 ctrl+A
-map <C-A> ggVGY
-map! <C-A> <Esc>ggVG
+" 映射全选+复制/粘贴
+map <M-a> ggVG"+y
+map! <M-a> <Esc>ggVG"+y
+map <M-p> ggVG"+p
+map! <M-p> <Esc>ggVG"+p
+map <M-v> ggVG"+p
+map! <M-v> <Esc>ggVG"+p
 
 """ 小功能
 " 插入当前时间
