@@ -207,8 +207,6 @@ vmap <C-p> "+p
 " 映射全选+复制/粘贴
 map <M-a> ggVG"+y
 map! <M-a> <Esc>ggVG"+y
-map <M-p> ggVG"+p
-map! <M-p> <Esc>ggVG"+p
 map <M-v> ggVG"+p
 map! <M-v> <Esc>ggVG"+p
 
@@ -224,11 +222,11 @@ noremap <leader>sj :set splitbelow<CR>:split<CR>
 noremap <leader>sk :set nosplitbelow<CR>:split<CR>
 
 " panel切换调整
-" tmux 已配置
-" nnoremap <C-J> <C-W><C-J> 
-" nnoremap <C-K> <C-W><C-K> 
-" nnoremap <C-H> <C-W><C-H> 
-" nnoremap <C-L> <C-W><C-L> 
+" tmux 有对应配置
+nnoremap <C-j> <C-W><C-J>
+nnoremap <C-k> <C-W><C-K>
+nnoremap <C-h> <C-W><C-H>
+nnoremap <C-l> <C-W><C-L>
  
 nnoremap <leader>wj <C-W><C-J> 
 nnoremap <leader>wk <C-W><C-K> 
