@@ -313,8 +313,10 @@ call plug#begin()
         Plug 'BurntSushi/ripgrep'
         Plug 'sharkdp/fd'
         Plug 'nvim-telescope/telescope.nvim'
+        Plug 'fannheyward/telescope-coc.nvim'
     else
         Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+        Plug 'vn-ki/coc-clap'
     endif
 
 call plug#end()
@@ -470,19 +472,10 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
 nnoremap <silent><nowait> <leader><leader>c  :<C-u>CocList<cr>
-" Show all diagnostics.
-nnoremap <silent><nowait> <leader><leader>e  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
 nnoremap <silent><nowait> <leader><leader>x  :<C-u>CocList extensions<cr>
 " Extensions marketplace.
 nnoremap <silent><nowait> <leader><leader>p  :<C-u>CocList marketplace<cr>
-" Show commands.
-nnoremap <silent><nowait> <leader><leader>m  :<C-u>CocList commands<cr>
-nnoremap <silent><nowait> <leader>:  :<C-u>CocList commands<cr>
-" Find symbol of current document.
-nnoremap <silent><nowait> <leader><leader>o  :<C-u>CocList outline<cr>
-" Search workspace symbols.
-nnoremap <silent><nowait> <leader><leader>s  :<C-u>CocList -I symbols<cr>
 " Resume latest coc list.
 nnoremap <silent><nowait> <leader><leader>r  :<C-u>CocListResume<CR>
 " Do default action for next item.
@@ -810,6 +803,19 @@ EOF
     nnoremap <leader>fb <cmd>Telescope buffers<cr>
     nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
+    """ Telescope-coc
+    lua require('telescope').load_extension('coc')
+    nnoremap <silent><nowait> <leader><leader>C  :<C-u>Telescope coc<cr>
+    " Show all diagnostics.
+    nnoremap <silent><nowait> <leader><leader>e  :<C-u>Telescope coc diagnostics<cr>
+    " Show commands.
+    nnoremap <silent><nowait> <leader><leader>m  :<C-u>Telescope coc commands<cr>
+    nnoremap <silent><nowait> <leader>:  :<C-u>Telescope coc commands<cr>
+    " Find symbol of current document.
+    nnoremap <silent><nowait> <leader><leader>o  :<C-u>Telescope coc document_symbols<cr>
+    " Search workspace symbols.
+    nnoremap <silent><nowait> <leader><leader>s  :<C-u>Telescope coc workspace_symbols<cr>
+
 else
 
     """ clap
@@ -819,5 +825,18 @@ else
     nnoremap <leader>fv <cmd>Clap live_grep<cr>
     nnoremap <leader>fb <cmd>Clap buffers<cr>
     nnoremap <leader>fh <cmd>Clap help_tags<cr>
+
+    """ coc-clap
+    " Show all diagnostics.
+    nnoremap <silent><nowait> <leader><leader>e  :<C-u>Clap coc_diagnostics<cr>
+    " Manage extensions.
+    nnoremap <silent><nowait> <leader><leader>X  :<C-u>CocList extensions<cr>
+    " Show commands.
+    nnoremap <silent><nowait> <leader><leader>m  :<C-u>Clap coc_commands<cr>
+    nnoremap <silent><nowait> <leader>:  :<C-u>Clap coc_commands<cr>
+    " Find symbol of current document.
+    nnoremap <silent><nowait> <leader><leader>o  :<C-u>Clap coc_outline<cr>
+    " Search workspace symbols.
+    nnoremap <silent><nowait> <leader><leader>s  :<C-u>Clap coc_symbols<cr>
 
 endif
