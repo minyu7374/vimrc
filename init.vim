@@ -159,6 +159,7 @@ noremap <nowait> <leader>o o<Esc>k
 noremap <nowait> <leader>O O<Esc>j
 noremap <nowait> <leader>w :w<CR> 
 noremap <nowait> <leader>q :q<CR> 
+noremap <nowait> <leader>W :w !sudo tee %<CR> 
 
 " tab
 nnoremap tn  :tabnew<CR>
@@ -185,8 +186,8 @@ nnoremap <leader>0 :tablast<CR>
 " 新建tab/切换tab  Ctrl+t Ctrl+Tab
 nnoremap <C-t>     :tabnew<CR>
 inoremap <C-t>     <Esc>:tabnew<CR>
-inoremap <C-Tab>     <Esc>:tabnext<CR>
-inoremap <C-Tab>     <Esc>:tabnext<CR>
+nnoremap <C-Tab>   :tabnext<CR>
+inoremap <C-Tab>   <Esc>:tabnext<CR>
 
 " 去除高亮
 noremap <silent><leader>/ :nohls<CR>
