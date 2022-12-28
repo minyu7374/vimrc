@@ -275,7 +275,7 @@ call plug#begin()
     Plug 'honza/vim-snippets'
     Plug 'w0rp/ale'
 
-    Plug 'fatih/vim-go', { 'for': 'go' , 'do': ':GoInstallBinaries' }
+    " Plug 'fatih/vim-go', { 'for': 'go' , 'do': ':GoInstallBinaries' }
     Plug 'godlygeek/tabular'
     Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
     Plug 'cespare/vim-toml', {'branch': 'main', 'for': 'toml', }
@@ -468,11 +468,13 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
-" Show all diagnostics.
 nnoremap <silent><nowait> <leader><leader>c  :<C-u>CocList<cr>
-nnoremap <silent><nowait> <leader><leader>a  :<C-u>CocList diagnostics<cr>
+" Show all diagnostics.
+nnoremap <silent><nowait> <leader><leader>e  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
-nnoremap <silent><nowait> <leader><leader>e  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <leader><leader>x  :<C-u>CocList extensions<cr>
+" Extensions marketplace.
+nnoremap <silent><nowait> <leader><leader>p  :<C-u>CocList marketplace<cr>
 " Show commands.
 nnoremap <silent><nowait> <leader><leader>m  :<C-u>CocList commands<cr>
 nnoremap <silent><nowait> <leader>:  :<C-u>CocList commands<cr>
@@ -480,12 +482,12 @@ nnoremap <silent><nowait> <leader>:  :<C-u>CocList commands<cr>
 nnoremap <silent><nowait> <leader><leader>o  :<C-u>CocList outline<cr>
 " Search workspace symbols.
 nnoremap <silent><nowait> <leader><leader>s  :<C-u>CocList -I symbols<cr>
+" Resume latest coc list.
+nnoremap <silent><nowait> <leader><leader>r  :<C-u>CocListResume<CR>
 " Do default action for next item.
 nnoremap <silent><nowait> <leader>cj  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent><nowait> <leader>ck  :<C-u>CocPrev<CR>
-" Resume latest coc list.
-nnoremap <silent><nowait> <leader>cp  :<C-u>CocListResume<CR>
 
 let g:coc_global_extensions = [
     \ 'coc-marketplace',
@@ -533,31 +535,23 @@ omap ag <Plug>(coc-git-chunk-outer)
 xmap ag <Plug>(coc-git-chunk-outer)
 
 """ ale 
+" The easiest way to get both plugins to work together is to configure coc.nvim to send diagnostics to ALE, so ALE controls how all problems are presented to you, and to disable all LSP features in ALE, so ALE doesn't try to provide LSP features already provided by coc.nvim, such as auto-completion.
+" Open your coc.nvim configuration file with :CocConfig and add "diagnostic.displayByAle": true to your settings.
+" Add let g:ale_disable_lsp = 1 to your vimrc file, before plugins are loade
+" 方案选择: 正常使用coc的功能(不向ale传递)；默认不开启ale，同时关闭ale的lsp特性，不必提供coc提供过的功能
+let g:ale_enabled = 0
+let g:ale_disable_lsp = 1
 
-" " run linters only when I save files
-" let g:ale_lint_on_text_changed = 'never'
-" let g:ale_lint_on_insert_leave = 0
-" " don't want linters to run on opening a file
-" let g:ale_lint_on_enter = 0
-
-" " use the quickfix list or the loclist
-" let g:ale_set_quickfix = 1
-" let g:ale_set_loclist = 0
-
-" show Vim windows for the loclist or quickfix items when a file contains warnings or errors
-" let g:ale_open_list = 1
-" keep the window open even after errors disappear
-"let g:ale_keep_list_window_open = 1
-
-"let g:ale_enabled = 0
-" 始终开启标志列设置
-" let g:ale_sign_column_always = 1
+" 常用命令映射
+nmap <leader>te :ALEToggle<CR>
+nnoremap ej <Plug>(ale_next)
+nnoremap ek <Plug>(ale_previous)
 
 " 指定启用的linters
 let g:ale_linters = {
             \  'c': ['clang'],
             \  'cpp': ['clang'],
-            \  'go': ['gopls'],
+            \  'go': ['golint', 'gopls'],
             \  'php': ['php -l'],
             \  'sh': ['shellcheck'],
             \  'bash': ['shellcheck'],
@@ -577,36 +571,53 @@ let g:ale_python_flake8_executable = 'python3'
 " let g:ale_python_flake8_options = '-m flake8 --ignore=E501,E225,E124,E712,E116,E131,E401,E402'
 let g:ale_python_flake8_options = '-m flake8 --ignore=E501,E401,E402,E722'
 
-
 augroup ale_python_group
     au!
     autocmd FileType python nnoremap <leader>p2 :let g:ale_python_flake8_executable = 'python2'<CR>
     autocmd FileType python nnoremap <leader>p3 :let g:ale_python_flake8_executable = 'python3'<CR>
 augroup end
 
-" 错误处高亮
+" ale行为控制
+" " run linters only when I save files
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_lint_on_insert_leave = 0
+" " don't want linters to run on opening a file
+" let g:ale_lint_on_enter = 0
+
+" " use the quickfix list or the loclist
+" let g:ale_set_quickfix = 1
+" let g:ale_set_loclist = 0
+
+" show Vim windows for the loclist or quickfix items when a file contains warnings or errors
+" let g:ale_open_list = 1
+" keep the window open even after errors disappear
+"let g:ale_keep_list_window_open = 1
+
+" 始终开启标志列设置
+" let g:ale_sign_column_always = 1
+
+" 取消错误处高亮
 " let g:ale_set_highlights = 0
-let g:ale_set_highlights = 1
-" If emoji not loaded, use default sign
+
+" " If emoji not loaded, use default sign
 " try
-" "let g:ale_sign_error = emoji#for('boom')
-" let g:ale_sign_error = emoji#for('eight_pointed_black_star')
-" "let g:ale_sign_warning = emoji#for('small_orange_diamond')
-" let g:ale_sign_warning = '•'
+    " "let g:ale_sign_error = emoji#for('boom')
+    " let g:ale_sign_error = emoji#for('eight_pointed_black_star')
+    " let g:ale_sign_warning = emoji#for('small_orange_diamond')
 " catch
-" " Use same sign and distinguish error and warning via different colors.
-" let g:ale_sign_error = '✴'
-" let g:ale_sign_warning = '•'
-" "let g:ale_sign_error = '✹'
-" "let g:ale_sign_warning = '⚠'
+    " let g:ale_sign_error = '✴'
+    " let g:ale_sign_warning = '⚠'
 " endtry
 let g:ale_sign_error = '✴'
-let g:ale_sign_warning = '•'
+let g:ale_sign_warning = '⚠'
 let g:ale_echo_msg_format = '[%linter%] %severity% %s'
 let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']
 
-"highlight clear ALEErrorSign
-"highlight clear ALEWarningSign
+" 标记的背景色调整，ALE之前warning默认用的todo太抢眼了
+" highlight clear ALEErrorSign
+" highlight clear ALEWarningSign
+highlight link ALEErrorSign ErrorMsg
+highlight link ALEWarningSign WarningMsg
 
 " For a more fancy ale statusline
 function! ALEGetError()
@@ -635,18 +646,11 @@ function! ALEGetWarning()
     endif
 endfunction
 
-"let g:ale_echo_msg_error_str = 'Error'
-"let g:ale_echo_msg_warning_str = 'Warning'
-let g:ale_echo_msg_error_str = '✹'
+let g:ale_echo_msg_error_str = '✴'
 let g:ale_echo_msg_warning_str = '⚠'
 
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
-
-nnoremap ej <Plug>(ale_next)
-nnoremap ek <Plug>(ale_previous)
-
-nmap <leader>te :ALEToggle<CR>
 
 """ vim-go
 let g:go_def_mode='gopls'
@@ -750,12 +754,6 @@ nmap t <Plug>(easymotion-t2)
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
-" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
-" Without these mappings, `n` & `N` works fine. (These mappings just provide
-" different highlight method and have some other features )
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
-
 map <leader><leader>j <Plug>(easymotion-j)
 map <leader><leader>k <Plug>(easymotion-k)
 map <leader><leader>h <Plug>(easymotion-linebackward)
@@ -789,15 +787,7 @@ let g:floaterm_keymap_toggle = '<leader>tf'
 " Write all buffers before navigating from Vim to tmux pane
 let g:tmux_navigator_save_on_switch = 1
 
-if has('nvim') 
-
-    """ telescope
-    " Find files using Telescope command-line sugar.
-    nnoremap <leader>fo <cmd>Telescope<cr>
-    nnoremap <leader>ff <cmd>Telescope find_files<cr>
-    nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-    nnoremap <leader>fb <cmd>Telescope buffers<cr>
-    nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+if has('nvim')
 
     """ nvim-treesitter 高亮强化
     lua <<EOF
@@ -810,12 +800,22 @@ require'nvim-treesitter.configs'.setup {
 }
 EOF
 
+    """ telescope
+    " Find files using Telescope command-line sugar.
+    nnoremap <leader>fo <cmd>Telescope<cr>
+    nnoremap <leader>ff <cmd>Telescope find_files<cr>
+    nnoremap <leader>fg <cmd>Telescope grep_string<cr>
+    nnoremap <leader>fv <cmd>Telescope live_grep<cr>
+    nnoremap <leader>fb <cmd>Telescope buffers<cr>
+    nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
 else
 
     """ clap
     nnoremap <leader>fo <cmd>Clap<cr>
     nnoremap <leader>ff <cmd>Clap files<cr>
-    nnoremap <leader>fg <cmd>Clap live_grep<cr>
+    nnoremap <leader>fg <cmd>Clap grep ++query=<cword><cr>
+    nnoremap <leader>fv <cmd>Clap live_grep<cr>
     nnoremap <leader>fb <cmd>Clap buffers<cr>
     nnoremap <leader>fh <cmd>Clap help_tags<cr>
 
