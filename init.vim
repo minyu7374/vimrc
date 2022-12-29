@@ -7,6 +7,8 @@ if has('linux')
     let g:python3_host_prog = '/usr/bin/python'
 elseif has('mac') 
     let g:python3_host_prog = '/opt/local/bin/python'
+elseif has('win64') || has('win32')
+    let g:python3_host_prog = 'C:\Python311\python.exe'
 endif
 
 """ 编码相关
@@ -326,7 +328,7 @@ call plug#begin()
 call plug#end()
 
 """ colorscheme
-:execute 'colorscheme' has('linux') ? 'nordfox' : 'duskfox'
+:execute 'colorscheme' has('mac') ? 'duskfox' : 'nordfox'
 set cursorlineopt=screenline
 set cursorline
 
@@ -420,7 +422,7 @@ augroup coc_group
   " Highlight the symbol and its references when holding the cursor.
   autocmd CursorHold * silent call CocActionAsync('highlight')
   " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  autocmd FileType c,cpp,go,rust,bash,awk,python,typescript,sql,json,toml,yaml,vim setl formatexpr=CocAction('formatSelected')
   " Update signature help on jump placeholder.
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
@@ -787,17 +789,34 @@ let g:floaterm_keymap_toggle = '<leader>tf'
 
 """ tmux 相关
 " Write all buffers before navigating from Vim to tmux pane
-let g:tmux_navigator_save_on_switch = 1
+let g:tmux_navigjtor_save_on_switch = 1
 
 if has('nvim')
 
     """ nvim-treesitter 高亮强化
+    set foldmethod=expr
+    set foldexpr=nvim_treesitter#foldexpr()
+    set nofoldenable            " Disable folding at startup.
+
     lua <<EOF
 require'nvim-treesitter.configs'.setup {
     -- one of "all", "language", or a list of languages
     ensure_installed = {'bash', 'awk', 'c', 'cpp', 'go', 'haskell', 'lua', 'python', 'sql', 'html', 'json', 'latex', 'markdown', 'rust', 'toml', 'yaml', 'vim'},
     highlight = {
         enable = true,              -- false will disable the whole extension
+    },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_snlection = "<CR>",   -- set to `false` to disable one of the mappings
+          node_incremental = "<CR>",
+          scope_incremental = "<BS>",
+          node_decremental = "<TAB>",
+        },
+    },
+    -- Indentation based on treesitter for the = operator. NOTE: This is an experimental feature.
+    indent = {
+        enable = true,
     },
 }
 EOF
