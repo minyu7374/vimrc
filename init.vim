@@ -136,6 +136,7 @@ augroup my_group
 
     """ 特定文件类型执行
     autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mt :!Typora % &<CR><CR>       
+    autocmd BufRead,BufNewFile *.py map <leader>pz :set foldmethod=indent<CR>
     
     " 光标恢复上次位置
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -159,10 +160,11 @@ nnoremap R :source $MYVIMRC<CR>
 noremap <nowait> <leader>o o<Esc>k
 noremap <nowait> <leader>O O<Esc>j
 
-" w/q
+" 文件打开关闭保存等操作
 noremap <nowait> <leader>w :w<CR> 
 noremap <nowait> <leader>q :q<CR> 
 noremap <nowait> <leader>W :w !sudo tee %<CR> 
+noremap <nowait> <leader>e :Explore<CR>
 
 " 去除高亮
 noremap <silent><leader>/ :nohls<CR>
@@ -284,8 +286,8 @@ call plug#begin()
     Plug 'cespare/vim-toml', {'branch': 'main', 'for': 'toml', }
     Plug 'elzr/vim-json', { 'for' : 'json' }
     Plug 'jceb/vim-orgmode'
+    Plug 'tpope/vim-fugitive'
 
-    Plug 'Chiel92/vim-autoformat'
     Plug 'scrooloose/nerdcommenter'
     Plug 'Yggdroot/indentLine', { 'for': 'python' }
     Plug 'dkarter/bullets.vim'
@@ -466,6 +468,10 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+nmap <leader>fc :Format<CR>
+nmap <leader>fz :Fold<CR>
+nmap <leader>fi :OR<CR>
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
@@ -672,21 +678,6 @@ let g:NERDSpaceDelims=1
 " 取消注释后空行中的空格删除
 let g:NERDTrimTrailingWhitespace=1
 
-""" vim-autoformat
-noremap <leader>fc :Autoformat<CR>
-let g:autoformat_verbosemode=1
-" let g:autoformat_autoindent = 0
-" let g:autoformat_retab = 0
-" let g:autoformat_remove_trailing_spaces = 0
-let g:formatters_python = ['black']
-
-augroup autoformat_group
-    au!
-    " au BufWrite * :Autoformat
-    autocmd FileType c,cpp,java,go,php,haskell,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :Autoformat
-    autocmd FileType vim,tex let b:autoformat_autoindent=0
-augroup end
-
 """ NERDTree
 map <leader>tr :NERDTreeToggle<CR>
 augroup nerdtree_group
@@ -755,6 +746,22 @@ map <leader>k <Plug>(easymotion-k)
 map <leader>h <Plug>(easymotion-linebackward)
 map <leader>l <Plug>(easymotion-lineforward)
 map <leader>. <Plug>(easymotion-repeat)
+
+""" git
+map <leader>gs :Git status<CR>
+map <leader>gc :Git commit<CR>
+map <leader>gC :Git commit -v<CR>
+map <leader>gp :Git push<CR>
+
+map <leader>ga :Git add %<CR>
+map <leader>gr :Gread<CR>
+map <leader>gw :Gwrite<CR>
+map <leader>gm :GMove<CR>
+map <leader>gd :GDelete<CR>
+
+map <leader>gg :Ggrep<space>
+map <leader>gv :Gvdiffsplit<CR>
+map <leader>gV :Gvdiffsplit<space>
 
 """ rainbow
 let g:rainbow_active = 1
