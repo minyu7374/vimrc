@@ -173,7 +173,7 @@ vnoremap < <gv
 vnoremap > >gv 
 
 " 插入当前时间
-map <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<cr><ESC>
+map <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<CR><ESC>
 
 """ tab
 nnoremap tn  :tabnew<CR>
@@ -375,8 +375,8 @@ endfunction
 let g:coc_snippet_next = '<tab>'
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+" format on enter, <CR> could be remapped by other vim plugin
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " trigger completion.
@@ -447,8 +447,8 @@ omap ac <Plug>(coc-classobj-a)
 if has('nvim-0.4.0') || has('patch-8.2.0750')
     nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
     nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-    inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-    inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+    inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<CR>" : "\<Right>"
+    inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<CR>" : "\<Left>"
     vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
     vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
@@ -473,11 +473,11 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
-nnoremap <silent><nowait> <leader><leader>c  :<C-u>CocList<cr>
+nnoremap <silent><nowait> <leader><leader>c  :<C-u>CocList<CR>
 " Manage extensions.
-nnoremap <silent><nowait> <leader><leader>x  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <leader><leader>x  :<C-u>CocList extensions<CR>
 " Extensions marketplace.
-nnoremap <silent><nowait> <leader><leader>p  :<C-u>CocList marketplace<cr>
+nnoremap <silent><nowait> <leader><leader>p  :<C-u>CocList marketplace<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <leader><leader>r  :<C-u>CocListResume<CR>
 " Do default action for next item.
@@ -750,12 +750,11 @@ nmap t <Plug>(easymotion-t2)
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
-map <leader><leader>j <Plug>(easymotion-j)
-map <leader><leader>k <Plug>(easymotion-k)
-map <leader><leader>h <Plug>(easymotion-linebackward)
-map <leader><leader>l <Plug>(easymotion-lineforward)
-map <leader><leader>f <Plug>(easymotion-bd-f)
-map <leader><leader>. <Plug>(easymotion-repeat)
+map <leader>j <Plug>(easymotion-j)
+map <leader>k <Plug>(easymotion-k)
+map <leader>h <Plug>(easymotion-linebackward)
+map <leader>l <Plug>(easymotion-lineforward)
+map <leader>. <Plug>(easymotion-repeat)
 
 """ rainbow
 let g:rainbow_active = 1
@@ -798,47 +797,49 @@ EOF
 
     """ telescope
     " Find files using Telescope command-line sugar.
-    nnoremap <leader>fo <cmd>Telescope<cr>
-    nnoremap <leader>ff <cmd>Telescope find_files<cr>
-    nnoremap <leader>fg <cmd>Telescope grep_string<cr>
-    nnoremap <leader>fv <cmd>Telescope live_grep<cr>
-    nnoremap <leader>fb <cmd>Telescope buffers<cr>
-    nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+    nnoremap <silent><nowait> <leader><leader>f  :<C-u>Telescope<CR>
+    nnoremap <leader>fo <cmd>Telescope<CR>
+    nnoremap <leader>ff <cmd>Telescope find_files<CR>
+    nnoremap <leader>fg <cmd>Telescope grep_string<CR>
+    nnoremap <leader>fv <cmd>Telescope live_grep<CR>
+    nnoremap <leader>fb <cmd>Telescope buffers<CR>
+    nnoremap <leader>fh <cmd>Telescope help_tags<CR>
 
     """ Telescope-coc
     lua require('telescope').load_extension('coc')
-    nnoremap <silent><nowait> <leader><leader>C  :<C-u>Telescope coc<cr>
+    nnoremap <silent><nowait> <leader><leader>C  :<C-u>Telescope coc<CR>
     " Show all diagnostics.
-    nnoremap <silent><nowait> <leader><leader>e  :<C-u>Telescope coc diagnostics<cr>
+    nnoremap <silent><nowait> <leader><leader>e  :<C-u>Telescope coc diagnostics<CR>
     " Show commands.
-    nnoremap <silent><nowait> <leader><leader>m  :<C-u>Telescope coc commands<cr>
-    nnoremap <silent><nowait> <leader>:  :<C-u>Telescope coc commands<cr>
+    nnoremap <silent><nowait> <leader><leader>m  :<C-u>Telescope coc commands<CR>
+    nnoremap <silent><nowait> <leader>:  :<C-u>Telescope coc commands<CR>
     " Find symbol of current document.
-    nnoremap <silent><nowait> <leader><leader>o  :<C-u>Telescope coc document_symbols<cr>
+    nnoremap <silent><nowait> <leader><leader>o  :<C-u>Telescope coc document_symbols<CR>
     " Search workspace symbols.
-    nnoremap <silent><nowait> <leader><leader>s  :<C-u>Telescope coc workspace_symbols<cr>
+    nnoremap <silent><nowait> <leader><leader>s  :<C-u>Telescope coc workspace_symbols<CR>
 
 else
 
     """ clap
-    nnoremap <leader>fo <cmd>Clap<cr>
-    nnoremap <leader>ff <cmd>Clap files<cr>
-    nnoremap <leader>fg <cmd>Clap grep ++query=<cword><cr>
-    nnoremap <leader>fv <cmd>Clap live_grep<cr>
-    nnoremap <leader>fb <cmd>Clap buffers<cr>
-    nnoremap <leader>fh <cmd>Clap help_tags<cr>
+    nnoremap <silent><nowait> <leader><leader>f  :<C-u>Clap<CR>
+    nnoremap <leader>fo <cmd>Clap<CR>
+    nnoremap <leader>ff <cmd>Clap files<CR>
+    nnoremap <leader>fg <cmd>Clap grep ++query=<cword><CR>
+    nnoremap <leader>fv <cmd>Clap live_grep<CR>
+    nnoremap <leader>fb <cmd>Clap buffers<CR>
+    nnoremap <leader>fh <cmd>Clap help_tags<CR>
 
     """ coc-clap
     " Show all diagnostics.
-    nnoremap <silent><nowait> <leader><leader>e  :<C-u>Clap coc_diagnostics<cr>
+    nnoremap <silent><nowait> <leader><leader>e  :<C-u>Clap coc_diagnostics<CR>
     " Manage extensions.
-    nnoremap <silent><nowait> <leader><leader>X  :<C-u>CocList extensions<cr>
+    nnoremap <silent><nowait> <leader><leader>X  :<C-u>CocList extensions<CR>
     " Show commands.
-    nnoremap <silent><nowait> <leader><leader>m  :<C-u>Clap coc_commands<cr>
-    nnoremap <silent><nowait> <leader>:  :<C-u>Clap coc_commands<cr>
+    nnoremap <silent><nowait> <leader><leader>m  :<C-u>Clap coc_commands<CR>
+    nnoremap <silent><nowait> <leader>:  :<C-u>Clap coc_commands<CR>
     " Find symbol of current document.
-    nnoremap <silent><nowait> <leader><leader>o  :<C-u>Clap coc_outline<cr>
+    nnoremap <silent><nowait> <leader><leader>o  :<C-u>Clap coc_outline<CR>
     " Search workspace symbols.
-    nnoremap <silent><nowait> <leader><leader>s  :<C-u>Clap coc_symbols<cr>
+    nnoremap <silent><nowait> <leader><leader>s  :<C-u>Clap coc_symbols<CR>
 
 endif
