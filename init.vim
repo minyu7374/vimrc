@@ -146,6 +146,7 @@ augroup end
 
 """----- 按键映射 -----"""
 
+""" 方便使用的短命令/小功能
 " 将;映射成: 不用按shift了(避免手残,变成切换中文,和输入中文的 ；)
 map ; :
 " 在编辑模式下将CTRL+Q映射到Esc，方便emacs里使用时避免vterm和evil的冲突
@@ -154,14 +155,27 @@ map! <C-Q> <Esc>
 " 重新加载配置
 nnoremap R :source $MYVIMRC<CR>
 
-" 方便使用的短命令
+" 插入空行
 noremap <nowait> <leader>o o<Esc>k
 noremap <nowait> <leader>O O<Esc>j
+
+" w/q
 noremap <nowait> <leader>w :w<CR> 
 noremap <nowait> <leader>q :q<CR> 
 noremap <nowait> <leader>W :w !sudo tee %<CR> 
 
-" tab
+" 去除高亮
+noremap <silent><leader>/ :nohls<CR>
+noremap <silent><leader><CR> :nohls<CR>
+
+" 调整缩进后自动选中，方便再次操作 
+vnoremap < <gv 
+vnoremap > >gv 
+
+" 插入当前时间
+map <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<cr><ESC>
+
+""" tab
 nnoremap tn  :tabnew<CR>
 nnoremap te  :tabedit<Space>
 nnoremap td  :tabclose<CR>
@@ -189,14 +203,6 @@ inoremap <C-t>     <Esc>:tabnew<CR>
 nnoremap <C-Tab>   :tabnext<CR>
 inoremap <C-Tab>   <Esc>:tabnext<CR>
 
-" 去除高亮
-noremap <silent><leader>/ :nohls<CR>
-noremap <silent><leader><CR> :nohls<CR>
-
-" 调整缩进后自动选中，方便再次操作 
-vnoremap < <gv 
-vnoremap > >gv 
-
 """ 复制粘贴(不破坏原来的Ctrl+A/V)
 vmap Y "+y
 noremap P "+p
@@ -210,10 +216,6 @@ map <M-a> ggVG"+y
 map! <M-a> <Esc>ggVG"+y
 map <M-v> ggVG"+p
 map! <M-v> <Esc>ggVG"+p
-
-""" 小功能
-" 插入当前时间
-map <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<cr><ESC>
 
 """ panel 相关 
 " 分屏
