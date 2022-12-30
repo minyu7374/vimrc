@@ -1,2 +1,13 @@
 {
+    "python.formatting.provider": "black",
+    "coc.preferences.formatOnSaveFiletypes": [
+        "c",
+        "cpp",
+        "go",
+        "python",
+        "markdown",
+        "json",
+        "yaml",
+        "toml"
+    ]
 }

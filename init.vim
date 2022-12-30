@@ -7,6 +7,8 @@ if has('linux')
     let g:python3_host_prog = '/usr/bin/python'
 elseif has('mac') 
     let g:python3_host_prog = '/opt/local/bin/python'
+elseif has('win64') || has('win32')
+    let g:python3_host_prog = 'C:\Python311\python.exe'
 endif
 
 """ 编码相关
@@ -136,6 +138,7 @@ augroup my_group
 
     """ 特定文件类型执行
     autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mt :!Typora % &<CR><CR>       
+    autocmd BufRead,BufNewFile *.py map <leader>pz :set foldmethod=indent<CR>
     
     " 光标恢复上次位置
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -146,6 +149,7 @@ augroup end
 
 """----- 按键映射 -----"""
 
+""" 方便使用的短命令/小功能
 " 将;映射成: 不用按shift了(避免手残,变成切换中文,和输入中文的 ；)
 map ; :
 " 在编辑模式下将CTRL+Q映射到Esc，方便emacs里使用时避免vterm和evil的冲突
@@ -154,14 +158,28 @@ map! <C-Q> <Esc>
 " 重新加载配置
 nnoremap R :source $MYVIMRC<CR>
 
-" 方便使用的短命令
+" 插入空行
 noremap <nowait> <leader>o o<Esc>k
 noremap <nowait> <leader>O O<Esc>j
+
+" 文件打开关闭保存等操作
 noremap <nowait> <leader>w :w<CR> 
 noremap <nowait> <leader>q :q<CR> 
 noremap <nowait> <leader>W :w !sudo tee %<CR> 
+noremap <nowait> <leader>e :Explore<CR>
 
-" tab
+" 去除高亮
+noremap <silent><leader>/ :nohls<CR>
+noremap <silent><leader><CR> :nohls<CR>
+
+" 调整缩进后自动选中，方便再次操作 
+vnoremap < <gv 
+vnoremap > >gv 
+
+" 插入当前时间
+map <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<CR><ESC>
+
+""" tab
 nnoremap tn  :tabnew<CR>
 nnoremap te  :tabedit<Space>
 nnoremap td  :tabclose<CR>
@@ -189,14 +207,6 @@ inoremap <C-t>     <Esc>:tabnew<CR>
 nnoremap <C-Tab>   :tabnext<CR>
 inoremap <C-Tab>   <Esc>:tabnext<CR>
 
-" 去除高亮
-noremap <silent><leader>/ :nohls<CR>
-noremap <silent><leader><CR> :nohls<CR>
-
-" 调整缩进后自动选中，方便再次操作 
-vnoremap < <gv 
-vnoremap > >gv 
-
 """ 复制粘贴(不破坏原来的Ctrl+A/V)
 vmap Y "+y
 noremap P "+p
@@ -210,10 +220,6 @@ map <M-a> ggVG"+y
 map! <M-a> <Esc>ggVG"+y
 map <M-v> ggVG"+p
 map! <M-v> <Esc>ggVG"+p
-
-""" 小功能
-" 插入当前时间
-map <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<cr><ESC>
 
 """ panel 相关 
 " 分屏
@@ -285,8 +291,8 @@ call plug#begin()
     Plug 'cespare/vim-toml', {'branch': 'main', 'for': 'toml', }
     Plug 'elzr/vim-json', { 'for' : 'json' }
     Plug 'jceb/vim-orgmode'
+    Plug 'tpope/vim-fugitive'
 
-    Plug 'Chiel92/vim-autoformat'
     Plug 'scrooloose/nerdcommenter'
     Plug 'Yggdroot/indentLine', { 'for': 'python' }
     Plug 'dkarter/bullets.vim'
@@ -323,7 +329,7 @@ call plug#begin()
 call plug#end()
 
 """ colorscheme
-:execute 'colorscheme' has('linux') ? 'nordfox' : 'duskfox'
+:execute 'colorscheme' has('mac') ? 'duskfox' : 'nordfox'
 set cursorlineopt=screenline
 set cursorline
 
@@ -374,8 +380,8 @@ endfunction
 let g:coc_snippet_next = '<tab>'
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+" format on enter, <CR> could be remapped by other vim plugin
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " trigger completion.
@@ -417,7 +423,7 @@ augroup coc_group
   " Highlight the symbol and its references when holding the cursor.
   autocmd CursorHold * silent call CocActionAsync('highlight')
   " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  autocmd FileType c,cpp,go,rust,bash,awk,python,typescript,sql,json,toml,yaml,vim setl formatexpr=CocAction('formatSelected')
   " Update signature help on jump placeholder.
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
@@ -446,8 +452,8 @@ omap ac <Plug>(coc-classobj-a)
 if has('nvim-0.4.0') || has('patch-8.2.0750')
     nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
     nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-    inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-    inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+    inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<CR>" : "\<Right>"
+    inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<CR>" : "\<Left>"
     vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
     vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
@@ -465,6 +471,10 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+nmap <leader>fc :Format<CR>
+nmap <leader>fz :Fold<CR>
+nmap <leader>fi :OR<CR>
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
@@ -680,21 +690,6 @@ let g:NERDSpaceDelims=1
 " 取消注释后空行中的空格删除
 let g:NERDTrimTrailingWhitespace=1
 
-""" vim-autoformat
-noremap <leader>fc :Autoformat<CR>
-let g:autoformat_verbosemode=1
-" let g:autoformat_autoindent = 0
-" let g:autoformat_retab = 0
-" let g:autoformat_remove_trailing_spaces = 0
-let g:formatters_python = ['black']
-
-augroup autoformat_group
-    au!
-    " au BufWrite * :Autoformat
-    autocmd FileType c,cpp,java,go,php,haskell,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :Autoformat
-    autocmd FileType vim,tex let b:autoformat_autoindent=0
-augroup end
-
 """ NERDTree
 map <leader>tr :NERDTreeToggle<CR>
 augroup nerdtree_group
@@ -758,12 +753,27 @@ nmap t <Plug>(easymotion-t2)
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
-map <leader><leader>j <Plug>(easymotion-j)
-map <leader><leader>k <Plug>(easymotion-k)
-map <leader><leader>h <Plug>(easymotion-linebackward)
-map <leader><leader>l <Plug>(easymotion-lineforward)
-map <leader><leader>f <Plug>(easymotion-bd-f)
-map <leader><leader>. <Plug>(easymotion-repeat)
+map <leader>j <Plug>(easymotion-j)
+map <leader>k <Plug>(easymotion-k)
+map <leader>h <Plug>(easymotion-linebackward)
+map <leader>l <Plug>(easymotion-lineforward)
+map <leader>. <Plug>(easymotion-repeat)
+
+""" git
+map <leader>gs :Git status<CR>
+map <leader>gc :Git commit<CR>
+map <leader>gC :Git commit -v<CR>
+map <leader>gp :Git push<CR>
+
+map <leader>ga :Git add %<CR>
+map <leader>gr :Gread<CR>
+map <leader>gw :Gwrite<CR>
+map <leader>gm :GMove<CR>
+map <leader>gd :GDelete<CR>
+
+map <leader>gg :Ggrep<space>
+map <leader>gv :Gvdiffsplit<CR>
+map <leader>gV :Gvdiffsplit<space>
 
 """ rainbow
 let g:rainbow_active = 1
@@ -789,11 +799,15 @@ let g:floaterm_keymap_toggle = '<leader>tf'
 
 """ tmux 相关
 " Write all buffers before navigating from Vim to tmux pane
-let g:tmux_navigator_save_on_switch = 1
+let g:tmux_navigjtor_save_on_switch = 1
 
 if has('nvim')
 
     """ nvim-treesitter 高亮强化
+    set foldmethod=expr
+    set foldexpr=nvim_treesitter#foldexpr()
+    set nofoldenable            " Disable folding at startup.
+
     lua <<EOF
 require'nvim-treesitter.configs'.setup {
     -- one of "all", "language", or a list of languages
@@ -801,26 +815,41 @@ require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,              -- false will disable the whole extension
     },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_snlection = "<CR>",   -- set to `false` to disable one of the mappings
+          node_incremental = "<CR>",
+          scope_incremental = "<BS>",
+          node_decremental = "<TAB>",
+        },
+    },
+    -- Indentation based on treesitter for the = operator. NOTE: This is an experimental feature.
+    indent = {
+        enable = true,
+    },
 }
 EOF
 
     """ telescope
     " Find files using Telescope command-line sugar.
-    nnoremap <leader>fo <cmd>Telescope<cr>
-    nnoremap <leader>ff <cmd>Telescope find_files<cr>
-    nnoremap <leader>fg <cmd>Telescope grep_string<cr>
-    nnoremap <leader>fv <cmd>Telescope live_grep<cr>
-    nnoremap <leader>fb <cmd>Telescope buffers<cr>
-    nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+    nnoremap <silent><nowait> <leader><leader>f  :<C-u>Telescope<CR>
+    nnoremap <leader>fo <cmd>Telescope<CR>
+    nnoremap <leader>ff <cmd>Telescope find_files<CR>
+    nnoremap <leader>fg <cmd>Telescope grep_string<CR>
+    nnoremap <leader>fv <cmd>Telescope live_grep<CR>
+    nnoremap <leader>fb <cmd>Telescope buffers<CR>
+    nnoremap <leader>fh <cmd>Telescope help_tags<CR>
 
 else
 
     """ clap
-    nnoremap <leader>fo <cmd>Clap<cr>
-    nnoremap <leader>ff <cmd>Clap files<cr>
-    nnoremap <leader>fg <cmd>Clap grep ++query=<cword><cr>
-    nnoremap <leader>fv <cmd>Clap live_grep<cr>
-    nnoremap <leader>fb <cmd>Clap buffers<cr>
-    nnoremap <leader>fh <cmd>Clap help_tags<cr>
+    nnoremap <silent><nowait> <leader><leader>f  :<C-u>Clap<CR>
+    nnoremap <leader>fo <cmd>Clap<CR>
+    nnoremap <leader>ff <cmd>Clap files<CR>
+    nnoremap <leader>fg <cmd>Clap grep ++query=<cword><CR>
+    nnoremap <leader>fv <cmd>Clap live_grep<CR>
+    nnoremap <leader>fb <cmd>Clap buffers<CR>
+    nnoremap <leader>fh <cmd>Clap help_tags<CR>
 
 endif
