@@ -179,6 +179,11 @@ vnoremap > >gv
 " 插入当前时间
 map <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<CR><ESC>
 
+" 不让*跳转: https://stackoverflow.com/questions/4256697/vim-search-and-highlight-but-do-not-jump
+" nnoremap * :keepjumps normal! mi*`i<CR>
+nnoremap <silent> * :let @/= '\<' . expand('<cword>') . '\>' <Bar> set hls <CR>
+nnoremap <silent> g* :let @/=expand('<cword>') <Bar> set hls <CR>
+
 """ tab
 nnoremap tn  :tabnew<CR>
 nnoremap te  :tabedit<Space>
