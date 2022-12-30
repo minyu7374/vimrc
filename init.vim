@@ -272,7 +272,10 @@ endfunction
 " vim: curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " nvim: sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 call plug#begin()
+    Plug 'junegunn/fzf', {'dir': '~/.fzf','do': './install --all'}
+    Plug 'junegunn/fzf.vim' " needed for previews
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
     Plug 'honza/vim-snippets'
     Plug 'w0rp/ale'
 
@@ -469,22 +472,22 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
-nnoremap <silent><nowait> <leader><leader>c  :<C-u>CocList<cr>
+nnoremap <silent><nowait> <leader><leader>c  :<C-u>CocFzfList<cr>
 " Show all diagnostics.
-nnoremap <silent><nowait> <leader><leader>e  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <leader><leader>e  :<C-u>CocFzfList diagnostics<cr>
 " Manage extensions.
-nnoremap <silent><nowait> <leader><leader>x  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <leader><leader>x  :<C-u>CocFzfList extensions<cr>
 " Extensions marketplace.
-nnoremap <silent><nowait> <leader><leader>p  :<C-u>CocList marketplace<cr>
+nnoremap <silent><nowait> <leader><leader>p  :<C-u>CocFzfList marketplace<cr>
 " Show commands.
-nnoremap <silent><nowait> <leader><leader>m  :<C-u>CocList commands<cr>
-nnoremap <silent><nowait> <leader>:  :<C-u>CocList commands<cr>
+nnoremap <silent><nowait> <leader><leader>m  :<C-u>CocFzfList commands<cr>
+nnoremap <silent><nowait> <leader>:  :<C-u>CocFzfList commands<cr>
 " Find symbol of current document.
-nnoremap <silent><nowait> <leader><leader>o  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <leader><leader>o  :<C-u>CocFzfList outline<cr>
 " Search workspace symbols.
-nnoremap <silent><nowait> <leader><leader>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait> <leader><leader>s  :<C-u>CocFzfList -I symbols<cr>
 " Resume latest coc list.
-nnoremap <silent><nowait> <leader><leader>r  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <leader><leader>r  :<C-u>CocFzfListResume<CR>
 " Do default action for next item.
 nnoremap <silent><nowait> <leader>cj  :<C-u>CocNext<CR>
 " Do default action for previous item.
