@@ -137,7 +137,9 @@ augroup my_group
     au!
 
     """ 特定文件类型执行
-    autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mt :!Typora % &<CR><CR>       
+    " autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mt :!Typora % &<CR><CR>
+    let b:sys_open=has('linux') ? 'xdg-open' : 'open'
+    autocmd BufRead,BufNewFile * map <leader>mo :execute '!' . b:sys_open '% &'<CR><CR>
     autocmd BufRead,BufNewFile *.py map <leader>pz :set foldmethod=indent<CR>
     
     " 光标恢复上次位置
@@ -163,10 +165,10 @@ noremap <nowait> <leader>o o<Esc>k
 noremap <nowait> <leader>O O<Esc>j
 
 " 文件打开关闭保存等操作
-noremap <nowait> <leader>w :w<CR> 
-noremap <nowait> <leader>q :q<CR> 
-noremap <nowait> <leader>W :w !sudo tee %<CR> 
-noremap <nowait> <leader>e :Explore<CR>
+noremap <silent><nowait> <leader>w :w<CR>
+noremap <silent><nowait> <leader>q :q<CR>
+noremap <silent><nowait> <leader>W :w !sudo tee %<CR>
+noremap <silent><nowait> <leader>e :Explore<CR>
 
 " 去除高亮
 noremap <silent><leader>/ :nohls<CR>
