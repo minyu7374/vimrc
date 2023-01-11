@@ -1,4 +1,14 @@
 {
+    "markdownlint.config": {
+        "line-length": false,
+        "fenced-code-language": false,
+        "no-inline-html": false,
+        "no-duplicate-header": false,
+        "no-emphasis-as-header": false,
+        "MD007": {
+            "indent": 4
+        },
+    },
     "python.formatting.provider": "black",
     "coc.preferences.formatOnSaveFiletypes": [
         "c",

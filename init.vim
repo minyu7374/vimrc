@@ -54,7 +54,7 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 
-""" 匹配语法高亮等
+""" 搜索匹配语法高亮等
 syntax on              
 " 当光标置于成对符号（例如括号）时，高亮匹配的符号对
 set showmatch           
@@ -64,15 +64,15 @@ set ignorecase
 set smartcase
 exec 'nohlsearch'
 
+" For regular expressions turn magic on
+set magic
+
 """ 特性
 " 去掉vi兼容性（set nocp）
 " set nocompatible
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
-
-" For regular expressions turn magic on
-set magic
 
 set mouse-=a
 
@@ -137,7 +137,9 @@ augroup my_group
     au!
 
     """ 特定文件类型执行
-    autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mt :!Typora % &<CR><CR>       
+    " autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mt :!Typora % &<CR><CR>
+    let b:sys_open=has('linux') ? 'xdg-open' : 'open'
+    autocmd BufRead,BufNewFile * map <leader>mo :execute '!' . b:sys_open '% &'<CR><CR>
     autocmd BufRead,BufNewFile *.py map <leader>pz :set foldmethod=indent<CR>
     
     " 光标恢复上次位置
@@ -163,10 +165,10 @@ noremap <nowait> <leader>o o<Esc>k
 noremap <nowait> <leader>O O<Esc>j
 
 " 文件打开关闭保存等操作
-noremap <nowait> <leader>w :w<CR> 
-noremap <nowait> <leader>q :q<CR> 
-noremap <nowait> <leader>W :w !sudo tee %<CR> 
-noremap <nowait> <leader>e :Explore<CR>
+noremap <silent><nowait> <leader>w :w<CR>
+noremap <silent><nowait> <leader>q :q<CR>
+noremap <silent><nowait> <leader>W :w !sudo tee %<CR>
+noremap <silent><nowait> <leader>e :Explore<CR>
 
 " 去除高亮
 noremap <silent><leader>/ :nohls<CR>
@@ -178,6 +180,11 @@ vnoremap > >gv
 
 " 插入当前时间
 map <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<CR><ESC>
+
+" 不让*跳转: https://stackoverflow.com/questions/4256697/vim-search-and-highlight-but-do-not-jump
+" nnoremap * :keepjumps normal! mi*`i<CR>
+nnoremap <silent> * :let @/= '\<' . expand('<cword>') . '\>' <Bar> set hls <CR>
+nnoremap <silent> g* :let @/=expand('<cword>') <Bar> set hls <CR>
 
 """ tab
 nnoremap tn  :tabnew<CR>
@@ -552,7 +559,7 @@ xmap ag <Plug>(coc-git-chunk-outer)
 " The easiest way to get both plugins to work together is to configure coc.nvim to send diagnostics to ALE, so ALE controls how all problems are presented to you, and to disable all LSP features in ALE, so ALE doesn't try to provide LSP features already provided by coc.nvim, such as auto-completion.
 " Open your coc.nvim configuration file with :CocConfig and add "diagnostic.displayByAle": true to your settings.
 " Add let g:ale_disable_lsp = 1 to your vimrc file, before plugins are loade
-" 方案选择: 正常使用coc的功能(不向ale传递)；默认不开启ale，同时关闭ale的lsp特性，不必提供coc提供过的功能
+" 方案选择: 正常使用coc的功能(不向ale传递诊断信息)；默认不开启ale，同时关闭ale的lsp特性，不必提供coc提供过的功能
 let g:ale_enabled = 0
 let g:ale_disable_lsp = 1
 
@@ -666,9 +673,9 @@ let g:ale_echo_msg_warning_str = '⚠'
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
 
-""" vim-go
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
+" """ vim-go
+" let g:go_def_mode='gopls'
+" let g:go_info_mode='gopls'
 
 """ markdown
 let g:vim_markdown_toc_autofit = 1
