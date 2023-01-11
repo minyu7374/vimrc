@@ -54,7 +54,7 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 
-""" 匹配语法高亮等
+""" 搜索匹配语法高亮等
 syntax on              
 " 当光标置于成对符号（例如括号）时，高亮匹配的符号对
 set showmatch           
@@ -64,15 +64,15 @@ set ignorecase
 set smartcase
 exec 'nohlsearch'
 
+" For regular expressions turn magic on
+set magic
+
 """ 特性
 " 去掉vi兼容性（set nocp）
 " set nocompatible
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
-
-" For regular expressions turn magic on
-set magic
 
 set mouse-=a
 
@@ -549,7 +549,7 @@ xmap ag <Plug>(coc-git-chunk-outer)
 " The easiest way to get both plugins to work together is to configure coc.nvim to send diagnostics to ALE, so ALE controls how all problems are presented to you, and to disable all LSP features in ALE, so ALE doesn't try to provide LSP features already provided by coc.nvim, such as auto-completion.
 " Open your coc.nvim configuration file with :CocConfig and add "diagnostic.displayByAle": true to your settings.
 " Add let g:ale_disable_lsp = 1 to your vimrc file, before plugins are loade
-" 方案选择: 正常使用coc的功能(不向ale传递)；默认不开启ale，同时关闭ale的lsp特性，不必提供coc提供过的功能
+" 方案选择: 正常使用coc的功能(不向ale传递诊断信息)；默认不开启ale，同时关闭ale的lsp特性，不必提供coc提供过的功能
 let g:ale_enabled = 0
 let g:ale_disable_lsp = 1
 
@@ -663,9 +663,9 @@ let g:ale_echo_msg_warning_str = '⚠'
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
 
-""" vim-go
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
+" """ vim-go
+" let g:go_def_mode='gopls'
+" let g:go_info_mode='gopls'
 
 """ markdown
 let g:vim_markdown_toc_autofit = 1
