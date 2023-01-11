@@ -294,6 +294,7 @@ call plug#begin()
     Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
     Plug 'cespare/vim-toml', {'branch': 'main', 'for': 'toml', }
     Plug 'elzr/vim-json', { 'for' : 'json' }
+    Plug 'tpope/vim-speeddating'
     Plug 'jceb/vim-orgmode'
     Plug 'tpope/vim-fugitive'
 
