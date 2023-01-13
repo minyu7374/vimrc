@@ -809,7 +809,7 @@ if has('nvim')
     lua <<EOF
 require'nvim-treesitter.configs'.setup {
     -- one of "all", "language", or a list of languages
-    ensure_installed = {'bash', 'awk', 'c', 'cpp', 'go', 'haskell', 'lua', 'python', 'sql', 'html', 'json', 'latex', 'markdown', 'rust', 'toml', 'yaml', 'vim'},
+    ensure_installed = {'bash', 'awk', 'c', 'cpp', 'go', 'rust', 'haskell', 'lua', 'python', 'sql', 'html', 'latex', 'vim'},
     highlight = {
         enable = true,              -- false will disable the whole extension
     },
