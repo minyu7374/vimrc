@@ -132,6 +132,10 @@ augroup complete_group
     " autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
 augroup end
 
+""" haskellmod
+let g:haddock_browser="/usr/bin/elinks"
+let g:haddock_browser_callformat="%s file://%s >/dev/null 2>&1 &"
+
 """----- autocmd -----"""
 augroup my_group
     au!
@@ -144,6 +148,9 @@ augroup my_group
     
     " 光标恢复上次位置
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+    " haskellmod
+    au BufEnter *.hs compiler ghc
 
     " vimrc文件修改之后自动加载
     " autocmd bufwritepost $MYVIMRC source $MYVIMRC
