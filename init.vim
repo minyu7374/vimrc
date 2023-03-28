@@ -328,6 +328,10 @@ call plug#begin()
         Plug 'sharkdp/fd'
         Plug 'nvim-telescope/telescope.nvim'
         Plug 'fannheyward/telescope-coc.nvim'
+
+        Plug 'MunifTanjim/nui.nvim'
+        Plug 'jackMort/ChatGPT.nvim'
+
     else
         Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
         Plug 'vn-ki/coc-clap'
@@ -827,7 +831,14 @@ require'nvim-treesitter.configs'.setup {
         enable = true,
     },
 }
+
+require'chatgpt.config'.setup {
+  keymaps = {
+    submit = "<C-s>"
+  }
+}
 EOF
+
 
     """ telescope
     " Find files using Telescope command-line sugar.
