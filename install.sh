@@ -15,9 +15,13 @@ mkdir -p "${nv_rc_dir}" "${vim_rc_dir}"
 
 install "${pro_dir}/init.vim" "$HOME/.vimrc"
 install "${pro_dir}/coc-settings.json" "${vim_rc_dir}/coc-settings.json"
+install "${pro_dir}/syntax" "${vim_rc_dir}/syntax"
+install "${pro_dir}/filetype.vim" "${vim_rc_dir}/filetype.vim"
 
 install "${pro_dir}/init.vim" "${nv_rc_dir}/init.vim"
 install "${pro_dir}/coc-settings.json" "${nv_rc_dir}/coc-settings.json"
+install "${pro_dir}/syntax" "${nv_rc_dir}/syntax"
+install "${pro_dir}/filetype.vim" "${nv_rc_dir}/filetype.vim"
 
 echo "vim-plug install for vim & nvim"
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
