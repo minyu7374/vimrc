@@ -336,8 +336,8 @@ call plug#begin()
         Plug 'nvim-telescope/telescope.nvim'
         Plug 'fannheyward/telescope-coc.nvim'
 
-        Plug 'MunifTanjim/nui.nvim'
-        Plug 'jackMort/ChatGPT.nvim'
+        Plug 'MunifTanjim/nui.nvim', {'branch': 'main'}
+        Plug 'jackMort/ChatGPT.nvim', {'branch': 'main'}
 
     else
         Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
