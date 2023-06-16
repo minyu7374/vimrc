@@ -81,8 +81,9 @@ set wildmenu
 
 """ 文件读写
 " 共享外部剪贴板
-"set clipboard+=unnamed
-set clipboard^=unnamed,unnamedplus
+if !has("wsl")
+    set clipboard^=unnamed,unnamedplus
+endif
 
 " 切换缓冲区前自动保存文件
 set hidden
