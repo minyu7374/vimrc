@@ -245,19 +245,22 @@ noremap <leader>sk :set nosplitbelow<CR>:split<CR>
 
 " panel切换调整
 " tmux 有对应配置
-nnoremap <C-j> <C-W><C-J>
-nnoremap <C-k> <C-W><C-K>
-nnoremap <C-h> <C-W><C-H>
-nnoremap <C-l> <C-W><C-L>
- 
-nnoremap <leader>wj <C-W><C-J> 
-nnoremap <leader>wk <C-W><C-K> 
-nnoremap <leader>wh <C-W><C-H> 
-nnoremap <leader>wl <C-W><C-L> 
-nnoremap <leader>wv <C-w>v 
-nnoremap <leader>ws <C-w>s 
- 
-" +- 本有上下行的功能，但平时都用JK, 这里不要了 
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-h> <C-W>h
+nnoremap <C-l> <C-W>l
+nnoremap <C-\> <C-W>w
+
+nnoremap <leader>wj <C-W>j
+nnoremap <leader>wk <C-W>k
+nnoremap <leader>wh <C-W>h
+nnoremap <leader>wl <C-W>l
+nnoremap <leader>ww <C-W>w
+nnoremap <leader>w\ <C-W>w
+nnoremap <leader>wv <C-W>v
+nnoremap <leader>ws <C-W>s
+
+" +- 本有上下行的功能，但平时都用JK, 这里不要了，用来调整窗口 
 nnoremap <silent> = :resize +3<CR> 
 nnoremap <silent> + :resize +3<CR> 
 nnoremap <silent> - :resize -3<CR> 
