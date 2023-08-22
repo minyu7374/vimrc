@@ -260,7 +260,7 @@ nnoremap <leader>w\ <C-W>w
 nnoremap <leader>wv <C-W>v
 nnoremap <leader>ws <C-W>s
 
-" +- 本有上下行的功能，但平时都用JK, 这里不要了，用来调整窗口 
+" +- 本有上下行的功能，但平时都用JK, 这里不要了，用来调整窗口
 nnoremap <silent> = :resize +3<CR> 
 nnoremap <silent> + :resize +3<CR> 
 nnoremap <silent> - :resize -3<CR> 
