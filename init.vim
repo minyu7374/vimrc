@@ -524,6 +524,7 @@ let g:coc_global_extensions = [
     \ 'coc-markdownlint',
     \ 'coc-sh',
     \ 'coc-sql',
+    \ 'coc-java',
     \ 'coc-vimlsp',
     \]
 
@@ -582,6 +583,7 @@ let g:ale_linters = {
             \  'lua': ['luacheck'],
             \  'sql': ['sqlint'],
             \  'python': ['flake8'],
+            \  'java': ['javac'],
             \  'markdown': ['mdl'],
             \  'vim': ['vint'],
             \  'html': [],
