@@ -518,7 +518,6 @@ let g:coc_global_extensions = [
     \ 'coc-git',
     \ 'coc-pyright',
     \ 'coc-go',
-    \ 'coc-clangd',
     \ 'coc-snippets', 
     \ 'coc-pairs',
     \ 'coc-markdownlint',
