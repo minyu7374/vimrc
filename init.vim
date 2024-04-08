@@ -310,7 +310,6 @@ call plug#begin()
     Plug 'tpope/vim-fugitive'
 
     Plug 'scrooloose/nerdcommenter'
-    Plug 'Yggdroot/indentLine', { 'for': 'python' }
     Plug 'dkarter/bullets.vim'
 
     Plug 'EdenEast/nightfox.nvim', { 'branch': 'main' }
@@ -332,6 +331,8 @@ call plug#begin()
         Plug 'nvim-tree/nvim-web-devicons'     " optional(file icons)
         Plug 'nvim-tree/nvim-tree.lua'
 
+        Plug 'lukas-reineke/indent-blankline.nvim'
+
         Plug 'rcarriga/nvim-notify'
         Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 
@@ -343,6 +344,9 @@ call plug#begin()
         Plug 'fannheyward/telescope-coc.nvim'
     else
         Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+        "Plug 'Yggdroot/indentLine', { 'for': ['python', 'json'] }
+        Plug 'Yggdroot/indentLine'
 
         Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
         Plug 'vn-ki/coc-clap'
@@ -706,58 +710,8 @@ let g:NERDSpaceDelims=1
 " 取消注释后空行中的空格删除
 let g:NERDTrimTrailingWhitespace=1
 
-
-""" File Explorer (NERDTree/nvim-tree)
-if has('nvim')
-    let g:loaded_netrw = 1
-    let g:loaded_netrwPlugin = 1
-
-    " lua require('nvim-tree').setup()
-    lua <<EOF
-local function self_on_attach(bufnr)
-  local api = require "nvim-tree.api"
-
-  local function opts(desc)
-    return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-  end
-
-  api.config.mappings.default_on_attach(bufnr)
-
-  vim.keymap.set('n', '<C-t>', api.tree.change_root_to_parent,        opts('Up'))
-  vim.keymap.set('n', '?',     api.tree.toggle_help,                  opts('Help'))
-end
-
-require("nvim-tree").setup {
-  on_attach = self_on_attach,
-  sort = { sorter = "case_sensitive", },
-  renderer = { group_empty = true, },
-  --filters = { dotfiles = true, },
-}
-EOF
-
-    map <leader>tr :NvimTreeToggle<CR>
-
-    " 参考nerdtree
-    augroup nvimtree_group
-        au!
-        autocmd StdinReadPre * let s:std_in=1
-        autocmd VimEnter * if (argc() == 0 && !exists('s:std_in') && v:this_session == '') | execute 'NvimTreeFocus' | endif
-    augroup end
-else
-    map <leader>tr :NERDTreeToggle<CR>
-    augroup nerdtree_group
-        au!
-        " Start NERDTree, unless a file or session is specified, eg. vim -S session_file.vim.
-        autocmd StdinReadPre * let s:std_in=1
-        autocmd VimEnter * if (argc() == 0 && !exists('s:std_in') && v:this_session == '') | execute 'NERDTree' | endif
-        " Close the tab if NERDTree is the only window remaining in it.
-        autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-    augroup end
-    let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
-endif
-
 """ vista(tagbar)
-map <leader>ti :Vista!!<CR>
+map <leader>tv :Vista!!<CR>
 
 function! NearestMethodOrFunction() abort
   return get(b:, 'vista_nearest_method_or_function', '')
@@ -855,7 +809,50 @@ let g:floaterm_keymap_toggle = '<leader>tf'
 " Write all buffers before navigating from Vim to tmux pane
 let g:tmux_navigjtor_save_on_switch = 1
 
+"""*** vim/nvim使用不同的插件, 如搜索框架等
 if has('nvim')
+    """ indent-blankline
+    lua <<EOF
+require "ibl".setup { enabled = false }
+EOF
+    autocmd FileType python,json IBLEnable
+    nmap <leader>ti :IBLToggle<CR>
+
+    """ nvim-tree
+    let g:loaded_netrw = 1
+    let g:loaded_netrwPlugin = 1
+
+    " lua require('nvim-tree').setup()
+    lua <<EOF
+local function self_on_attach(bufnr)
+  local api = require "nvim-tree.api"
+
+  local function opts(desc)
+    return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+  end
+
+  api.config.mappings.default_on_attach(bufnr)
+
+  vim.keymap.set('n', '<C-t>', api.tree.change_root_to_parent,        opts('Up'))
+  vim.keymap.set('n', '?',     api.tree.toggle_help,                  opts('Help'))
+end
+
+require("nvim-tree").setup {
+  on_attach = self_on_attach,
+  sort = { sorter = "case_sensitive", },
+  renderer = { group_empty = true, },
+  --filters = { dotfiles = true, },
+}
+EOF
+
+    map <leader>tr :NvimTreeToggle<CR>
+
+    " 参考nerdtree
+    augroup nvimtree_group
+        au!
+        autocmd StdinReadPre * let s:std_in=1
+        autocmd VimEnter * if (argc() == 0 && !exists('s:std_in') && v:this_session == '') | execute 'NvimTreeFocus' | endif
+    augroup end
 
     """ nvim-treesitter 高亮强化
     set foldmethod=expr
@@ -909,6 +906,23 @@ EOF
     nnoremap <silent><nowait> <leader><leader>s  :<C-u>Telescope coc workspace_symbols<CR>
 
 else
+    """ indentline
+    let g:indentLine_enabled = 0
+
+    autocmd FileType python,json IndentLinesEnable
+    nmap <leader>ti :IndentLinesToggle<CR>
+
+    """ nerdtree
+    map <leader>tr :NERDTreeToggle<CR>
+    augroup nerdtree_group
+        au!
+        " Start NERDTree, unless a file or session is specified, eg. vim -S session_file.vim.
+        autocmd StdinReadPre * let s:std_in=1
+        autocmd VimEnter * if (argc() == 0 && !exists('s:std_in') && v:this_session == '') | execute 'NERDTree' | endif
+        " Close the tab if NERDTree is the only window remaining in it.
+        autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+    augroup end
+    let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
 
     """ clap
     nnoremap <silent><nowait> <leader><leader>f  :<C-u>Clap<CR>
