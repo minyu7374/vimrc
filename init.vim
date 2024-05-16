@@ -918,7 +918,8 @@ EOF
     nnoremap <silent><nowait> <leader><leader>f  :<C-u>Telescope<CR>
     nnoremap <leader>fo <cmd>Telescope<CR>
     nnoremap <leader>ff <cmd>Telescope find_files<CR>
-    nnoremap <leader>fg <cmd>Telescope grep_string<CR>
+    " 添加Esc键，方便直接进行选择
+    nnoremap <leader>fg <cmd>Telescope grep_string<CR><Esc>
     nnoremap <leader>fv <cmd>Telescope live_grep<CR>
     nnoremap <leader>fb <cmd>Telescope buffers<CR>
     nnoremap <leader>fh <cmd>Telescope help_tags<CR>
