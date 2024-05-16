@@ -94,6 +94,9 @@ set autoread
 set autowrite
 "set autowriteall
 
+" 默认为粘贴模式
+set paste
+
 " 备份和缓存
 "set backup
 "set backupdir=/tmp/vimbak/
@@ -230,6 +233,9 @@ vmap <C-c> "+y
 vmap <C-y> "+y
 vmap <C-p> "+p
 
+map <leader>po :set paste<CR>
+map <leader>pf :set nopaste<CR>
+
 " 映射全选+复制/粘贴
 map <M-a> ggVG"+y
 map! <M-a> <Esc>ggVG"+y
@@ -312,7 +318,10 @@ call plug#begin()
     Plug 'scrooloose/nerdcommenter'
     Plug 'dkarter/bullets.vim'
 
-    Plug 'EdenEast/nightfox.nvim', { 'branch': 'main' }
+    " Plug 'EdenEast/nightfox.nvim', { 'branch': 'main' }
+    Plug 'joshdick/onedark.vim'
+    "改进各种语言的语法突出显示
+    Plug 'sheerun/vim-polyglot' 
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'luochen1990/rainbow'
@@ -355,12 +364,30 @@ call plug#begin()
 call plug#end()
 
 """ colorscheme
-:execute 'colorscheme' has('mac') ? 'duskfox' : 'nordfox'
+" :execute 'colorscheme' has('mac') ? 'duskfox' : 'nordfox'
+if !has("gui_running")
+  augroup colorset
+    autocmd!
+    " " Make `Function`s bold in GUI mode
+    " autocmd ColorScheme * call onedark#extend_highlight("Function", { "gui": "bold" })
+    " " Override the `Statement` foreground color in 256-color mode
+    " autocmd ColorScheme * call onedark#extend_highlight("Statement", { "fg": { "cterm": 128 } })
+    " " Override the `Identifier` background color in GUI mode
+    " autocmd ColorScheme * call onedark#extend_highlight("Identifier", { "bg": { "gui": "#333333" } })
+    " let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
+    let s:white = { "gui": "#282C34", "cterm": "140", "cterm16": "6" }
+    autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
+  augroup END
+endif
+colorscheme onedark
+" 光标所在行的背景颜色与屏幕上其他可见行的背景颜色相同
 set cursorlineopt=screenline
+" 在光标所在行上绘制一条水平线，使其更易于区分
 set cursorline
 
 """ airline
-let g:airline_theme='deus'
+" deus/dark/onedark/solarized/tomorrow
+let g:airline_theme='onedark'
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
