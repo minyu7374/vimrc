@@ -890,18 +890,22 @@ EOF
 require'nvim-treesitter.configs'.setup {
     -- one of "all", "language", or a list of languages
     ensure_installed = {'bash', 'awk', 'c', 'cpp', 'go', 'rust', 'haskell', 'lua', 'python', 'sql', 'html', 'latex', 'vim'},
+    auto_install = true,
     highlight = {
         enable = true,              -- false will disable the whole extension
     },
-    incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_snlection = "<CR>",   -- set to `false` to disable one of the mappings
-          node_incremental = "<CR>",
-          scope_incremental = "<BS>",
-          node_decremental = "<TAB>",
-        },
-    },
+
+    -- 增量选择有bug，暂时不用
+    -- incremental_selection = {
+    --     enable = true,
+    --     keymaps = {
+    --       init_snlection = "<CR>",   -- set to `false` to disable one of the mappings
+    --       node_incremental = "<CR>",
+    --       scope_incremental = "<BS>",
+    --       node_decremental = "<TAB>",
+    --     },
+    -- },
+
     -- Indentation based on treesitter for the = operator. NOTE: This is an experimental feature.
     indent = {
         enable = true,
