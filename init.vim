@@ -365,17 +365,11 @@ call plug#end()
 
 """ colorscheme
 " :execute 'colorscheme' has('mac') ? 'duskfox' : 'nordfox'
-if !has("gui_running")
+if !empty($STY) && !has("gui_running")
+  " 针对 GNU screen，设置透明背景，避免色彩展示问题（screen会设置STY环境变量）
   augroup colorset
     autocmd!
-    " " Make `Function`s bold in GUI mode
-    " autocmd ColorScheme * call onedark#extend_highlight("Function", { "gui": "bold" })
-    " " Override the `Statement` foreground color in 256-color mode
-    " autocmd ColorScheme * call onedark#extend_highlight("Statement", { "fg": { "cterm": 128 } })
-    " " Override the `Identifier` background color in GUI mode
-    " autocmd ColorScheme * call onedark#extend_highlight("Identifier", { "bg": { "gui": "#333333" } })
-    " let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-    let s:white = { "gui": "#282C34", "cterm": "140", "cterm16": "6" }
+    let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
     autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
   augroup END
 endif
