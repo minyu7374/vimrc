@@ -94,8 +94,8 @@ set autoread
 set autowrite
 "set autowriteall
 
-" 默认为粘贴模式
-set paste
+" 默认为非粘贴模式，避免自动缩进
+set nopaste
 
 " 备份和缓存
 "set backup
@@ -176,7 +176,7 @@ noremap <nowait> <leader>o o<Esc>k
 noremap <nowait> <leader>O O<Esc>j
 
 " 文件打开关闭保存等操作
-noremap <silent><nowait> <leader>w :w<CR>
+noremap <silent><nowait> <leader><leader>w :w<CR>
 noremap <silent><nowait> <leader>q :q<CR>
 noremap <silent><nowait> <leader>W :w !sudo tee %<CR>
 noremap <silent><nowait> <leader>e :Explore<CR>
@@ -233,8 +233,8 @@ vmap <C-c> "+y
 vmap <C-y> "+y
 vmap <C-p> "+p
 
-map <leader>po :set paste<CR>
-map <leader>pf :set nopaste<CR>
+map <leader>y :set nopaste<CR>
+map <leader>Y :set paste<CR>
 
 " 映射全选+复制/粘贴
 map <M-a> ggVG"+y
