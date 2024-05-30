@@ -373,6 +373,10 @@ if !empty($STY) && !has("gui_running")
     autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
   augroup END
 endif
+" if has("nvim")
+    " let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+" endif
+set termguicolors
 colorscheme onedark
 " 光标所在行的背景颜色与屏幕上其他可见行的背景颜色相同
 set cursorlineopt=screenline
