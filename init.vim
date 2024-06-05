@@ -365,6 +365,10 @@ call plug#end()
 
 """ colorscheme
 " :execute 'colorscheme' has('mac') ? 'duskfox' : 'nordfox'
+let g:onedark_color_overrides = {
+            \ "background": {"gui": "#272b34", "cterm": "235", "cterm16": "3" },
+            \ "purple": { "gui": "#C678DF", "cterm": "170", "cterm16": "5" }
+            \}
 if !empty($STY) && !has("gui_running")
   " 针对 GNU screen，设置透明背景，避免色彩展示问题（screen会设置STY环境变量）
   augroup colorset
