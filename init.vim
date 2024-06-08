@@ -366,7 +366,7 @@ call plug#end()
 """ colorscheme
 " :execute 'colorscheme' has('mac') ? 'duskfox' : 'nordfox'
 let g:onedark_color_overrides = {
-            \ "background": {"gui": "#272b34", "cterm": "235", "cterm16": "3" },
+            \ "background": {"gui": "#272b35", "cterm": "235", "cterm16": "3" },
             \ "purple": { "gui": "#C678DF", "cterm": "170", "cterm16": "5" }
             \}
 if !empty($STY) && !has("gui_running")
