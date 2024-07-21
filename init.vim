@@ -7,8 +7,6 @@ if has('linux')
     let g:python3_host_prog = '/usr/bin/python'
 elseif has('mac') 
     let g:python3_host_prog = '/opt/local/bin/python'
-elseif has('win64') || has('win32')
-    let g:python3_host_prog = 'C:\Python311\python.exe'
 endif
 
 """ 编码相关
@@ -137,7 +135,7 @@ augroup complete_group
 augroup end
 
 """ haskellmod
-let g:haddock_browser="/usr/bin/elinks"
+let g:haddock_browser="/usr/bin/w3m"
 let g:haddock_browser_callformat="%s file://%s >/dev/null 2>&1 &"
 
 """----- autocmd -----"""
@@ -307,34 +305,31 @@ call plug#begin()
     Plug 'w0rp/ale'
 
     " Plug 'fatih/vim-go', { 'for': 'go' , 'do': ':GoInstallBinaries' }
-    Plug 'godlygeek/tabular'
+    Plug 'scrooloose/nerdcommenter'
+    Plug 'godlygeek/tabular'                " 文本对齐
+    Plug 'dkarter/bullets.vim'              " 用于增强 Markdown 和其他文档格式中的项目符号列表支持。
     Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
     Plug 'cespare/vim-toml', {'branch': 'main', 'for': 'toml', }
     Plug 'elzr/vim-json', { 'for' : 'json' }
     Plug 'tpope/vim-speeddating'
     Plug 'jceb/vim-orgmode'
-    Plug 'tpope/vim-fugitive'
 
-    Plug 'scrooloose/nerdcommenter'
-    Plug 'dkarter/bullets.vim'
+    Plug 'liuchengxu/vista.vim'             "替代 preservim/tagbar
+    Plug 'mbbill/undotree'
+    Plug 'easymotion/vim-easymotion'
+    Plug 'tpope/vim-fugitive'
 
     " Plug 'EdenEast/nightfox.nvim', { 'branch': 'main' }
     Plug 'joshdick/onedark.vim'
-    "改进各种语言的语法突出显示
-    Plug 'sheerun/vim-polyglot' 
+    Plug 'sheerun/vim-polyglot'             "改进各种语言的语法突出显示
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
-    Plug 'luochen1990/rainbow'
-    Plug 'gorodinskiy/vim-coloresque'
-
-    "替代 preservim/tagbar
-    Plug 'liuchengxu/vista.vim' 
-    Plug 'mbbill/undotree'
-    Plug 'easymotion/vim-easymotion'
+    Plug 'luochen1990/rainbow'              " 提供括号、方括号和花括号的彩虹高亮，方便括号配对查看
+    Plug 'gorodinskiy/vim-coloresque'       " 提供颜色代码的可视化高亮
 
     Plug 'h-hg/fcitx.nvim'
     Plug 'christoomey/vim-tmux-navigator'
-    Plug 'voldikss/vim-floaterm'
+    Plug 'voldikss/vim-floaterm'            " 浮动窗口
 
     if has('nvim')
         Plug 'nvim-tree/nvim-web-devicons'     " optional(file icons)

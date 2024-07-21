@@ -1,24 +1,23 @@
 {
-    "markdownlint.config": {
-        "line-length": false,
-        "fenced-code-language": false,
-        "no-inline-html": false,
-        "no-duplicate-header": false,
-        "no-emphasis-as-header": false,
-        "MD007": {
-            "indent": 4
-        },
-    },
-    "python.formatting.provider": "black",
-    "coc.preferences.formatOnSaveFiletypes": [
-        "c",
-        "cpp",
-        "go",
-        "python",
-        "markdown",
-        "json",
-        "yaml",
-        "toml"
-    ],
-    "snippets.ultisnips.pythonPrompt": false
+  "markdownlint.config": {
+    "line-length": false,
+    "fenced-code-language": false,
+    "no-inline-html": false,
+    "no-duplicate-header": false,
+    "no-emphasis-as-header": false,
+    "MD007": {
+      "indent": 4
+    }
+  },
+  "python.formatting.provider": "black",
+  "coc.preferences.formatOnSaveFiletypes": [
+    "c",
+    "cpp",
+    "go",
+    "python",
+    "markdown",
+    "json",
+    "yaml",
+    "toml"
+  ]
 }
