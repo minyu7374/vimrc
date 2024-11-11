@@ -3,12 +3,6 @@
 """ 全局配置
 let g:mapleader = ' '
 
-" if has('linux')
-    " let g:python3_host_prog = '/usr/bin/python3'
-" elseif has('mac')
-    " let g:python3_host_prog = '/opt/homebrew/bin/python3'
-" endif
-
 """ 编码相关
 set encoding=utf-8
 scriptencoding utf-8
@@ -92,8 +86,8 @@ set autoread
 set autowrite
 "set autowriteall
 
-" 默认为非粘贴模式，避免自动缩进
-set nopaste
+" 非粘贴模式，避免自动缩进
+" set nopaste
 
 " 备份和缓存
 "set backup
@@ -611,27 +605,15 @@ let g:ale_linters = {
             \  'php': ['php -l'],
             \  'sh': ['shellcheck'],
             \  'bash': ['shellcheck'],
-            \  'awk': ['gawk'],
+            \  'awk': ['awk'],
             \  'lua': ['luacheck'],
             \  'sql': ['sqlint'],
-            \  'python': ['flake8'],
+            \  'python': ['pylint'],
             \  'markdown': ['mdl'],
             \  'vim': ['vint'],
             \  'html': [],
             \  'txt': [],
             \}
-
-" 针对python的设置
-let g:ale_python_flake8_executable = 'python3'
-" 理由同 syntastic_python_flake8_args的设置(https://pep8.readthedocs.io/en/release-1.7.x/intro.html#error-codes)
-" let g:ale_python_flake8_options = '-m flake8 --ignore=E501,E225,E124,E712,E116,E131,E401,E402'
-let g:ale_python_flake8_options = '-m flake8 --ignore=E501,E401,E402,E722'
-
-augroup ale_python_group
-    au!
-    autocmd FileType python nnoremap <leader>p2 :let g:ale_python_flake8_executable = 'python2'<CR>
-    autocmd FileType python nnoremap <leader>p3 :let g:ale_python_flake8_executable = 'python3'<CR>
-augroup end
 
 " ale行为控制
 " " run linters only when I save files
