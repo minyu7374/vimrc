@@ -314,6 +314,7 @@ call plug#begin()
     Plug 'tpope/vim-speeddating'
     Plug 'jceb/vim-orgmode'
 
+    Plug 'lambdalisue/vim-pyenv', {'for': 'python'}
     Plug 'liuchengxu/vista.vim'             "替代 preservim/tagbar
     Plug 'mbbill/undotree'
     Plug 'easymotion/vim-easymotion'
