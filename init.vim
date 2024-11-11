@@ -3,11 +3,11 @@
 """ 全局配置
 let g:mapleader = ' '
 
-if has('linux')
-    let g:python3_host_prog = '/usr/bin/python'
-elseif has('mac') 
-    let g:python3_host_prog = '/opt/local/bin/python'
-endif
+" if has('linux')
+    " let g:python3_host_prog = '/usr/bin/python3'
+" elseif has('mac')
+    " let g:python3_host_prog = '/opt/homebrew/bin/python3'
+" endif
 
 """ 编码相关
 set encoding=utf-8
