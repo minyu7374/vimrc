@@ -10,7 +10,7 @@
       "indent": 4
     }
   },
-  "python.formatting.provider": "black",
+  "python.formatting.provider": "yapf",
   "coc.preferences.formatOnSaveFiletypes": [
     "c",
     "cpp",
@@ -20,5 +20,6 @@
     "json",
     "yaml",
     "toml"
-  ]
+  ],
+  "snippets.ultisnips.pythonPrompt": false
 }
