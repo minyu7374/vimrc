@@ -324,6 +324,7 @@ call plug#begin()
 
     Plug 'h-hg/fcitx.nvim'
     Plug 'christoomey/vim-tmux-navigator'
+    Plug 'knubie/vim-kitty-navigator', {'do': 'cp ./*.py ~/.config/kitty/'}
     Plug 'voldikss/vim-floaterm'            " 浮动窗口
 
     if has('nvim')
