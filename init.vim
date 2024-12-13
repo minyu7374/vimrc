@@ -315,12 +315,14 @@ call plug#begin()
     Plug 'tpope/vim-fugitive'
 
     " Plug 'EdenEast/nightfox.nvim', { 'branch': 'main' }
-    Plug 'joshdick/onedark.vim'
+    " Plug 'joshdick/onedark.vim'
+    Plug 'romgrk/doom-one.vim'
     Plug 'sheerun/vim-polyglot'             "改进各种语言的语法突出显示
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'luochen1990/rainbow'              " 提供括号、方括号和花括号的彩虹高亮，方便括号配对查看
-    Plug 'gorodinskiy/vim-coloresque'       " 提供颜色代码的可视化高亮
+    " Plug 'gorodinskiy/vim-coloresque'       " 提供颜色代码的可视化高亮（css等文件）
+    Plug 'lilydjwg/colorizer'               " 不限制文件语言
 
     Plug 'h-hg/fcitx.nvim'
     Plug 'christoomey/vim-tmux-navigator'
@@ -356,23 +358,28 @@ call plug#end()
 
 """ colorscheme
 " :execute 'colorscheme' has('mac') ? 'duskfox' : 'nordfox'
-let g:onedark_color_overrides = {
-            \ "background": {"gui": "#272b35", "cterm": "235", "cterm16": "3" },
-            \ "purple": { "gui": "#C678DF", "cterm": "170", "cterm16": "5" }
-            \}
-if !empty($STY) && !has("gui_running")
-  " 针对 GNU screen，设置透明背景，避免色彩展示问题（screen会设置STY环境变量）
-  augroup colorset
-    autocmd!
-    let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-    autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
-  augroup END
-endif
+
+" let g:onedark_color_overrides = {
+            " \ "background": {"gui": "#272b35", "cterm": "235", "cterm16": "3" },
+            " \ "purple": { "gui": "#C678DF", "cterm": "170", "cterm16": "5" }
+            " \}
+" if !empty($STY) && !has("gui_running")
+  " " 针对 GNU screen，设置透明背景，避免色彩展示问题（screen会设置STY环境变量）
+  " augroup colorset
+    " autocmd!
+    " let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
+    " autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
+  " augroup END
+" endif
 " if has("nvim")
     " let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 " endif
+" colorscheme onedark
 set termguicolors
-colorscheme onedark
+
+colorscheme doom-one
+let g:doom_one_terminal_colors = v:true
+
 " 光标所在行的背景颜色与屏幕上其他可见行的背景颜色相同
 set cursorlineopt=screenline
 " 在光标所在行上绘制一条水平线，使其更易于区分
