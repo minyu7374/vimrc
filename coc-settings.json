@@ -11,15 +11,5 @@
     }
   },
   "python.formatting.provider": "yapf",
-  "coc.preferences.formatOnSaveFiletypes": [
-    "c",
-    "cpp",
-    "go",
-    "python",
-    "markdown",
-    "json",
-    "yaml",
-    "toml"
-  ],
   "snippets.ultisnips.pythonPrompt": false
 }

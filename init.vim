@@ -139,7 +139,7 @@ augroup my_group
     """ 特定文件类型执行
     " autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mt :!Typora % &<CR><CR>
     let b:sys_open=has('linux') ? 'xdg-open' : 'open'
-    autocmd BufRead,BufNewFile * map <leader>mo :execute '!' . b:sys_open '% &'<CR><CR>
+    autocmd BufRead,BufNewFile * map <leader>mo :execute '!' b:sys_open '% &'<CR><CR>
     autocmd BufRead,BufNewFile *.py map <leader>pz :set foldmethod=indent<CR>
     
     " 光标恢复上次位置
@@ -171,6 +171,7 @@ noremap <nowait> <leader>O O<Esc>j
 noremap <silent><nowait> <leader><leader>w :w<CR>
 noremap <silent><nowait> <leader>q :q<CR>
 noremap <silent><nowait> <leader>W :w !sudo tee %<CR>
+noremap <silent><nowait> <leader>Q :q!<CR>
 noremap <silent><nowait> <leader>e :Explore<CR>
 
 " 去除高亮
@@ -467,16 +468,12 @@ endfunction
 " Symbol renaming.
 nmap <leader>cr <Plug>(coc-rename)
 
-" Formatting selected code.
-xmap <leader>cf  <Plug>(coc-format-selected)
-nmap <leader>cf  <Plug>(coc-format-selected)
-
 augroup coc_group
   autocmd!
   " Highlight the symbol and its references when holding the cursor.
   autocmd CursorHold * silent call CocActionAsync('highlight')
   " Setup formatexpr specified filetype(s).
-  autocmd FileType c,cpp,go,rust,bash,awk,python,typescript,sql,json,toml,yaml,vim setl formatexpr=CocAction('formatSelected')
+  autocmd FileType c,cpp,go,python,sql setl formatexpr=CocAction('formatSelected')
   " Update signature help on jump placeholder.
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
@@ -525,9 +522,12 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
-nmap <leader>fc :Format<CR>
-nmap <leader>fz :Fold<CR>
-nmap <leader>fi :OR<CR>
+" Formatting selected code.
+xmap <leader>cs  <Plug>(coc-format-selected)<CR>
+nmap <leader>cs  <Plug>(coc-format-selected)<CR>
+nmap <leader>cf :Format<CR>
+nmap <leader>cz :Fold<CR>
+nmap <leader>ci :OR<CR>
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
@@ -561,6 +561,16 @@ let g:coc_global_extensions = [
     \ 'coc-sql',
     \ 'coc-vimlsp',
     \]
+
+" 结合direnv环境变量控制在不同项目目录下自动格式化的行为
+" coc-setting.conf中不再设置 coc.preferences.formatOnSaveFiletypes
+augroup format_on_save_group
+    au!
+    autocmd BufWritePre *.go,*.rs :call CocAction('format')
+    if $FORMAT_ON_SAVE !=# 'false'
+        autocmd BufWritePre *.c,*.cpp,*.h,*.py,*.md,*.sql :call CocAction('format')
+    endif
+augroup end
 
 """ coc-snippets
 " Use <C-l> for trigger snippet expand.
@@ -877,7 +887,7 @@ EOF
     lua <<EOF
 require'nvim-treesitter.configs'.setup {
     -- one of "all", "language", or a list of languages
-    ensure_installed = {'bash', 'awk', 'c', 'cpp', 'go', 'rust', 'haskell', 'lua', 'python', 'sql', 'html', 'latex', 'vim'},
+    ensure_installed = {'bash', 'awk', 'c', 'cpp', 'go', 'haskell', 'lua', 'python', 'sql', 'html', 'latex', 'vim'},
     auto_install = true,
     highlight = {
         enable = true,              -- false will disable the whole extension
