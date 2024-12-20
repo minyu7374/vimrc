@@ -30,5 +30,9 @@ echo "vim-plug install for vim & nvim"
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
+echo "GitHub Copilot plugin install for vim & nvim"
+git clone https://github.com/github/copilot.vim.git "$vim_rc_dir"/pack/github/start/copilot.vim
+git clone https://github.com/github/copilot.vim.git "$nv_rc_dir"/pack/github/start/copilot.vim 
+
 echo "please add this to .tmux.conf:"
 sed 's/^/\t/g' "${pro_dir}/tmux.conf"
