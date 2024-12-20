@@ -483,13 +483,13 @@ augroup coc_group
 augroup end
 
 " Applying codeAction to the selected region.
-xmap <leader>as <Plug>(coc-codeaction-selected)
-nmap <leader>as <Plug>(coc-codeaction-selected)
+xmap <leader>cas <Plug>(coc-codeaction-selected)
+nmap <leader>cas <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current buffer.
-nmap <leader>aa  <Plug>(coc-codeaction)
+nmap <leader>caa  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
-nmap <leader>af  <Plug>(coc-fix-current)
+nmap <leader>caf  <Plug>(coc-fix-current)
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -572,7 +572,7 @@ augroup format_on_save_group
     au!
     autocmd BufWritePre *.go,*.rs :call CocAction('format')
     if $FORMAT_ON_SAVE !=# 'false'
-        autocmd BufWritePre *.c,*.cpp,*.h,*.py,*.md,*.sql :call CocAction('format')
+        autocmd BufWritePre *.c,*.cpp,*.h,*.py,*.sql :call CocAction('format')
     endif
 augroup end
 
@@ -845,8 +845,27 @@ if has('nvim')
 require("chatgpt").setup {
     -- api_host_cmd = 'echo -n "${CHATANYWHERE_API_HOST:-api.chatanywhere.tech}"',
     api_key_cmd = 'pass chatanywhere/token',
+    openai_params = {
+        model = "gpt-4o-mini",
+    },
+    openai_edit_params = {
+        model = "gpt-4o-mini",
+    },
 }
 EOF
+    nmap <leader>ac :ChatGPT<CR>
+    nmap <leader>ae :ChatGPTEditWithInstruction<CR>
+    nmap <leader>ag :ChatGPTRun grammar_correction<CR>
+    nmap <leader>at :ChatGPTRun translate<CR>
+    nmap <leader>ak :ChatGPTRun keywords<CR>
+    nmap <leader>ad :ChatGPTRun docstring<CR>
+    nmap <leader>aa :ChatGPTRun add_tests<CR>
+    nmap <leader>ao :ChatGPTRun optimize_code<CR>
+    nmap <leader>as :ChatGPTRun summarize<CR>
+    nmap <leader>af :ChatGPTRun fix_bugs<CR>
+    nmap <leader>ax :ChatGPTRun explain_code<CR>
+    nmap <leader>ar :ChatGPTRun roxygen_edit<CR>
+    nmap <leader>al :ChatGPTRun code_readability_analysis<CR>
 
     """ indent-blankline
     lua <<EOF
