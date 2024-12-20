@@ -330,7 +330,11 @@ call plug#begin()
     Plug 'knubie/vim-kitty-navigator', {'do': 'cp ./*.py ~/.config/kitty/'}
     Plug 'voldikss/vim-floaterm'            " 浮动窗口
 
+
     if has('nvim')
+        Plug 'MunifTanjim/nui.nvim'
+        Plug 'jackMort/ChatGPT.nvim'
+
         Plug 'nvim-tree/nvim-web-devicons'     " optional(file icons)
         Plug 'nvim-tree/nvim-tree.lua'
 
@@ -836,6 +840,14 @@ let g:tmux_navigjtor_save_on_switch = 1
 
 """*** vim/nvim使用不同的插件, 如搜索框架等
 if has('nvim')
+    """ ChatGPT
+    lua <<EOF
+require("chatgpt").setup {
+    -- api_host_cmd = 'echo -n "${CHATANYWHERE_API_HOST:-api.chatanywhere.tech}"',
+    api_key_cmd = 'pass chatanywhere/token',
+}
+EOF
+
     """ indent-blankline
     lua <<EOF
 require "ibl".setup { enabled = false }
