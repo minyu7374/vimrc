@@ -212,11 +212,11 @@ nnoremap <leader>8 8gt
 nnoremap <leader>9 9gt
 nnoremap <leader>0 :tablast<CR>
 
-" 新建tab/切换tab  Ctrl+t Ctrl+Tab
-nnoremap <C-t>     :tabnew<CR>
-inoremap <C-t>     <Esc>:tabnew<CR>
-nnoremap <C-Tab>   :tabnext<CR>
-inoremap <C-Tab>   <Esc>:tabnext<CR>
+" 新建tab/切换tab  Alt+t Ctrl+t
+nnoremap <M-t>     :tabnew<CR>
+inoremap <M-t>     <Esc>:tabnew<CR>
+nnoremap <C-t>   :tabnext<CR>
+inoremap <C-t>   <Esc>:tabnext<CR>
 
 """ 复制粘贴(不破坏原来的Ctrl+A/V)
 vmap Y "+y
@@ -428,7 +428,7 @@ inoremap <silent><expr> <TAB>
       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ CheckBackspace() ? "\<TAB>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! CheckBackspace() abort
   let col = col('.') - 1
@@ -712,6 +712,9 @@ let g:ale_echo_msg_warning_str = '⚠'
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
 
+" 新加shift+tab快捷键映射到 copilot#Accept, 作为tab键不可用时的备用组合键（比如在nui浮动窗口中tab键用于切换窗口了）
+imap <silent><nowait><expr>         <S-Tab> copilot#Accept(' . tab_fallback . ')
+
 " """ vim-go
 " let g:go_def_mode='gopls'
 " let g:go_info_mode='gopls'
@@ -843,6 +846,7 @@ if has('nvim')
     """ ChatGPT
     lua <<EOF
 require("chatgpt").setup {
+    -- api_host_cmd 方式一直没成功，先直接将OPENAI_API_HOST环境变量配置成chatanywhere的了
     -- api_host_cmd = 'echo -n "${CHATANYWHERE_API_HOST:-api.chatanywhere.tech}"',
     api_key_cmd = 'pass chatanywhere/token',
     openai_params = {
