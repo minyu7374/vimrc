@@ -332,8 +332,10 @@ call plug#begin()
 
 
     if has('nvim')
-        Plug 'MunifTanjim/nui.nvim'
-        Plug 'jackMort/ChatGPT.nvim'
+        if $USER != 'root'
+            Plug 'MunifTanjim/nui.nvim'
+            Plug 'jackMort/ChatGPT.nvim'
+        endif
 
         Plug 'nvim-tree/nvim-web-devicons'     " optional(file icons)
         Plug 'nvim-tree/nvim-tree.lua'
@@ -844,7 +846,8 @@ let g:tmux_navigjtor_save_on_switch = 1
 """*** vim/nvim使用不同的插件, 如搜索框架等
 if has('nvim')
     """ ChatGPT
-    lua <<EOF
+    if $USER != 'root'
+        lua <<EOF
 require("chatgpt").setup {
     -- api_host_cmd 方式一直没成功，先直接将OPENAI_API_HOST环境变量配置成chatanywhere的了
     -- api_host_cmd = 'echo -n "${CHATANYWHERE_API_HOST:-api.chatanywhere.tech}"',
@@ -857,19 +860,20 @@ require("chatgpt").setup {
     },
 }
 EOF
-    nmap <leader>ac :ChatGPT<CR>
-    nmap <leader>ae :ChatGPTEditWithInstruction<CR>
-    nmap <leader>ag :ChatGPTRun grammar_correction<CR>
-    nmap <leader>at :ChatGPTRun translate<CR>
-    nmap <leader>ak :ChatGPTRun keywords<CR>
-    nmap <leader>ad :ChatGPTRun docstring<CR>
-    nmap <leader>aa :ChatGPTRun add_tests<CR>
-    nmap <leader>ao :ChatGPTRun optimize_code<CR>
-    nmap <leader>as :ChatGPTRun summarize<CR>
-    nmap <leader>af :ChatGPTRun fix_bugs<CR>
-    nmap <leader>ax :ChatGPTRun explain_code<CR>
-    nmap <leader>ar :ChatGPTRun roxygen_edit<CR>
-    nmap <leader>al :ChatGPTRun code_readability_analysis<CR>
+        nmap <leader>ac :ChatGPT<CR>
+        nmap <leader>ae :ChatGPTEditWithInstruction<CR>
+        nmap <leader>ag :ChatGPTRun grammar_correction<CR>
+        nmap <leader>at :ChatGPTRun translate<CR>
+        nmap <leader>ak :ChatGPTRun keywords<CR>
+        nmap <leader>ad :ChatGPTRun docstring<CR>
+        nmap <leader>aa :ChatGPTRun add_tests<CR>
+        nmap <leader>ao :ChatGPTRun optimize_code<CR>
+        nmap <leader>as :ChatGPTRun summarize<CR>
+        nmap <leader>af :ChatGPTRun fix_bugs<CR>
+        nmap <leader>ax :ChatGPTRun explain_code<CR>
+        nmap <leader>ar :ChatGPTRun roxygen_edit<CR>
+        nmap <leader>al :ChatGPTRun code_readability_analysis<CR>
+    endif
 
     """ indent-blankline
     lua <<EOF
