@@ -909,7 +909,7 @@ require("nvim-tree").setup {
 }
 EOF
 
-    map <leader>tr :NvimTreeToggle<CR>
+    map <leader>tt :NvimTreeToggle<CR>
 
     " 参考nerdtree
     augroup nvimtree_group
@@ -982,7 +982,7 @@ else
     nmap <leader>ti :IndentLinesToggle<CR>
 
     """ nerdtree
-    map <leader>tr :NERDTreeToggle<CR>
+    map <leader>tt :NERDTreeToggle<CR>
     augroup nerdtree_group
         au!
         " Start NERDTree, unless a file or session is specified, eg. vim -S session_file.vim.
