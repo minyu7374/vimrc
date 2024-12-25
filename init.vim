@@ -139,8 +139,8 @@ augroup my_group
     """ 特定文件类型执行
     " autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mt :!Typora % &<CR><CR>
     let b:sys_open=has('linux') ? 'xdg-open' : 'open'
-    autocmd BufRead,BufNewFile * map <leader>mo :execute '!' b:sys_open '% &'<CR><CR>
-    autocmd BufRead,BufNewFile *.py map <leader>pz :set foldmethod=indent<CR>
+    autocmd BufRead,BufNewFile * noremap <leader>mo :execute '!' b:sys_open '% &'<CR><CR>
+    autocmd BufRead,BufNewFile *.py noremap <leader>pz :set foldmethod=indent<CR>
     
     " 光标恢复上次位置
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -156,9 +156,9 @@ augroup end
 
 """ 方便使用的短命令/小功能
 " 将;映射成: 不用按shift了(避免手残,变成切换中文,和输入中文的 ；)
-map ; :
+noremap ; :
 " 在编辑模式下将CTRL+Q映射到Esc，方便emacs里使用时避免vterm和evil的冲突
-map! <C-Q> <Esc>
+noremap! <C-Q> <Esc>
 
 " 重新加载配置
 nnoremap R :source $MYVIMRC<CR>
@@ -183,7 +183,7 @@ vnoremap < <gv
 vnoremap > >gv 
 
 " 插入当前时间
-map <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<CR><ESC>
+noremap <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<CR><ESC>
 
 " 不让*跳转: https://stackoverflow.com/questions/4256697/vim-search-and-highlight-but-do-not-jump
 " nnoremap * :keepjumps normal! mi*`i<CR>
@@ -219,21 +219,21 @@ nnoremap <C-t>   :tabnext<CR>
 inoremap <C-t>   <Esc>:tabnext<CR>
 
 """ 复制粘贴(不破坏原来的Ctrl+A/V)
-vmap Y "+y
+vnoremap Y "+y
 noremap P "+p
-vmap P "+p
-vmap <C-c> "+y
-vmap <C-y> "+y
-vmap <C-p> "+p
+vnoremap P "+p
+vnoremap <C-c> "+y
+vnoremap <C-y> "+y
+vnoremap <C-p> "+p
 
-map <leader>y :set nopaste<CR>
-map <leader>Y :set paste<CR>
+noremap <leader>y :set nopaste<CR>
+noremap <leader>Y :set paste<CR>
 
 " 映射全选+复制/粘贴
-map <M-a> ggVG"+y
-map! <M-a> <Esc>ggVG"+y
-map <M-v> ggVG"+p
-map! <M-v> <Esc>ggVG"+p
+noremap <M-a> ggVG"+y
+noremap! <M-a> <Esc>ggVG"+y
+noremap <M-v> ggVG"+p
+noremap! <M-v> <Esc>ggVG"+p
 
 """ panel 相关 
 " 分屏
@@ -274,7 +274,7 @@ nnoremap <silent> < :vertical resize -5<CR>
 "nnoremap <silent> < :exe "vertical resize " . (winwidth(0) * 5/6)<CR> 
 
 " 临时最大化 panel. :only(<C-W>O)不等还原原来的分屏
-nmap <nowait> <leader>z :call Zoom()<CR>
+nnoremap <nowait> <leader>z :call Zoom()<CR>
 function! Zoom ()
     " check if is the zoomed state (tabnumber > 1 && window == 1)
     if tabpagenr('$') > 1 && tabpagewinnr(tabpagenr(), '$') == 1
@@ -449,14 +449,14 @@ inoremap <silent><expr> <c-@> coc#refresh()
 
 " navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> gk <Plug>(coc-diagnostic-prev)
-nmap <silent> gj <Plug>(coc-diagnostic-next)
+nnoremap <silent> gk <Plug>(coc-diagnostic-prev)
+nnoremap <silent> gj <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gy <Plug>(coc-type-definition)
+nnoremap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> gr <Plug>(coc-references)
 
 " show documentation in preview window.
 nnoremap <silent> gK :call <SID>show_documentation()<CR>
@@ -472,7 +472,7 @@ function! s:show_documentation()
 endfunction
 
 " Symbol renaming.
-nmap <leader>cr <Plug>(coc-rename)
+nnoremap <leader>cr <Plug>(coc-rename)
 
 augroup coc_group
   autocmd!
@@ -485,24 +485,24 @@ augroup coc_group
 augroup end
 
 " Applying codeAction to the selected region.
-xmap <leader>cas <Plug>(coc-codeaction-selected)
-nmap <leader>cas <Plug>(coc-codeaction-selected)
+xnoremap <leader>cas <Plug>(coc-codeaction-selected)
+nnoremap <leader>cas <Plug>(coc-codeaction-selected)
 
-" Remap keys for applying codeAction to the current buffer.
-nmap <leader>caa  <Plug>(coc-codeaction)
+" Renoremap keys for applying codeAction to the current buffer.
+nnoremap <leader>caa  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
-nmap <leader>caf  <Plug>(coc-fix-current)
+nnoremap <leader>caf  <Plug>(coc-fix-current)
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap af <Plug>(coc-funcobj-a)
-xmap ic <Plug>(coc-classobj-i)
-omap ic <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
+xnoremap if <Plug>(coc-funcobj-i)
+onoremap if <Plug>(coc-funcobj-i)
+xnoremap af <Plug>(coc-funcobj-a)
+onoremap af <Plug>(coc-funcobj-a)
+xnoremap ic <Plug>(coc-classobj-i)
+onoremap ic <Plug>(coc-classobj-i)
+xnoremap ac <Plug>(coc-classobj-a)
+onoremap ac <Plug>(coc-classobj-a)
 
 " Remap <C-f> and <C-b> for scroll float windows/popups.
 if has('nvim-0.4.0') || has('patch-8.2.0750')
@@ -516,8 +516,8 @@ endif
 
 " Use CTRL-S for selections ranges.
 " Requires 'textDocument/selectionRange' support of language server.
-" nmap <silent> <C-s> <Plug>(coc-range-select)
-xmap <silent> <C-s> <Plug>(coc-range-select)
+" nnoremap <silent> <C-s> <Plug>(coc-range-select)
+xnoremap <silent> <C-s> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
@@ -529,11 +529,11 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Formatting selected code.
-xmap <leader>cs  <Plug>(coc-format-selected)<CR>
-nmap <leader>cs  <Plug>(coc-format-selected)<CR>
-nmap <leader>cf :Format<CR>
-nmap <leader>cz :Fold<CR>
-nmap <leader>ci :OR<CR>
+xnoremap <leader>cs  <Plug>(coc-format-selected)<CR>
+nnoremap <leader>cs  <Plug>(coc-format-selected)<CR>
+nnoremap <leader>cf :Format<CR>
+nnoremap <leader>cz :Fold<CR>
+nnoremap <leader>ci :OR<CR>
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
@@ -580,33 +580,33 @@ augroup end
 
 """ coc-snippets
 " Use <C-l> for trigger snippet expand.
-imap <C-l> <Plug>(coc-snippets-expand)
+inoremap <C-l> <Plug>(coc-snippets-expand)
 
 " Use <C-j> for select text for visual placeholder of snippet.
-vmap <C-j> <Plug>(coc-snippets-select)
+vnoremap <C-j> <Plug>(coc-snippets-select)
 
 " Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
+inoremap <C-j> <Plug>(coc-snippets-expand-jump)
 
 " convert visual selected code to snippet
-xmap <leader>cx  <Plug>(coc-convert-snippet)
+xnoremap <leader>cx  <Plug>(coc-convert-snippet)
 
 """ coc-git
 " navigate chunks of current buffer
-nmap [g <Plug>(coc-git-prevchunk)
-nmap ]g <Plug>(coc-git-nextchunk)
+nnoremap [g <Plug>(coc-git-prevchunk)
+nnoremap ]g <Plug>(coc-git-nextchunk)
 " navigate conflicts of current buffer
-nmap [c <Plug>(coc-git-prevconflict)
-nmap ]c <Plug>(coc-git-nextconflict)
+nnoremap [c <Plug>(coc-git-prevconflict)
+nnoremap ]c <Plug>(coc-git-nextconflict)
 " show chunk diff at current position
-nmap gs <Plug>(coc-git-chunkinfo)
+nnoremap gs <Plug>(coc-git-chunkinfo)
 " show commit contains current position
-nmap gc <Plug>(coc-git-commit)
+nnoremap gc <Plug>(coc-git-commit)
 " create text object for git chunks
-omap ig <Plug>(coc-git-chunk-inner)
-xmap ig <Plug>(coc-git-chunk-inner)
-omap ag <Plug>(coc-git-chunk-outer)
-xmap ag <Plug>(coc-git-chunk-outer)
+onoremap ig <Plug>(coc-git-chunk-inner)
+xnoremap ig <Plug>(coc-git-chunk-inner)
+onoremap ag <Plug>(coc-git-chunk-outer)
+xnoremap ag <Plug>(coc-git-chunk-outer)
 
 """ ale 
 " The easiest way to get both plugins to work together is to configure coc.nvim to send diagnostics to ALE, so ALE controls how all problems are presented to you, and to disable all LSP features in ALE, so ALE doesn't try to provide LSP features already provided by coc.nvim, such as auto-completion.
@@ -617,7 +617,7 @@ let g:ale_enabled = 0
 let g:ale_disable_lsp = 1
 
 " 常用命令映射
-nmap <leader>te :ALEToggle<CR>
+nnoremap <leader>te :ALEToggle<CR>
 nnoremap ej <Plug>(ale_next)
 nnoremap ek <Plug>(ale_previous)
 
@@ -715,7 +715,7 @@ let g:ale_echo_msg_warning_str = '⚠'
 let g:airline#extensions#ale#enabled = 1
 
 " 新加shift+tab快捷键映射到 copilot#Accept, 作为tab键不可用时的备用组合键（比如在nui浮动窗口中tab键用于切换窗口了）
-imap <silent><nowait><expr>         <S-Tab> copilot#Accept(' . tab_fallback . ')
+inoremap <silent><nowait><expr>         <S-Tab> copilot#Accept(' . tab_fallback . ')
 
 " """ vim-go
 " let g:go_def_mode='gopls'
@@ -745,7 +745,7 @@ let g:NERDSpaceDelims=1
 let g:NERDTrimTrailingWhitespace=1
 
 """ vista(tagbar)
-map <leader>tv :Vista!!<CR>
+noremap <leader>tv :Vista!!<CR>
 
 function! NearestMethodOrFunction() abort
   return get(b:, 'vista_nearest_method_or_function', '')
@@ -789,33 +789,33 @@ let g:vista_fzf_preview = ['right:50%']
 """ easymotion
 let g:EasyMotion_smartcase = 1
 
-nmap s <Plug>(easymotion-s2)
-nmap t <Plug>(easymotion-t2)
+nnoremap s <Plug>(easymotion-s2)
+nnoremap t <Plug>(easymotion-t2)
 
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
+noremap  / <Plug>(easymotion-sn)
+onoremap / <Plug>(easymotion-tn)
 
-map <leader>j <Plug>(easymotion-j)
-map <leader>k <Plug>(easymotion-k)
-map <leader>h <Plug>(easymotion-linebackward)
-map <leader>l <Plug>(easymotion-lineforward)
-map <leader>. <Plug>(easymotion-repeat)
+noremap <leader>j <Plug>(easymotion-j)
+noremap <leader>k <Plug>(easymotion-k)
+noremap <leader>h <Plug>(easymotion-linebackward)
+noremap <leader>l <Plug>(easymotion-lineforward)
+noremap <leader>. <Plug>(easymotion-repeat)
 
 """ git
-map <leader>gs :Git status<CR>
-map <leader>gc :Git commit<CR>
-map <leader>gC :Git commit -v<CR>
-map <leader>gp :Git push<CR>
+noremap <leader>gs :Git status<CR>
+noremap <leader>gc :Git commit<CR>
+noremap <leader>gC :Git commit -v<CR>
+noremap <leader>gp :Git push<CR>
 
-map <leader>ga :Git add %<CR>
-map <leader>gr :Gread<CR>
-map <leader>gw :Gwrite<CR>
-map <leader>gm :GMove<CR>
-map <leader>gd :GDelete<CR>
+noremap <leader>ga :Git add %<CR>
+noremap <leader>gr :Gread<CR>
+noremap <leader>gw :Gwrite<CR>
+noremap <leader>gm :GMove<CR>
+noremap <leader>gd :GDelete<CR>
 
-map <leader>gg :Ggrep<space>
-map <leader>gv :Gvdiffsplit<CR>
-map <leader>gV :Gvdiffsplit<space>
+noremap <leader>gg :Ggrep<space>
+noremap <leader>gv :Gvdiffsplit<CR>
+noremap <leader>gV :Gvdiffsplit<space>
 
 """ rainbow
 let g:rainbow_active = 1
@@ -860,19 +860,19 @@ require("chatgpt").setup {
     },
 }
 EOF
-        nmap <leader>ac :ChatGPT<CR>
-        nmap <leader>ae :ChatGPTEditWithInstruction<CR>
-        nmap <leader>ag :ChatGPTRun grammar_correction<CR>
-        nmap <leader>at :ChatGPTRun translate<CR>
-        nmap <leader>ak :ChatGPTRun keywords<CR>
-        nmap <leader>ad :ChatGPTRun docstring<CR>
-        nmap <leader>aa :ChatGPTRun add_tests<CR>
-        nmap <leader>ao :ChatGPTRun optimize_code<CR>
-        nmap <leader>as :ChatGPTRun summarize<CR>
-        nmap <leader>af :ChatGPTRun fix_bugs<CR>
-        nmap <leader>ax :ChatGPTRun explain_code<CR>
-        nmap <leader>ar :ChatGPTRun roxygen_edit<CR>
-        nmap <leader>al :ChatGPTRun code_readability_analysis<CR>
+        noremap <leader>ac :ChatGPT<CR>
+        noremap <leader>ae :ChatGPTEditWithInstruction<CR>
+        noremap <leader>ag :ChatGPTRun grammar_correction<CR>
+        noremap <leader>at :ChatGPTRun translate<CR>
+        noremap <leader>ak :ChatGPTRun keywords<CR>
+        noremap <leader>ad :ChatGPTRun docstring<CR>
+        noremap <leader>aa :ChatGPTRun add_tests<CR>
+        noremap <leader>ao :ChatGPTRun optimize_code<CR>
+        noremap <leader>as :ChatGPTRun summarize<CR>
+        noremap <leader>af :ChatGPTRun fix_bugs<CR>
+        noremap <leader>ax :ChatGPTRun explain_code<CR>
+        noremap <leader>ar :ChatGPTRun roxygen_edit<CR>
+        noremap <leader>al :ChatGPTRun code_readability_analysis<CR>
     endif
 
     """ indent-blankline
@@ -880,7 +880,7 @@ EOF
 require "ibl".setup { enabled = false }
 EOF
     autocmd FileType python,json IBLEnable
-    nmap <leader>ti :IBLToggle<CR>
+    noremap <leader>ti :IBLToggle<CR>
 
     """ nvim-tree
     let g:loaded_netrw = 1
@@ -909,7 +909,7 @@ require("nvim-tree").setup {
 }
 EOF
 
-    map <leader>tt :NvimTreeToggle<CR>
+    noremap <leader>tt :NvimTreeToggle<CR>
 
     " 参考nerdtree
     augroup nvimtree_group
@@ -979,10 +979,10 @@ else
     let g:indentLine_enabled = 0
 
     autocmd FileType python,json IndentLinesEnable
-    nmap <leader>ti :IndentLinesToggle<CR>
+    nnoremap <leader>ti :IndentLinesToggle<CR>
 
     """ nerdtree
-    map <leader>tt :NERDTreeToggle<CR>
+    noremap <leader>tt :NERDTreeToggle<CR>
     augroup nerdtree_group
         au!
         " Start NERDTree, unless a file or session is specified, eg. vim -S session_file.vim.
