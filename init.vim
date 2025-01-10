@@ -129,7 +129,7 @@ augroup complete_group
 augroup end
 
 """ haskellmod
-let g:haddock_browser="/usr/bin/w3m"
+let g:haddock_browser="w3m"
 let g:haddock_browser_callformat="%s file://%s >/dev/null 2>&1 &"
 
 """----- autocmd -----"""
@@ -295,6 +295,9 @@ endfunction
 " vim: curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " nvim: sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 call plug#begin()
+    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] } "On-demand lazy load
+    " Plug 'liuchengxu/vim-which-key'
+
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'honza/vim-snippets'
     Plug 'w0rp/ale'
@@ -362,6 +365,17 @@ call plug#begin()
     endif
 
 call plug#end()
+
+""" WhichKey
+nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+vnoremap <silent> <leader>      :<c-u>WhichKeyVisual '<Space>'<CR>
+nnoremap <silent> <leader><leader>h     :<c-u>WhichKey ''<CR>
+vnoremap <silent> <leader><leader>h      :<c-u>WhichKey ''<CR>
+" By default timeoutlen is 1000 ms
+set timeoutlen=500
+
+" call which_key#register('<Space>', "g:which_key_map")
+" let g:which_key_map =  { 'a' : { "name": "+AI" } }
 
 """ colorscheme
 " :execute 'colorscheme' has('mac') ? 'duskfox' : 'nordfox'
