@@ -155,8 +155,7 @@ augroup end
 """----- 按键映射 -----"""
 
 """ 方便使用的短命令/小功能
-" 将;映射成: 不用按shift了(避免手残,变成切换中文,和输入中文的 ；)
-noremap ; :
+noremap ： :
 " 在编辑模式下将CTRL+Q映射到Esc，方便emacs里使用时避免vterm和evil的冲突
 noremap! <C-Q> <Esc>
 
