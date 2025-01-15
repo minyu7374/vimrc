@@ -727,6 +727,12 @@ let g:ale_echo_msg_warning_str = '⚠'
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
 
+""" copilot
+" 默认不开启
+let g:copilot_enabled = 0
+nnoremap <leader>tg :Copilot enable<CR>
+nnoremap <leader>tG :Copilot disable<CR>
+
 " 新加shift+tab快捷键映射到 copilot#Accept, 作为tab键不可用时的备用组合键（比如在nui浮动窗口中tab键用于切换窗口了）
 inoremap <silent><nowait><expr>         <S-Tab> copilot#Accept(' . tab_fallback . ')
 
