@@ -462,8 +462,8 @@ inoremap <silent><expr> <c-@> coc#refresh()
 
 " navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nnoremap <silent> gk <Plug>(coc-diagnostic-prev)
-nnoremap <silent> gj <Plug>(coc-diagnostic-next)
+nnoremap <silent> g[ <Plug>(coc-diagnostic-prev)
+nnoremap <silent> g] <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nnoremap <silent> gd <Plug>(coc-definition)
@@ -472,7 +472,8 @@ nnoremap <silent> gi <Plug>(coc-implementation)
 nnoremap <silent> gr <Plug>(coc-references)
 
 " show documentation in preview window.
-nnoremap <silent> gK :call <SID>show_documentation()<CR>
+nnoremap <silent> gk :call <SID>show_documentation()<CR>
+nnoremap <Leader>th :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)

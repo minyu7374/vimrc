@@ -1,4 +1,6 @@
 {
+  "inlayHint.enable": false,
+  "inlayHint.position": "eol",
   "suggest.noselect": true,
   "markdownlint.config": {
     "line-length": false,
