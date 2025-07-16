@@ -3,6 +3,9 @@
 """ 全局配置
 let g:mapleader = ' '
 
+""" python
+" let g:python3_host_prog = '/usr/bin/python3'
+
 """ 编码相关
 set encoding=utf-8
 scriptencoding utf-8
@@ -731,8 +734,20 @@ let g:airline#extensions#ale#enabled = 1
 """ copilot
 " 默认不开启
 let g:copilot_enabled = 0
-nnoremap <leader>tg :Copilot enable<CR>
-nnoremap <leader>tG :Copilot disable<CR>
+
+" Copilot 开关
+function! ToggleCopilot()
+  if get(g:, 'copilot_enabled', 0)
+    Copilot disable
+    let g:copilot_enabled = 0
+    echo "Copilot Disabled"
+  else
+    Copilot enable
+    let g:copilot_enabled = 1
+    echo "Copilot Enabled"
+  endif
+endfunction
+nnoremap <leader>tC :call ToggleCopilot()<CR>
 
 " 新加shift+tab快捷键映射到 copilot#Accept, 作为tab键不可用时的备用组合键（比如在nui浮动窗口中tab键用于切换窗口了）
 inoremap <silent><nowait><expr>         <S-Tab> copilot#Accept(' . tab_fallback . ')
