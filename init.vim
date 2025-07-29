@@ -174,7 +174,7 @@ noremap <silent><nowait> <leader><leader>w :w<CR>
 noremap <silent><nowait> <leader>q :q<CR>
 noremap <silent><nowait> <leader>W :w !sudo tee %<CR>
 noremap <silent><nowait> <leader>Q :q!<CR>
-noremap <silent><nowait> <leader>e :Explore<CR>
+noremap <silent><nowait> <leader>E :Explore<CR>
 
 " 去除高亮
 noremap <silent><leader>/ :nohls<CR>
@@ -465,8 +465,11 @@ inoremap <silent><expr> <c-@> coc#refresh()
 
 " navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nnoremap <silent> g[ <Plug>(coc-diagnostic-prev)
-nnoremap <silent> g] <Plug>(coc-diagnostic-next)
+nnoremap <leader>el :CocDiagnostics<CR>
+nnoremap <leader>ep <Plug>(coc-diagnostic-prev)
+nnoremap <leader>en <Plug>(coc-diagnostic-next)
+nnoremap <silent> [e <Plug>(coc-diagnostic-prev)
+nnoremap <silent> ]e <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nnoremap <silent> gd <Plug>(coc-definition)
@@ -476,7 +479,6 @@ nnoremap <silent> gr <Plug>(coc-references)
 
 " show documentation in preview window.
 nnoremap <silent> gk :call <SID>show_documentation()<CR>
-nnoremap <Leader>th :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
