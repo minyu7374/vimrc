@@ -49,6 +49,10 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 
+""" 折叠
+set foldmethod=syntax
+set foldlevel=99
+
 """ 搜索匹配语法高亮等
 syntax on              
 " 当光标置于成对符号（例如括号）时，高亮匹配的符号对
@@ -143,7 +147,6 @@ augroup my_group
     " autocmd BufRead,BufNewFile *.{md,MD,mdown,mkd,mkdn,markdown,mdwn} map <Leader>mt :!Typora % &<CR><CR>
     let b:sys_open=has('linux') ? 'xdg-open' : 'open'
     autocmd BufRead,BufNewFile * noremap <leader>mo :execute '!' b:sys_open '% &'<CR><CR>
-    autocmd BufRead,BufNewFile *.py noremap <leader>pz :set foldmethod=indent<CR>
     
     " 光标恢复上次位置
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -153,6 +156,10 @@ augroup my_group
 
     " vimrc文件修改之后自动加载
     " autocmd bufwritepost $MYVIMRC source $MYVIMRC
+
+    " 大文件禁用foldmethod
+    autocmd BufReadPre * let f=expand("<afile>") | if getfsize(f) > 1024*1024 | setlocal foldmethod=manual | endif
+
 augroup end
 
 """----- 按键映射 -----"""
@@ -302,7 +309,7 @@ call plug#begin()
 
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'honza/vim-snippets'
-    Plug 'w0rp/ale'
+    " Plug 'w0rp/ale'
 
     " Plug 'fatih/vim-go', { 'for': 'go' , 'do': ':GoInstallBinaries' }
     Plug 'scrooloose/nerdcommenter'
@@ -323,18 +330,19 @@ call plug#begin()
     " Plug 'EdenEast/nightfox.nvim', { 'branch': 'main' }
     " Plug 'joshdick/onedark.vim'
     Plug 'romgrk/doom-one.vim'
-    Plug 'sheerun/vim-polyglot'             "改进各种语言的语法突出显示
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'luochen1990/rainbow'              " 提供括号、方括号和花括号的彩虹高亮，方便括号配对查看
-    " Plug 'gorodinskiy/vim-coloresque'       " 提供颜色代码的可视化高亮（css等文件）
-    Plug 'lilydjwg/colorizer'               " 不限制文件语言
+    Plug 'gorodinskiy/vim-coloresque'       " 提供颜色代码的可视化高亮（css等文件）
+    " Plug 'lilydjwg/colorizer'               " 不限制文件语言(大文件卡顿)
 
     Plug 'h-hg/fcitx.nvim'
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'knubie/vim-kitty-navigator', {'do': 'cp ./*.py ~/.config/kitty/'}
     Plug 'voldikss/vim-floaterm'            " 浮动窗口
 
+    Plug 'Yggdroot/indentLine'
+    " Plug 'lukas-reineke/indent-blankline.nvim' " nvim中的，json大文件卡顿，不如统一使用indentLine
 
     if has('nvim')
         if $USER != 'root'
@@ -344,8 +352,6 @@ call plug#begin()
 
         Plug 'nvim-tree/nvim-web-devicons'     " optional(file icons)
         Plug 'nvim-tree/nvim-tree.lua'
-
-        Plug 'lukas-reineke/indent-blankline.nvim'
 
         Plug 'rcarriga/nvim-notify'
         Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
@@ -357,10 +363,8 @@ call plug#begin()
         Plug 'nvim-telescope/telescope.nvim'
         Plug 'fannheyward/telescope-coc.nvim'
     else
+        " Plug 'sheerun/vim-polyglot'             "改进各种语言的语法突出显示(大文件性能差)
         Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-
-        "Plug 'Yggdroot/indentLine', { 'for': ['python', 'json'] }
-        Plug 'Yggdroot/indentLine'
 
         Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
         Plug 'vn-ki/coc-clap'
@@ -627,111 +631,111 @@ xnoremap ig <Plug>(coc-git-chunk-inner)
 onoremap ag <Plug>(coc-git-chunk-outer)
 xnoremap ag <Plug>(coc-git-chunk-outer)
 
-""" ale 
-" The easiest way to get both plugins to work together is to configure coc.nvim to send diagnostics to ALE, so ALE controls how all problems are presented to you, and to disable all LSP features in ALE, so ALE doesn't try to provide LSP features already provided by coc.nvim, such as auto-completion.
-" Open your coc.nvim configuration file with :CocConfig and add "diagnostic.displayByAle": true to your settings.
-" Add let g:ale_disable_lsp = 1 to your vimrc file, before plugins are loade
-" 方案选择: 正常使用coc的功能(不向ale传递诊断信息)；默认不开启ale，同时关闭ale的lsp特性，不必提供coc提供过的功能
-let g:ale_enabled = 0
-let g:ale_disable_lsp = 1
-
-" 常用命令映射
-nnoremap <leader>te :ALEToggle<CR>
-nnoremap ej <Plug>(ale_next)
-nnoremap ek <Plug>(ale_previous)
-
-" 指定启用的linters
-let g:ale_linters = {
-            \  'c': ['clang'],
-            \  'cpp': ['clang'],
-            \  'go': ['golint', 'gopls'],
-            \  'php': ['php -l'],
-            \  'sh': ['shellcheck'],
-            \  'bash': ['shellcheck'],
-            \  'awk': ['awk'],
-            \  'lua': ['luacheck'],
-            \  'sql': ['sqlint'],
-            \  'python': ['pylint'],
-            \  'markdown': ['mdl'],
-            \  'vim': ['vint'],
-            \  'html': [],
-            \  'txt': [],
-            \}
-
-" ale行为控制
-" " run linters only when I save files
-" let g:ale_lint_on_text_changed = 'never'
-" let g:ale_lint_on_insert_leave = 0
-" " don't want linters to run on opening a file
-" let g:ale_lint_on_enter = 0
-
-" " use the quickfix list or the loclist
-" let g:ale_set_quickfix = 1
-" let g:ale_set_loclist = 0
-
-" show Vim windows for the loclist or quickfix items when a file contains warnings or errors
-" let g:ale_open_list = 1
-" keep the window open even after errors disappear
-"let g:ale_keep_list_window_open = 1
-
-" 始终开启标志列设置
-" let g:ale_sign_column_always = 1
-
-" 取消错误处高亮
-" let g:ale_set_highlights = 0
-
-" " If emoji not loaded, use default sign
-" try
-    " "let g:ale_sign_error = emoji#for('boom')
-    " let g:ale_sign_error = emoji#for('eight_pointed_black_star')
-    " let g:ale_sign_warning = emoji#for('small_orange_diamond')
-" catch
-    " let g:ale_sign_error = '✴'
-    " let g:ale_sign_warning = '⚠'
-" endtry
-let g:ale_sign_error = '✴'
-let g:ale_sign_warning = '⚠'
-let g:ale_echo_msg_format = '[%linter%] %severity% %s'
-let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']
-
-" 标记的背景色调整，ALE之前warning默认用的todo太抢眼了
-" highlight clear ALEErrorSign
-" highlight clear ALEWarningSign
-highlight link ALEErrorSign ErrorMsg
-highlight link ALEWarningSign WarningMsg
-
-" For a more fancy ale statusline
-function! ALEGetError()
-    let l:res = ale#statusline#Status()
-    if l:res ==# 'OK'
-        return ''
-    else
-        let l:e_w = split(l:res)
-        if len(l:e_w) == 2 || match(l:e_w, 'E') > -1
-            return ' •' . matchstr(l:e_w[0], '\d\+') .' '
-        endif
-    endif
-endfunction
-
-function! ALEGetWarning()
-    let l:res = ale#statusline#Status()
-    if l:res ==# 'OK'
-        return ''
-    else
-        let l:e_w = split(l:res)
-        if len(l:e_w) == 2
-            return ' •' . matchstr(l:e_w[1], '\d\+')
-        elseif match(l:e_w, 'W') > -1
-            return ' •' . matchstr(l:e_w[0], '\d\+')
-        endif
-    endif
-endfunction
-
-let g:ale_echo_msg_error_str = '✴'
-let g:ale_echo_msg_warning_str = '⚠'
-
-" Set this. Airline will handle the rest.
-let g:airline#extensions#ale#enabled = 1
+" """ ale  (有coc，就完全不用ale了)
+"" The easiest way to get both plugins to work together is to configure coc.nvim to send diagnostics to ALE, so ALE controls how all problems are presented to you, and to disable all LSP features in ALE, so ALE doesn't try to provide LSP features already provided by coc.nvim, such as auto-completion.
+"" Open your coc.nvim configuration file with :CocConfig and add "diagnostic.displayByAle": true to your settings.
+"" Add let g:ale_disable_lsp = 1 to your vimrc file, before plugins are loade
+"" 方案选择: 正常使用coc的功能(不向ale传递诊断信息)；默认不开启ale，同时关闭ale的lsp特性，不必提供coc提供过的功能
+"let g:ale_enabled = 0
+"let g:ale_disable_lsp = 1
+"
+"" 常用命令映射
+"nnoremap <leader>te :ALEToggle<CR>
+"nnoremap ej <Plug>(ale_next)
+"nnoremap ek <Plug>(ale_previous)
+"
+"" 指定启用的linters
+"let g:ale_linters = {
+"            \  'c': ['clang'],
+"            \  'cpp': ['clang'],
+"            \  'go': ['golint', 'gopls'],
+"            \  'php': ['php -l'],
+"            \  'sh': ['shellcheck'],
+"            \  'bash': ['shellcheck'],
+"            \  'awk': ['awk'],
+"            \  'lua': ['luacheck'],
+"            \  'sql': ['sqlint'],
+"            \  'python': ['pylint'],
+"            \  'markdown': ['mdl'],
+"            \  'vim': ['vint'],
+"            \  'html': [],
+"            \  'txt': [],
+"            \}
+"
+"" ale行为控制
+"" " run linters only when I save files
+"" let g:ale_lint_on_text_changed = 'never'
+"" let g:ale_lint_on_insert_leave = 0
+"" " don't want linters to run on opening a file
+"" let g:ale_lint_on_enter = 0
+"
+"" " use the quickfix list or the loclist
+"" let g:ale_set_quickfix = 1
+"" let g:ale_set_loclist = 0
+"
+"" show Vim windows for the loclist or quickfix items when a file contains warnings or errors
+"" let g:ale_open_list = 1
+"" keep the window open even after errors disappear
+""let g:ale_keep_list_window_open = 1
+"
+"" 始终开启标志列设置
+"" let g:ale_sign_column_always = 1
+"
+"" 取消错误处高亮
+"" let g:ale_set_highlights = 0
+"
+"" " If emoji not loaded, use default sign
+"" try
+"    " "let g:ale_sign_error = emoji#for('boom')
+"    " let g:ale_sign_error = emoji#for('eight_pointed_black_star')
+"    " let g:ale_sign_warning = emoji#for('small_orange_diamond')
+"" catch
+"    " let g:ale_sign_error = '✴'
+"    " let g:ale_sign_warning = '⚠'
+"" endtry
+"let g:ale_sign_error = '✴'
+"let g:ale_sign_warning = '⚠'
+"let g:ale_echo_msg_format = '[%linter%] %severity% %s'
+"let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']
+"
+"" 标记的背景色调整，ALE之前warning默认用的todo太抢眼了
+"" highlight clear ALEErrorSign
+"" highlight clear ALEWarningSign
+"highlight link ALEErrorSign ErrorMsg
+"highlight link ALEWarningSign WarningMsg
+"
+"" For a more fancy ale statusline
+"function! ALEGetError()
+"    let l:res = ale#statusline#Status()
+"    if l:res ==# 'OK'
+"        return ''
+"    else
+"        let l:e_w = split(l:res)
+"        if len(l:e_w) == 2 || match(l:e_w, 'E') > -1
+"            return ' •' . matchstr(l:e_w[0], '\d\+') .' '
+"        endif
+"    endif
+"endfunction
+"
+"function! ALEGetWarning()
+"    let l:res = ale#statusline#Status()
+"    if l:res ==# 'OK'
+"        return ''
+"    else
+"        let l:e_w = split(l:res)
+"        if len(l:e_w) == 2
+"            return ' •' . matchstr(l:e_w[1], '\d\+')
+"        elseif match(l:e_w, 'W') > -1
+"            return ' •' . matchstr(l:e_w[0], '\d\+')
+"        endif
+"    endif
+"endfunction
+"
+"let g:ale_echo_msg_error_str = '✴'
+"let g:ale_echo_msg_warning_str = '⚠'
+"
+"" Set this. Airline will handle the rest.
+"let g:airline#extensions#ale#enabled = 1
 
 """ copilot
 " 默认不开启
@@ -823,6 +827,12 @@ let g:vista_ctags_cmd = {
 " The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
 let g:vista_fzf_preview = ['right:50%']
 
+""" indentline
+let g:indentLine_enabled = 0
+
+autocmd FileType python,json IndentLinesEnable
+nnoremap <leader>ti :IndentLinesToggle<CR>
+
 """ easymotion
 let g:EasyMotion_smartcase = 1
 
@@ -912,13 +922,6 @@ EOF
         noremap <leader>al :ChatGPTRun code_readability_analysis<CR>
     endif
 
-    """ indent-blankline
-    lua <<EOF
-require "ibl".setup { enabled = false }
-EOF
-    autocmd FileType python,json IBLEnable
-    noremap <leader>ti :IBLToggle<CR>
-
     """ nvim-tree
     let g:loaded_netrw = 1
     let g:loaded_netrwPlugin = 1
@@ -956,17 +959,27 @@ EOF
     augroup end
 
     """ nvim-treesitter 高亮强化
-    set foldmethod=expr
-    set foldexpr=nvim_treesitter#foldexpr()
-    set nofoldenable            " Disable folding at startup.
-
     lua <<EOF
 require'nvim-treesitter.configs'.setup {
     -- one of "all", "language", or a list of languages
-    ensure_installed = {'bash', 'awk', 'c', 'cpp', 'go', 'haskell', 'lua', 'python', 'sql', 'html', 'latex', 'vim'},
+    ensure_installed = {'bash', 'awk', 'c', 'cpp', 'go', 'haskell', 'lua', 'python', 'sql', 'html', 'json'},
     auto_install = true,
     highlight = {
         enable = true,              -- false will disable the whole extension
+        --disable slow treesitter highlight for large files
+        disable = function(lang, buf)
+            local max_filesize = 100 * 1024 -- 100 KB
+            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+            if ok and stats and stats.size > max_filesize then
+                return true
+            end
+        end,
+
+        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+        -- Using this option may slow down your editor, and you may see some duplicate highlights.
+        -- Instead of true it can also be a list of languages
+        additional_vim_regex_highlighting = false,
     },
 
     -- 增量选择有bug，暂时不用
@@ -981,11 +994,16 @@ require'nvim-treesitter.configs'.setup {
     -- },
 
     -- Indentation based on treesitter for the = operator. NOTE: This is an experimental feature.
+    -- 实测大json文件很卡，禁用掉
     indent = {
-        enable = true,
+        enable = false,              -- false will disable the whole extension
     },
 }
 EOF
+
+    """ 折叠使用treesitter
+    set foldmethod=expr
+    set foldexpr=nvim_treesitter#foldexpr()
 
     """ telescope
     " Find files using Telescope command-line sugar.
@@ -1012,12 +1030,6 @@ EOF
     nnoremap <silent><nowait> <leader><leader>s  :<C-u>Telescope coc workspace_symbols<CR>
 
 else
-    """ indentline
-    let g:indentLine_enabled = 0
-
-    autocmd FileType python,json IndentLinesEnable
-    nnoremap <leader>ti :IndentLinesToggle<CR>
-
     """ nerdtree
     noremap <leader>tt :NERDTreeToggle<CR>
     augroup nerdtree_group
