@@ -166,8 +166,13 @@ augroup end
 
 """ 方便使用的短命令/小功能
 noremap ： :
-" 在编辑模式下将CTRL+Q映射到Esc，方便emacs里使用时避免vterm和evil的冲突
+
+"" evil 兼容
+" 在编辑模式下将CTRL+Q映射到Esc，方便emacs在vterm里使用vim和evil的冲突
 noremap! <C-Q> <Esc>
+" emacs 中 CTRL+A/X 另有他用，保持和evil替代按键一致
+noremap g= <C-A>
+noremap g- <C-X>
 
 " 重新加载配置
 nnoremap R :source $MYVIMRC<CR>
@@ -310,22 +315,25 @@ call plug#begin()
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'honza/vim-snippets'
     " Plug 'w0rp/ale'
-
+    
     " Plug 'fatih/vim-go', { 'for': 'go' , 'do': ':GoInstallBinaries' }
-    Plug 'scrooloose/nerdcommenter'
+    Plug 'scrooloose/nerdcommenter'         " 注释
     Plug 'godlygeek/tabular'                " 文本对齐
     Plug 'dkarter/bullets.vim'              " 用于增强 Markdown 和其他文档格式中的项目符号列表支持。
     Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
     Plug 'cespare/vim-toml', {'branch': 'main', 'for': 'toml', }
     Plug 'elzr/vim-json', { 'for' : 'json' }
-    Plug 'tpope/vim-speeddating'
+    Plug 'lambdalisue/vim-pyenv', {'for': 'python'}
+    Plug 'tpope/vim-speeddating'            " 可以用 ctrl+a/x 处理日期
     Plug 'jceb/vim-orgmode'
 
-    Plug 'lambdalisue/vim-pyenv', {'for': 'python'}
+    Plug 'junegunn/fzf.vim'
     Plug 'liuchengxu/vista.vim'             "替代 preservim/tagbar
     Plug 'mbbill/undotree'
     Plug 'easymotion/vim-easymotion'
     Plug 'tpope/vim-fugitive'
+    Plug 'Yggdroot/indentLine'
+    " Plug 'lukas-reineke/indent-blankline.nvim' " nvim中的，json大文件卡顿，不如统一使用indentLine
 
     " Plug 'EdenEast/nightfox.nvim', { 'branch': 'main' }
     " Plug 'joshdick/onedark.vim'
@@ -340,9 +348,6 @@ call plug#begin()
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'knubie/vim-kitty-navigator', {'do': 'cp ./*.py ~/.config/kitty/'}
     Plug 'voldikss/vim-floaterm'            " 浮动窗口
-
-    Plug 'Yggdroot/indentLine'
-    " Plug 'lukas-reineke/indent-blankline.nvim' " nvim中的，json大文件卡顿，不如统一使用indentLine
 
     if has('nvim')
         if $USER != 'root'
