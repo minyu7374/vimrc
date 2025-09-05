@@ -950,7 +950,7 @@ require("nvim-tree").setup {
   on_attach = self_on_attach,
   sort = { sorter = "case_sensitive", },
   renderer = { group_empty = true, },
-  --filters = { dotfiles = true, },
+  filters = { dotfiles = true, custom = { "^.git$" }  },
 }
 EOF
 
