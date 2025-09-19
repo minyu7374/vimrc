@@ -326,6 +326,7 @@ call plug#begin()
     Plug 'lambdalisue/vim-pyenv', {'for': 'python'}
     Plug 'tpope/vim-speeddating'            " 可以用 ctrl+a/x 处理日期
     Plug 'jceb/vim-orgmode'
+    Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
     Plug 'junegunn/fzf.vim'
     Plug 'liuchengxu/vista.vim'             "替代 preservim/tagbar
