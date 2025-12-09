@@ -3,6 +3,9 @@
 """ 方便使用的短命令/小功能
 noremap ： :
 
+" 输入原生<Tab>
+inoremap <S-Tab> <C-v><Tab>
+
 "" evil 兼容
 " 在编辑模式下将CTRL+Q映射到Esc，方便emacs在vterm里使用vim和evil的冲突
 noremap! <C-Q> <Esc>

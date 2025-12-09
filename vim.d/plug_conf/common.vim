@@ -78,8 +78,8 @@ function! ToggleCopilot()
 endfunction
 nnoremap <leader>tC :call ToggleCopilot()<CR>
 
-" 新加shift+tab快捷键映射到 copilot#Accept, 作为tab键不可用时的备用组合键（比如在nui浮动窗口中tab键用于切换窗口了）
-inoremap <silent><nowait><expr>         <S-Tab> copilot#Accept(' . tab_fallback . ')
+" ctrl+/, 作为tab键不可用时的备用组合键（比如在nui浮动窗口中tab键用于切换窗口了）
+inoremap <silent><nowait><expr>         <C-_> copilot#Accept(' . tab_fallback . ')
 
 " """ vim-go
 " let g:go_def_mode='gopls'
