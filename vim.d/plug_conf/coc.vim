@@ -144,7 +144,7 @@ let g:coc_global_extensions = [
     \ 'coc-marketplace',
     \ 'coc-floaterm',
     \ 'coc-git',
-    \ 'coc-pyright',
+    \ 'coc-basedpyright',
     \ 'coc-go',
     \ 'coc-clangd',
     \ 'coc-snippets',
@@ -211,7 +211,7 @@ xnoremap ag <Plug>(coc-git-chunk-outer)
 "" 指定启用的linters
 "let g:ale_linters = {
 "            \  'c': ['clang'],
-"            \  'cpp': ['clang'],
+"            \  'cpp': ['clang++'],
 "            \  'go': ['golint', 'gopls'],
 "            \  'php': ['php -l'],
 "            \  'sh': ['shellcheck'],
