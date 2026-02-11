@@ -160,7 +160,7 @@ let g:coc_global_extensions = [
 augroup format_on_save_group
     au!
     autocmd BufWritePre *.go,*.rs :call CocAction('format')
-    if $FORMAT_ON_SAVE !=# 'false'
+    if $FORMAT_ON_SAVE ==# 'true'
         autocmd BufWritePre *.c,*.cpp,*.h,*.py,*.sql :call CocAction('format')
     endif
 augroup end
