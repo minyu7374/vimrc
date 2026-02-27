@@ -39,6 +39,7 @@ set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 
 """ telescope
+lua require('telescope').load_extension('fzf')
 " Find files using Telescope command-line sugar.
 nnoremap <silent><nowait> <leader><leader>f  :<C-u>Telescope<CR>
 nnoremap <leader>fo <cmd>Telescope<CR>
@@ -51,7 +52,7 @@ nnoremap <leader>fh <cmd>Telescope help_tags<CR>
 
 """ Telescope-coc
 lua require('telescope').load_extension('coc')
-nnoremap <silent><nowait> <leader><leader>C  :<C-u>Telescope coc<CR>
+nnoremap <silent><nowait> <leader><leader>c  :<C-u>Telescope coc<CR>
 " Show all diagnostics.
 nnoremap <silent><nowait> <leader><leader>e  :<C-u>Telescope coc diagnostics<CR>
 " Show commands.

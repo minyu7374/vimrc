@@ -10,24 +10,34 @@ augroup nerdtree_group
 augroup end
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
 
-""" clap
-nnoremap <silent><nowait> <leader><leader>f  :<C-u>Clap<CR>
-nnoremap <leader>fo <cmd>Clap<CR>
-nnoremap <leader>ff <cmd>Clap files<CR>
-nnoremap <leader>fg <cmd>Clap grep ++query=<cword><CR>
-nnoremap <leader>fv <cmd>Clap live_grep<CR>
-nnoremap <leader>fb <cmd>Clap buffers<CR>
-nnoremap <leader>fh <cmd>Clap help_tags<CR>
+""" fzf
+" 开启悬浮窗样式 (需要 Vim 8.2+ 且支持 popupwin)
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8, 'relative': v:true } }
+" 设置预览窗口（模仿 Telescope/Clap 的侧边/上方预览）
+let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 
-""" coc-clap
-" Show all diagnostics.
-nnoremap <silent><nowait> <leader><leader>e  :<C-u>Clap coc_diagnostics<CR>
-" Manage extensions.
-nnoremap <silent><nowait> <leader><leader>X  :<C-u>CocList extensions<CR>
-" Show commands.
-nnoremap <silent><nowait> <leader><leader>m  :<C-u>Clap coc_commands<CR>
-nnoremap <silent><nowait> <leader>:  :<C-u>Clap coc_commands<CR>
-" Find symbol of current document.
-nnoremap <silent><nowait> <leader><leader>o  :<C-u>Clap coc_outline<CR>
-" Search workspace symbols.
-nnoremap <silent><nowait> <leader><leader>s  :<C-u>Clap coc_symbols<CR>
+" 全局入口
+nnoremap <silent><nowait> <leader><leader>f :FZF<CR>
+nnoremap <leader>fo :FZF<CR>
+" 文件搜索
+nnoremap <leader>ff :Files<CR>
+" 光标下单词搜索
+nnoremap <leader>fg :Rg <C-R><C-W><CR>
+" 实时搜索
+nnoremap <leader>fv :Rg<CR>
+" 缓冲区搜索
+nnoremap <leader>fb :Buffers<CR>
+" 帮助文档
+nnoremap <leader>fh :Help<CR>
+
+""" coc-fzf
+nnoremap <silent><nowait> <leader><leader>c :CocFzfList<CR>
+" 显示所有诊断信息 (Diagnostics)
+nnoremap <silent><nowait> <leader><leader>e :CocFzfList diagnostics<CR>
+" 显示命令 (Commands)
+nnoremap <silent><nowait> <leader><leader>m :CocFzfList commands<CR>
+nnoremap <silent><nowait> <leader>: :CocFzfList commands<CR>
+" 当前文档大纲 (Outline)
+nnoremap <silent><nowait> <leader><leader>o :CocFzfList outline<CR>
+" 搜索工作区符号 (Symbols)
+nnoremap <silent><nowait> <leader><leader>s :CocFzfList symbols<CR>

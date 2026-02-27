@@ -21,7 +21,6 @@ call plug#begin()
     Plug 'jceb/vim-orgmode'
     Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
-    Plug 'junegunn/fzf.vim'
     Plug 'liuchengxu/vista.vim'             "替代 preservim/tagbar
     Plug 'mbbill/undotree'
     Plug 'easymotion/vim-easymotion'
@@ -59,14 +58,15 @@ call plug#begin()
         Plug 'nvim-lua/plenary.nvim'
         Plug 'BurntSushi/ripgrep'
         Plug 'sharkdp/fd'
+        Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
         Plug 'nvim-telescope/telescope.nvim'
         Plug 'fannheyward/telescope-coc.nvim'
     else
         " Plug 'sheerun/vim-polyglot'             "改进各种语言的语法突出显示(大文件性能差)
         Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
-        Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
-        Plug 'vn-ki/coc-clap'
+        Plug 'junegunn/fzf.vim'
+        Plug 'antoinemadec/coc-fzf'
     endif
 
 call plug#end()
