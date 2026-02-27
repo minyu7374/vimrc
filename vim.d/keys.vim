@@ -43,6 +43,9 @@ noremap <leader>xt a<c-r>=strftime("%Y/%m/%d %H:%M")<CR><ESC>
 nnoremap <silent> * :let @/= '\<' . expand('<cword>') . '\>' <Bar> set hls <CR>
 nnoremap <silent> g* :let @/=expand('<cword>') <Bar> set hls <CR>
 
+" 快速手动切换到当前文件目录
+nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
+
 """ tab
 nnoremap tn  :tabnew<CR>
 nnoremap te  :tabedit<Space>

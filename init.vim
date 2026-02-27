@@ -7,6 +7,9 @@ endfunction
 call s:Load('basic')
 call s:Load('autocmd')
 call s:Load('keys')
+if has('mac')
+    call s:Load('mac')
+endif
 
 call s:Load('plug_load')
 call s:Load('plug_conf/coc')
