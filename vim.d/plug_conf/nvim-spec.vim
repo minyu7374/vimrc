@@ -1,19 +1,7 @@
-""" ChatGPT
+""" avante
 if $USER != 'root'
-    lua require('plug_conf/chatgpt')
-    noremap <leader>ac :ChatGPT<CR>
-    noremap <leader>ae :ChatGPTEditWithInstruction<CR>
-    noremap <leader>ag :ChatGPTRun grammar_correction<CR>
-    noremap <leader>at :ChatGPTRun translate<CR>
-    noremap <leader>ak :ChatGPTRun keywords<CR>
-    noremap <leader>ad :ChatGPTRun docstring<CR>
-    noremap <leader>aa :ChatGPTRun add_tests<CR>
-    noremap <leader>ao :ChatGPTRun optimize_code<CR>
-    noremap <leader>as :ChatGPTRun summarize<CR>
-    noremap <leader>af :ChatGPTRun fix_bugs<CR>
-    noremap <leader>ax :ChatGPTRun explain_code<CR>
-    noremap <leader>ar :ChatGPTRun roxygen_edit<CR>
-    noremap <leader>al :ChatGPTRun code_readability_analysis<CR>
+    autocmd! User avante.nvim
+    lua require('plug_conf/avante')
 endif
 
 """ nvim-tree

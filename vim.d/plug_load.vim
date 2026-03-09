@@ -43,9 +43,23 @@ call plug#begin()
     Plug 'voldikss/vim-floaterm'            " 浮动窗口
 
     if has('nvim')
+        " avante: emulate the behaviour of the Cursor AI IDE.
         if $USER != 'root'
+            " Deps
+            Plug 'nvim-lua/plenary.nvim'
             Plug 'MunifTanjim/nui.nvim'
-            Plug 'jackMort/ChatGPT.nvim'
+            Plug 'MeanderingProgrammer/render-markdown.nvim'
+
+            " Optional deps
+            Plug 'hrsh7th/nvim-cmp'
+            Plug 'nvim-tree/nvim-web-devicons' "or Plug 'echasnovski/mini.icons'
+            Plug 'HakonHarnes/img-clip.nvim'
+            Plug 'zbirenbaum/copilot.lua'
+            Plug 'stevearc/dressing.nvim' " for enhanced input UI
+            Plug 'folke/snacks.nvim' " for modern input UI
+
+            " Yay, pass source=true if you want to build from source
+            Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': 'make' }
         endif
 
         Plug 'nvim-tree/nvim-web-devicons'     " optional(file icons)
