@@ -14,4 +14,4 @@ endif
 call s:Load('plug_load')
 call s:Load('plug_conf/coc')
 call s:Load('plug_conf/common')
-call s:Load('plug_conf/' . (has('nvim') ? 'nvim-spec' : 'vim-spec'))
+call s:Load('plug_conf/vim-spec')

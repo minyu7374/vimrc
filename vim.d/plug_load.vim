@@ -1,6 +1,5 @@
 """----- 插件 -----"""
-" vim: curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-" nvim: sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+" curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 call plug#begin()
     Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] } "On-demand lazy load
     " Plug 'liuchengxu/vim-which-key'
@@ -42,45 +41,9 @@ call plug#begin()
     Plug 'knubie/vim-kitty-navigator', {'do': 'cp ./*.py ~/.config/kitty/'}
     Plug 'voldikss/vim-floaterm'            " 浮动窗口
 
-    if has('nvim')
-        " avante: emulate the behaviour of the Cursor AI IDE.
-        if $USER != 'root'
-            " Deps
-            Plug 'nvim-lua/plenary.nvim'
-            Plug 'MunifTanjim/nui.nvim'
-            Plug 'MeanderingProgrammer/render-markdown.nvim'
-
-            " Optional deps
-            Plug 'hrsh7th/nvim-cmp'
-            Plug 'nvim-tree/nvim-web-devicons' "or Plug 'echasnovski/mini.icons'
-            Plug 'HakonHarnes/img-clip.nvim'
-            Plug 'zbirenbaum/copilot.lua'
-            Plug 'stevearc/dressing.nvim' " for enhanced input UI
-            Plug 'folke/snacks.nvim' " for modern input UI
-
-            " Yay, pass source=true if you want to build from source
-            Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': 'make' }
-        endif
-
-        Plug 'nvim-tree/nvim-web-devicons'     " optional(file icons)
-        Plug 'nvim-tree/nvim-tree.lua'
-
-        Plug 'rcarriga/nvim-notify'
-        Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
-
-        " telescope and its dependencies
-        Plug 'nvim-lua/plenary.nvim'
-        Plug 'BurntSushi/ripgrep'
-        Plug 'sharkdp/fd'
-        Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-        Plug 'nvim-telescope/telescope.nvim'
-        Plug 'fannheyward/telescope-coc.nvim'
-    else
-        " Plug 'sheerun/vim-polyglot'             "改进各种语言的语法突出显示(大文件性能差)
-        Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-
-        Plug 'junegunn/fzf.vim'
-        Plug 'antoinemadec/coc-fzf'
-    endif
+    " vim 专用插件 (nvim 使用替代方案)
+    Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+    Plug 'junegunn/fzf.vim'
+    Plug 'antoinemadec/coc-fzf'
 
 call plug#end()

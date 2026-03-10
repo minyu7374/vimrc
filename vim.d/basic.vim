@@ -2,6 +2,7 @@
 
 """ 全局配置
 let g:mapleader = ' '
+let g:maplocalleader = "\\"
 
 """ 编码相关
 set encoding=utf-8
