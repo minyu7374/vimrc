@@ -6,7 +6,7 @@
 
 - vim: `+python` `+lua` 支持
     - `lua` 支持最好使用 `luajit`（lua 5-1 之上的版本对部分插件可能会有不兼容，Gentoo里可配置USE flags: LUA_SINGLE_TARGET luajit）
-- nvim: `pip` 安装 `pynvim` 支持
+- nvim: 安装 `pynvim` 支持
 - 代码补全/静态检查等(可按需安装):
     - python：`pyright`
     - go: `golint` `gopls` `gofmt`
