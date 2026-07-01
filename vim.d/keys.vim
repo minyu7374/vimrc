@@ -69,10 +69,10 @@ nnoremap <leader>9 9gt
 nnoremap <leader>0 :tablast<CR>
 
 " 新建tab/切换tab  Alt+t Ctrl+t
-nnoremap <M-t>     :tabnew<CR>
-inoremap <M-t>     <Esc>:tabnew<CR>
-nnoremap <C-t>   :tabnext<CR>
-inoremap <C-t>   <Esc>:tabnext<CR>
+nnoremap <M-t>  :tabnew<CR>
+inoremap <M-t>  <Esc>:tabnew<CR>
+nnoremap <C-t>  :tabnext<CR>
+inoremap <C-t>  <Esc>:tabnext<CR>
 
 """ 复制粘贴(不破坏原来的Ctrl+A/V)
 vnoremap Y "+y
@@ -82,14 +82,26 @@ vnoremap <C-c> "+y
 vnoremap <C-y> "+y
 vnoremap <C-p> "+p
 
-noremap <leader>y :set nopaste<CR>
-noremap <leader>Y :set paste<CR>
-
 " 映射全选+复制/粘贴
 noremap <M-a> ggVG"+y
 noremap! <M-a> <Esc>ggVG"+y
 noremap <M-v> ggVG"+p
 noremap! <M-v> <Esc>ggVG"+p
+
+" paste 模式快速切换（nopaste/paste）
+nnoremap <silent> <leader>ty :call TogglerPaste()<CR>
+function! TogglerPaste() abort
+    set paste!
+    echo 'Paste mode: ' . (&paste ? 'ON' : 'OFF')
+endfunction
+
+""" 阅读体验
+" wrap 自动换行快速切换（nowrap/wrap）
+nnoremap <silent> <leader>tw :call TogglerWrap()<CR>
+function! TogglerWrap() abort
+    set wrap!
+    echo 'Wrap mode: ' . (&wrap ? 'ON' : 'OFF')
+endfunction
 
 """ panel 相关
 " 分屏
