@@ -8,7 +8,7 @@ call plug#begin()
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'honza/vim-snippets'
     " Plug 'w0rp/ale'
-    
+
     " Plug 'fatih/vim-go', { 'for': 'go' , 'do': ':GoInstallBinaries' }
     Plug 'scrooloose/nerdcommenter'         " 注释
     Plug 'godlygeek/tabular'                " 文本对齐
@@ -39,7 +39,9 @@ call plug#begin()
 
     Plug 'h-hg/fcitx.nvim'
     Plug 'christoomey/vim-tmux-navigator'
-    Plug 'knubie/vim-kitty-navigator' ", {'do': 'cp ./*.py ~/.config/kitty/'}
+    if !empty($KITTY_PID)
+        Plug 'knubie/vim-kitty-navigator' ", {'do': 'cp ./*.py ~/.config/kitty/'}
+    endif
     Plug 'voldikss/vim-floaterm'            " 浮动窗口
 
     if has('nvim')
