@@ -9,7 +9,7 @@ function! s:find_first_path(paths)
     return ''
 endfunction
 
-" set rtp+='/opt/local/share/fzf/vim' " MacPorts下路径rong
+" set rtp+='/opt/local/share/fzf/vim' " MacPorts下路径
 " 兼容可能的 fzf 路径（包含 Homebrew ARM/Intel 和 MacPorts）
 let s:fzf_path = s:find_first_path(['/opt/local/share/fzf/vim', '/opt/homebrew/opt/fzf', '/usr/local/opt/fzf'])
 if !empty(s:fzf_path)

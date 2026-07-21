@@ -1,26 +1,31 @@
 # vimrc
 
-现代化(neo)vim设置
+现代化(neo)vim设置。同一套配置同时支持 **vim 与 nvim**：以 vim 为基线，nvim 在同类能力上用更强的原生插件覆盖，键位保持一致。
 
 ## 依赖
 
 - vim: `+python` `+lua` 支持
     - `lua` 支持最好使用 `luajit`（lua 5-1 之上的版本对部分插件可能会有不兼容，Gentoo里可配置USE flags: LUA_SINGLE_TARGET luajit）
-- nvim: 安装 `pynvim` 支持
-- 代码补全/静态检查等(可按需安装):
-    - python：`pyright`
-    - go: `golint` `gopls` `gofmt`
+- nvim: 安装 `pynvim` 支持；aerial/orgmode 需 nvim 0.11+
+- 代码补全/静态检查等(coc 扩展会按需自动安装，外部工具可按需装):
+    - python：`basedpyright`
+    - go: `gopls` `gofmt`
     - sh: `shellcheck`
-    - python: `flake8`
     - markdown: `markdownlint`
+
+## 安装
+
+`./install.sh [vim|nvim]`（默认 `vim`）把配置软链到对应编辑器目录，并装好 vim-plug 与 Copilot、创建 spell 词库目录。之后在编辑器内：
+
+- `:PlugInstall` 安装插件，`:PlugClean` 清理已移除的插件
+- coc 扩展首次启动时自动安装（需联网）
 
 ## 配置内容
 
 ### 基础配置
 
 - 全局配置
-    - `leader` 键设置为 `,`
-    - `python` 路径设置
+    - `leader` 键设置为 `<Space>`（空格）
 - 编码相关
     - 自动判断编码尝试顺序
     - 中文折行优化
@@ -45,6 +50,9 @@
     - 文件保存、缓存、备份等行为调整
 - 自动补全相关
     - 优化补全菜单行为
+- 拼写检查
+    - `en,cjk` + 驼峰拆词；默认关闭，`<leader>ts` 切换；markdown/gitcommit/text 自动开启
+    - 词库在编辑器的 `spell/en.utf-8.add`（本机个人词库，已 `.gitignore`）
 
 ### autocmd自动操作
 
@@ -52,6 +60,8 @@
     - 绑定快捷键使用系统默认软件打开当前文件
     - 针对python文件，设置快捷键按缩进折叠
 - 光标恢复到上次操作文件位置
+- 保存时去除行尾空白（markdown 除外）
+- 高亮 TODO/FIXME/HACK/NOTE/XXX 标记
 
 ### 按键映射
 
@@ -67,29 +77,28 @@
 
 ### 插件
 
-- nightfox 配色方案
-- airline 状态栏美化
-- coc.nvim 代码补全工具
-    - Tab键除了自动补全外添加了对代码片段工具(使用`coc-snippets`)的兼容
-    - 一些配置调整在`cocsettings.json`里
-    - 使用了`coc-git`、`coc-floaterm`等扩展
-- ale 异步语法检查
-    - ale和coc共用的方案选择: 正常使用coc的功能(不向ale传递代码诊断信息)；默认不开启ale，同时关闭ale的lsp特性，不必提供coc提供过的功能
-- vim-{toml,json,orgmode,markdown} `toml`、`json`、`Org-Mode`、`markdown` 等支持
-- indentLine 缩进对齐提示，主要是python使用
-- nerdcommenter 代码注释
-- NERDTree 文件管理
-- vista tagbar替代品
-- vim-easymotion 快速跳转
-- vim-fugitive 强大的`git`工具
-- rainbow 括号等匹配以不同颜色显示
-- undotree undo优化
-- tabular 指定字符对齐文本
-- bullets 自动列表
-- vim-tmux-navigator `vim`和`tmux`面板无缝跳转
-- fcitx.nvim 自动输入法切换，优化体验
-- vim-floatterm shell浮动窗口
-- nvim-treesitter 高亮强化(nvim才能用)
-- 现代化模糊查找工具
-    - nvim: telescope.nvim
-    - vim: vim-clap
+补全/LSP 核心 `coc.nvim`（双端共享）：补全、诊断、代码片段（`coc-snippets`）、`coc-git` 等；`Tab` 触发补全/展开片段。扩展含 basedpyright/go/clangd/sh/sql/json/yaml/toml/cmake、markdownlint、yank、floaterm 等。
+
+双端共享的其他插件：
+
+- `vim-commentary` 注释、`vim-easy-align` 对齐、`vim-surround`+`vim-repeat` 环绕
+- `bullets` 自动列表、`vim-markdown`、`undotree`、`vim-fugitive` git、`indentLine` 缩进线
+- `doom-one` 配色、`fcitx.nvim` 自动输入法切换
+
+以下能力采用「vim 基线 / nvim 原生覆盖」，键位对齐：
+
+- 模糊查找：vim `fzf` / nvim `telescope`
+- 文件树：vim `nerdtree` / nvim `nvim-tree`
+- 状态栏：vim `airline` / nvim `lualine`
+- 快捷键提示：vim `vim-which-key` / nvim `which-key.nvim`
+- 彩虹括号：vim `rainbow` / nvim `rainbow-delimiters`
+- 颜色代码高亮：vim `vim-coloresque` / nvim `nvim-colorizer`
+- 跳转 `s`/`S`：vim `vim-sneak` / nvim `flash`
+- 多光标：vim `vim-visual-multi` / nvim `multicursor`
+- 数字增减 `g=`/`g-`：vim `vim-speeddating` / nvim `dial`
+- 面板跳转+缩放：vim `vim-tmux-navigator`（+`vim-kitty-navigator`）/ nvim `smart-splits`
+- 浮动终端：vim `vim-floaterm` / nvim `toggleterm`
+- 代码大纲：vim `vista` / nvim `aerial`
+- org-mode：vim `jceb/vim-orgmode` / nvim `nvim-orgmode`
+- 语法高亮强化：仅 nvim `nvim-treesitter`
+- AI 辅助：`copilot`（双端，默认关，`<leader>tC` 切换）/ nvim `ChatGPT`（非 root）

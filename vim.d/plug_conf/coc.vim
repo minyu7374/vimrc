@@ -153,6 +153,11 @@ let g:coc_global_extensions = [
     \ 'coc-sh',
     \ 'coc-sql',
     \ 'coc-vimlsp',
+    \ 'coc-json',
+    \ 'coc-yaml',
+    \ 'coc-toml',
+    \ 'coc-cmake',
+    \ 'coc-yank',
     \]
 
 " 结合direnv环境变量控制在不同项目目录下自动格式化的行为

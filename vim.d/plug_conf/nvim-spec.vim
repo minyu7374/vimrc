@@ -62,3 +62,41 @@ nnoremap <silent><nowait> <leader>:  :<C-u>Telescope coc commands<CR>
 nnoremap <silent><nowait> <leader><leader>o  :<C-u>Telescope coc document_symbols<CR>
 " Search workspace symbols.
 nnoremap <silent><nowait> <leader><leader>s  :<C-u>Telescope coc workspace_symbols<CR>
+" 剪贴历史 (Yank, 需 coc-yank); telescope-coc 无 yank 源, 用 coc 原生列表
+nnoremap <silent><nowait> <leader><leader>y :<C-u>CocList yank<CR>
+
+""" which-key (覆盖 vim-which-key, 空格 leader 自动弹出)
+lua require('plug_conf/which-key')
+
+""" lualine (覆盖 airline)
+lua require('plug_conf/lualine')
+
+""" rainbow-delimiters (覆盖 rainbow)
+lua require('plug_conf/rainbow-delimiters')
+
+""" colorizer (覆盖 vim-coloresque)
+lua require('plug_conf/nvim-colorizer')
+
+""" flash.nvim 跳转 (覆盖 vim-sneak)
+lua require('plug_conf/flash')
+
+""" multicursor.nvim 多光标 (覆盖 vim-visual-multi)
+lua require('plug_conf/multicursor')
+
+""" dial.nvim 数字/布尔/日期增减 (覆盖 vim-speeddating)
+lua require('plug_conf/dial')
+
+""" smart-splits (tmux+kitty 面板跳转 + 窗口 resize, 替代 tmux/kitty navigator)
+lua require('plug_conf/smart-splits')
+
+""" toggleterm 浮动终端 (替代 vim-floaterm)
+lua require('plug_conf/toggleterm')
+noremap <silent> <leader>tf <Cmd>ToggleTerm direction=float<CR>
+tnoremap <silent> <C-q> <C-\><C-n>
+
+""" aerial 代码大纲 (替代 vista.vim)
+lua require('plug_conf/aerial')
+noremap <leader>tv <Cmd>AerialToggle!<CR>
+
+""" orgmode (替代 jceb/vim-orgmode); 键位在 lua setup 中配置
+lua require('plug_conf/orgmode')

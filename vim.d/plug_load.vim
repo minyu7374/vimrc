@@ -2,28 +2,22 @@
 " vim: curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " nvim: sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 call plug#begin()
-    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] } "On-demand lazy load
-    " Plug 'liuchengxu/vim-which-key'
-
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'honza/vim-snippets'
     " Plug 'w0rp/ale'
 
     " Plug 'fatih/vim-go', { 'for': 'go' , 'do': ':GoInstallBinaries' }
-    Plug 'scrooloose/nerdcommenter'         " 注释
-    Plug 'godlygeek/tabular'                " 文本对齐
+    Plug 'tpope/vim-commentary'             " 注释
+    Plug 'junegunn/vim-easy-align'          " 文本对齐
+    Plug 'tpope/vim-surround'               " 环绕符号编辑 (cs/ds/ys)
+    Plug 'tpope/vim-repeat'                 " 让 . 可重复插件操作 (surround/sneak/commentary)
     Plug 'dkarter/bullets.vim'              " 用于增强 Markdown 和其他文档格式中的项目符号列表支持。
     Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
     Plug 'cespare/vim-toml', {'branch': 'main', 'for': 'toml', }
     Plug 'elzr/vim-json', { 'for' : 'json' }
     Plug 'lambdalisue/vim-pyenv', {'for': 'python'}
-    Plug 'tpope/vim-speeddating'            " 可以用 ctrl+a/x 处理日期
-    Plug 'jceb/vim-orgmode'
-    Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
-    Plug 'liuchengxu/vista.vim'             "替代 preservim/tagbar
     Plug 'mbbill/undotree'
-    Plug 'easymotion/vim-easymotion'
     Plug 'tpope/vim-fugitive'
     Plug 'Yggdroot/indentLine'
     " Plug 'lukas-reineke/indent-blankline.nvim' " nvim中的，json大文件卡顿，不如统一使用indentLine
@@ -31,18 +25,8 @@ call plug#begin()
     " Plug 'EdenEast/nightfox.nvim', { 'branch': 'main' }
     " Plug 'joshdick/onedark.vim'
     Plug 'romgrk/doom-one.vim'
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
-    Plug 'luochen1990/rainbow'              " 提供括号、方括号和花括号的彩虹高亮，方便括号配对查看
-    Plug 'gorodinskiy/vim-coloresque'       " 提供颜色代码的可视化高亮（css等文件）
-    " Plug 'lilydjwg/colorizer'               " 不限制文件语言(大文件卡顿)
 
     Plug 'h-hg/fcitx.nvim'
-    Plug 'christoomey/vim-tmux-navigator'
-    if !empty($KITTY_PID)
-        Plug 'knubie/vim-kitty-navigator' ", {'do': 'cp ./*.py ~/.config/kitty/'}
-    endif
-    Plug 'voldikss/vim-floaterm'            " 浮动窗口
 
     if has('nvim')
         if $USER != 'root'
@@ -63,12 +47,49 @@ call plug#begin()
         Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
         Plug 'nvim-telescope/telescope.nvim'
         Plug 'fannheyward/telescope-coc.nvim'
+
+        " nvim UI 覆盖(vim 侧对应 vim-which-key/airline/rainbow/coloresque)
+        Plug 'folke/which-key.nvim'
+        Plug 'nvim-lualine/lualine.nvim'       " 依赖 nvim-web-devicons
+        Plug 'HiPhish/rainbow-delimiters.nvim' " 基于 treesitter 的彩虹括号
+        Plug 'catgoose/nvim-colorizer.lua'     " 颜色代码可视化高亮
+
+        " 跳转/多光标/数字增减：nvim 原生覆盖 vim 基线
+        Plug 'folke/flash.nvim'                " 覆盖 vim-sneak
+        Plug 'jake-stewart/multicursor.nvim', {'branch': '1.0'}  " 覆盖 vim-visual-multi
+        Plug 'monaqa/dial.nvim'                " 覆盖 vim-speeddating
+
+        " 导航/终端/大纲/org：nvim 原生覆盖 vim 基线
+        Plug 'mrjones2014/smart-splits.nvim', { 'do': !empty($KITTY_PID) ? './kitty/install-kittens.bash' : '' }  " 覆盖 tmux/kitty navigator
+        Plug 'akinsho/toggleterm.nvim'         " 覆盖 vim-floaterm
+        Plug 'stevearc/aerial.nvim'            " 覆盖 vista.vim
+        Plug 'nvim-orgmode/orgmode'            " 覆盖 jceb/vim-orgmode
     else
         " Plug 'sheerun/vim-polyglot'             "改进各种语言的语法突出显示(大文件性能差)
         Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
         Plug 'junegunn/fzf.vim'
         Plug 'antoinemadec/coc-fzf'
+
+        Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] } "On-demand lazy load
+        " Plug 'liuchengxu/vim-which-key'
+        Plug 'vim-airline/vim-airline'
+        Plug 'vim-airline/vim-airline-themes'
+        Plug 'luochen1990/rainbow'              " 提供括号、方括号和花括号的彩虹高亮，方便括号配对查看
+        Plug 'gorodinskiy/vim-coloresque'       " 提供颜色代码的可视化高亮（css等文件）
+        " Plug 'lilydjwg/colorizer'               " 不限制文件语言(大文件卡顿)
+
+        Plug 'justinmk/vim-sneak'               " s/S 双字符跳转
+        Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+        Plug 'tpope/vim-speeddating'            " 可以用 ctrl+a/x 处理日期
+        Plug 'jceb/vim-orgmode'
+        Plug 'liuchengxu/vista.vim'             "替代 preservim/tagbar
+
+        Plug 'christoomey/vim-tmux-navigator'
+        if !empty($KITTY_PID)
+            Plug 'knubie/vim-kitty-navigator' ", {'do': 'cp ./*.py ~/.config/kitty/'}
+        endif
+        Plug 'voldikss/vim-floaterm'            " 浮动窗口
     endif
 
 call plug#end()

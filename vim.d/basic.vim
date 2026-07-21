@@ -63,6 +63,29 @@ exec 'nohlsearch'
 " For regular expressions turn magic on
 set magic
 
+""" 拼写检查
+" 默认全局关闭，用 <leader>ts 就地切换（见下方开关键）
+set nospell
+" en 检查英文，cjk 让 vim 跳过中日韩字符不做误报
+set spelllang=en,cjk
+" 按驼峰拆分单词分别检查（旧版 vim 可能不认识该取值，故 silent! 兜底）
+silent! set spelloptions=camel
+" 自定义词库（zg 加词 / zw 标错 / zug 撤销），vim 与 nvim 目录不同
+if has('nvim')
+    set spellfile=~/.config/nvim/spell/en.utf-8.add
+else
+    set spellfile=~/.vim/spell/en.utf-8.add
+endif
+
+" 拼写检查开关（就地切换并回显当前状态）
+nnoremap <silent> <leader>ts :setlocal spell! spell?<CR>
+
+" 散文类文件保存/编辑体验更需要拼写检查，进入时自动开启
+augroup spell_group
+    au!
+    autocmd FileType markdown,gitcommit,text setlocal spell
+augroup end
+
 """ 特性
 " 去掉vi兼容性（set nocp）
 " set nocompatible

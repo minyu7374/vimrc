@@ -26,7 +26,8 @@ post_install() {
 
 install_spec_vim() {
     vim_rc_dir="$HOME/.vim"
-    mkdir -p "${vim_rc_dir}"
+    # 同时建 spell 子目录(含 ~/.vim 本身): 供 basic.vim 的 spellfile 加词, 目录不存在则首次 zg 会失败
+    mkdir -p "${vim_rc_dir}/spell"
 
     install "${pro_dir}/init.vim" "$HOME/.vimrc"
     install "${pro_dir}/coc-settings.json" "${vim_rc_dir}/coc-settings.json"
@@ -41,7 +42,8 @@ install_spec_vim() {
 
 install_spec_nvim() {
     nv_rc_dir="$HOME/.config/nvim"
-    mkdir -p "${nv_rc_dir}"
+    # 同时建 spell 子目录(含 ~/.config/nvim 本身): 供 basic.vim 的 spellfile 加词
+    mkdir -p "${nv_rc_dir}/spell"
 
     install "${pro_dir}/init.vim" "${nv_rc_dir}/init.vim"
     install "${pro_dir}/lua" "${nv_rc_dir}/lua"
