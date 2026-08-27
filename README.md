@@ -15,7 +15,11 @@
 
 ## 安装
 
+`./install.sh [vim|nvim]`（默认 `vim`）把配置软链到对应编辑器目录，并装好 vim-plug、创建 spell 词库目录。之后在编辑器内：
+
+<!-- 原安装说明包含 Copilot，现已注释停用：
 `./install.sh [vim|nvim]`（默认 `vim`）把配置软链到对应编辑器目录，并装好 vim-plug 与 Copilot、创建 spell 词库目录。之后在编辑器内：
+-->
 
 - `:PlugInstall` 安装插件，`:PlugClean` 清理已移除的插件
 - coc 扩展首次启动时自动安装（需联网）
@@ -101,4 +105,4 @@
 - 代码大纲：vim `vista` / nvim `aerial`
 - org-mode：vim `jceb/vim-orgmode` / nvim `nvim-orgmode`
 - 语法高亮强化：仅 nvim `nvim-treesitter`
-- AI 辅助：`copilot`（双端，默认关，`<leader>tC` 切换）/ nvim `ChatGPT`（非 root）
+<!-- - AI 辅助：`copilot`（双端，默认关，`<leader>tC` 切换）/ nvim `ChatGPT`（非 root） -->

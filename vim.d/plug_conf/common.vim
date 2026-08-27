@@ -30,26 +30,26 @@ set cursorlineopt=screenline
 " 在光标所在行上绘制一条水平线，使其更易于区分
 set cursorline
 
-""" copilot
+""" copilot (disabled)
 " 默认不开启
-let g:copilot_enabled = 0
+" let g:copilot_enabled = 0
 
 " Copilot 开关
-function! ToggleCopilot()
-  if get(g:, 'copilot_enabled', 0)
-    Copilot disable
-    let g:copilot_enabled = 0
-    echo "Copilot Disabled"
-  else
-    Copilot enable
-    let g:copilot_enabled = 1
-    echo "Copilot Enabled"
-  endif
-endfunction
-nnoremap <leader>tC :call ToggleCopilot()<CR>
+" function! ToggleCopilot()
+"   if get(g:, 'copilot_enabled', 0)
+"     Copilot disable
+"     let g:copilot_enabled = 0
+"     echo "Copilot Disabled"
+"   else
+"     Copilot enable
+"     let g:copilot_enabled = 1
+"     echo "Copilot Enabled"
+"   endif
+" endfunction
+" nnoremap <leader>tC :call ToggleCopilot()<CR>
 
 " ctrl+/, 作为tab键不可用时的备用组合键（比如在nui浮动窗口中tab键用于切换窗口了）
-inoremap <silent><nowait><expr>         <C-_> copilot#Accept("\<CR>")
+" inoremap <silent><nowait><expr>         <C-_> copilot#Accept("\<CR>")
 
 " """ vim-go
 " let g:go_def_mode='gopls'

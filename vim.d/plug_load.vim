@@ -29,10 +29,10 @@ call plug#begin()
     Plug 'h-hg/fcitx.nvim'
 
     if has('nvim')
-        if $USER != 'root'
-            Plug 'MunifTanjim/nui.nvim'
-            Plug 'jackMort/ChatGPT.nvim'
-        endif
+        " if $USER != 'root'
+        "     Plug 'MunifTanjim/nui.nvim'
+        "     Plug 'jackMort/ChatGPT.nvim'
+        " endif
 
         Plug 'nvim-tree/nvim-web-devicons'     " optional(file icons)
         Plug 'nvim-tree/nvim-tree.lua'
