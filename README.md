@@ -100,7 +100,7 @@
 - 跳转 `s`/`S`：vim `vim-sneak` / nvim `flash`
 - 多光标：vim `vim-visual-multi` / nvim `multicursor`
 - 数字增减 `g=`/`g-`：vim `vim-speeddating` / nvim `dial`
-- 面板跳转+缩放：vim `vim-tmux-navigator`（+`vim-kitty-navigator`）/ nvim `smart-splits`
+- 面板跳转+缩放：vim 使用 `vim-tmux-navigator`（+`vim-kitty-navigator`），在 Herdr 中使用内置 Vimscript 适配；nvim 使用 `smart-splits`
 - 浮动终端：vim `vim-floaterm` / nvim `toggleterm`
 - 代码大纲：vim `vista` / nvim `aerial`
 - org-mode：vim `jceb/vim-orgmode` / nvim `nvim-orgmode`

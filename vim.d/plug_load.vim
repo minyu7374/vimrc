@@ -85,6 +85,13 @@ call plug#begin()
         Plug 'jceb/vim-orgmode'
         Plug 'liuchengxu/vista.vim'             "替代 preservim/tagbar
 
+        " Herdr 使用 smart-splits 插件管理外层面板，Vim 侧单独处理边界跳转。
+        " 保留导航插件供非 Herdr 会话使用，但避免它们覆盖 Herdr 映射。
+        if !empty($HERDR_PANE_ID)
+            let g:tmux_navigator_no_mappings = 1
+            let g:kitty_navigator_no_mappings = 1
+        endif
+
         Plug 'christoomey/vim-tmux-navigator'
         if !empty($KITTY_PID)
             Plug 'knubie/vim-kitty-navigator' ", {'do': 'cp ./*.py ~/.config/kitty/'}

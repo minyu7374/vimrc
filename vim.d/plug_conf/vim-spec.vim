@@ -127,6 +127,29 @@ let g:floaterm_keymap_prev = '<leader>fk'
 let g:floaterm_keymap_next = '<leader>fj'
 let g:floaterm_keymap_toggle = '<leader>tf'
 
-""" tmux 相关
+""" 外层面板导航
 " Write all buffers before navigating from Vim to tmux pane
 let g:tmux_navigator_save_on_switch = 1
+
+if !empty($HERDR_PANE_ID)
+    nnoremap <silent> <C-h> :call <SID>NavigateHerdr('h', 'left')<CR>
+    nnoremap <silent> <C-j> :call <SID>NavigateHerdr('j', 'down')<CR>
+    nnoremap <silent> <C-k> :call <SID>NavigateHerdr('k', 'up')<CR>
+    nnoremap <silent> <C-l> :call <SID>NavigateHerdr('l', 'right')<CR>
+
+    function! s:NavigateHerdr(wincmd, direction) abort
+        let l:previous_window = win_getid()
+        execute 'wincmd ' . a:wincmd
+        if win_getid() != l:previous_window
+            return
+        endif
+
+        let l:herdr = empty($HERDR_BIN_PATH) ? 'herdr' : $HERDR_BIN_PATH
+        " 异步调用，避免 system() 切换终端模式时回显 Herdr 的焦点事件。
+        call job_start([
+              \ l:herdr, 'pane', 'focus',
+              \ '--direction', a:direction,
+              \ '--pane', $HERDR_PANE_ID,
+              \ ], {'in_io': 'null', 'out_io': 'null', 'err_io': 'null'})
+    endfunction
+endif
