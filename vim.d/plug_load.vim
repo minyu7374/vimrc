@@ -60,7 +60,11 @@ call plug#begin()
         Plug 'monaqa/dial.nvim'                " 覆盖 vim-speeddating
 
         " 导航/终端/大纲/org：nvim 原生覆盖 vim 基线
-        Plug 'mrjones2014/smart-splits.nvim', { 'do': !empty($KITTY_PID) ? './kitty/install-kittens.bash' : '' }  " 覆盖 tmux/kitty navigator
+        Plug 'smart-splits-nvim/smart-splits.nvim', { 'tag': 'v3.0.0' }
+        Plug 'smart-splits-nvim/backend-tmux'
+        Plug 'smart-splits-nvim/backend-kitty'
+        let s:herdr_backend = fnamemodify(stdpath('data'), ':h') . '/smart-splits-herdr'
+        call plug#(s:herdr_backend)
         Plug 'akinsho/toggleterm.nvim'         " 覆盖 vim-floaterm
         Plug 'stevearc/aerial.nvim'            " 覆盖 vista.vim
         Plug 'nvim-orgmode/orgmode'            " 覆盖 jceb/vim-orgmode
