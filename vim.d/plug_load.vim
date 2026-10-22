@@ -64,7 +64,9 @@ call plug#begin()
         Plug 'smart-splits-nvim/backend-tmux'
         Plug 'smart-splits-nvim/backend-kitty'
         let s:herdr_backend = fnamemodify(stdpath('data'), ':h') . '/smart-splits-herdr'
-        call plug#(s:herdr_backend)
+        if isdirectory(s:herdr_backend)
+            call plug#(s:herdr_backend)
+        endif
         Plug 'akinsho/toggleterm.nvim'         " 覆盖 vim-floaterm
         Plug 'stevearc/aerial.nvim'            " 覆盖 vista.vim
         Plug 'nvim-orgmode/orgmode'            " 覆盖 jceb/vim-orgmode

@@ -1,8 +1,19 @@
 local ss = require('smart-splits')
+local herdr_backend = vim.fn.fnamemodify(vim.fn.stdpath('data'), ':h') .. '/smart-splits-herdr'
+local has_herdr_backend = vim.fn.isdirectory(herdr_backend) == 1
 local backend
 
+if not has_herdr_backend then
+    vim.schedule(function()
+        require('notify')('未找到 smart-splits-herdr，已跳过 Herdr 集成', vim.log.levels.INFO, {
+            title = 'Smart Splits',
+            timeout = 3000,
+        })
+    end)
+end
+
 -- 显式选择内层复用器，避免操作外层 Kitty。
-if vim.env.HERDR_PANE_ID and vim.env.HERDR_PANE_ID ~= '' then
+if has_herdr_backend and vim.env.HERDR_PANE_ID and vim.env.HERDR_PANE_ID ~= '' then
     backend = 'smart-splits-backend-herdr'
 elseif vim.env.TMUX and vim.env.TMUX ~= '' then
     backend = 'smart-splits-backend-tmux'
