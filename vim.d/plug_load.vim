@@ -29,6 +29,8 @@ call plug#begin()
     Plug 'h-hg/fcitx.nvim'
 
     if has('nvim')
+        Plug 'potamides/pantran.nvim'         " 翻译面板，与 lazyvim-config 一致
+
         " if $USER != 'root'
         "     Plug 'MunifTanjim/nui.nvim'
         "     Plug 'jackMort/ChatGPT.nvim'
@@ -71,6 +73,9 @@ call plug#begin()
         Plug 'stevearc/aerial.nvim'            " 覆盖 vista.vim
         Plug 'nvim-orgmode/orgmode'            " 覆盖 jceb/vim-orgmode
     else
+        execute 'source ' . fnameescape(expand('<sfile>:p:h') . '/plug_conf/translator-patch.vim')
+        Plug 'voldikss/vim-translator', {'do': {info -> VimrcPatchTranslatorGoogle(info)}}
+
         " Plug 'sheerun/vim-polyglot'             "改进各种语言的语法突出显示(大文件性能差)
         Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 

@@ -100,3 +100,6 @@ noremap <leader>tv <Cmd>AerialToggle!<CR>
 
 """ orgmode (替代 jceb/vim-orgmode); 键位在 lua setup 中配置
 lua require('plug_conf/orgmode')
+
+""" 翻译（Pantran，覆盖 Vim 基线；键位与 lazyvim-config 一致）
+lua require('plug_conf/pantran')

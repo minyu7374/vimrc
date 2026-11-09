@@ -1,3 +1,12 @@
+""" 翻译：与 lazyvim-config 统一使用 <leader>yt，普通模式查词、可视模式翻译选区。
+let g:translator_target_lang = 'zh'
+let g:translator_window_type = 'popup'
+" 上游默认按 999 列估算高度，屏幕裁宽后会截断段落译文；先限制计算宽度。
+let g:translator_window_max_width = 0.6
+let g:translator_window_max_height = 0.6
+nmap <silent> <leader>yt <Plug>TranslateW
+xmap <silent> <leader>yt <Plug>TranslateWV
+
 """ nerdtree
 noremap <leader>tt :NERDTreeToggle<CR>
 augroup nerdtree_group

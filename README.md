@@ -104,5 +104,32 @@
 - 浮动终端：vim `vim-floaterm` / nvim `toggleterm`
 - 代码大纲：vim `vista` / nvim `aerial`
 - org-mode：vim `jceb/vim-orgmode` / nvim `nvim-orgmode`
+- 翻译：vim `vim-translator` / nvim `pantran.nvim`，统一 `<leader>yt`
 - 语法高亮强化：仅 nvim `nvim-treesitter`
 <!-- - AI 辅助：`copilot`（双端，默认关，`<leader>tC` 切换）/ nvim `ChatGPT`（非 root） -->
+
+## 翻译
+
+与同级 `lazyvim-config` 统一使用 `<leader>yt`：普通模式翻译光标下的单词，可视模式翻译选区。
+
+### Neovim
+
+使用 [pantran.nvim](https://github.com/potamides/pantran.nvim)，需要 curl 7.76.0+。
+默认 Google 自动识别原文语言、译为简体中文；Google API 和内置 Web 后端都设为 `zh-CN`。
+原文和译文左右显示，面板占编辑器宽度的 80%、高度的 60%，与 `lazyvim-config` 一致。
+
+- `:Pantran`：打开空白交互面板，也可用 `:'<,'>Pantran` 翻译选区。
+- 面板普通模式 `q` / `Esc` 关闭，`gy` 复制译文并关闭，`g?` 查看帮助。
+- 插入模式 `Esc` 返回普通模式，`Ctrl-c` 直接关闭；编辑原文后自动重新翻译。
+
+### Vim
+
+保留 [vim-translator](https://github.com/voldikss/vim-translator)，需要可执行的 `python3`。
+默认自动识别原文语言、译为中文；popup 最大宽高均为编辑器的 60%，按受限宽度计算段落换行高度。
+
+- `:TranslateW --target_lang=en`：临时指定目标语言，也支持选区范围。
+- popup 按 `q` 关闭。
+- 安装/更新 hook 会将 Google 的空候选释义视为空列表，保留正常返回的正文译文。
+- 已安装旧插件时，执行 `:PlugInstall! vim-translator` 应用修正。补丁会修改插件缓存中的一行源码；后续若更新提示本地修改冲突，可对该插件执行 `:PlugUpdate! vim-translator` 后重新应用。
+
+更新配置后执行 `:PlugInstall` 安装对应编辑器的插件，再重启。Neovim 中旧的 `vim-translator` 可通过 `:PlugClean` 清理。
